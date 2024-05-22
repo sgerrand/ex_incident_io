@@ -34,5 +34,13 @@ jobs:
         restore-keys: deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
     - name: Install dependencies
       run: mix deps.get
+    - name: Restore build cache
+      uses: actions/cache@v3
+      with:
+        path: _build/test
+        key: build-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: build-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
+    - name: Compile code
+      run: mix deps.compile
     - name: Run tests
       run: mix test
