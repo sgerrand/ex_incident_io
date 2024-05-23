@@ -30,7 +30,7 @@ defmodule IncidentIo.Mixfile do
             {:inch_ex, "~> 0.5", only: :dev},
             {:excoveralls, "~> 0.5", only: :test},
             {:exvcr, "~> 0.10", only: :test},
-            {:meck, "~> 0.8.9", only: :test}
+            {:meck, "~> 0.9.2", only: :test}
           ]
   end
 
