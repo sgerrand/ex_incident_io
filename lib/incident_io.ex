@@ -39,6 +39,7 @@ defmodule IncidentIo do
 
   @spec process_response_body(binary) :: term
   def process_response_body(""), do: nil
+
   def process_response_body(body), do: Jason.decode!(body, deserialization_options())
 
   @spec process_response(HTTPoison.Response.t() | {integer, any, HTTPoison.Response.t()}) ::
@@ -109,9 +110,8 @@ defmodule IncidentIo do
   end
 
   @spec _request(atom, binary, Client.auth(), any) :: response
-  def _request(method, url, auth, body \\ "") do
-    json_request(method, url, body, authorization_header(auth, @user_agent))
-  end
+  def _request(method, url, auth, body \\ ""),
+    do: json_request(method, url, body, authorization_header(auth, @user_agent))
 
   @spec json_request(atom, binary, any, keyword, keyword) :: response
   def json_request(method, url, body \\ "", headers \\ [], options \\ []) do
