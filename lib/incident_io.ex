@@ -123,7 +123,10 @@ defmodule IncidentIo do
   end
 
   defp extra_headers do
-    Application.get_env(:incident_io, :extra_headers, [])
+    Application.get_env(:incident_io, :extra_headers, [
+      {"Accept", "application/json"},
+      {"Content-Type", "application/json"}
+    ])
   end
 
   defp deserialization_options do
