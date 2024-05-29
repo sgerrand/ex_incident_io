@@ -12,6 +12,23 @@ defmodule IncidentIo do
 
   @type pagination_response :: {response, binary | nil, Client.auth()}
 
+  defmodule JsonString do
+    defstruct [:body]
+  end
+
+  defimpl Jason.Encoder, for: JsonString do
+    def encode(%JsonString{body: body}, _opts) when is_nil(body) do
+      ""
+    end
+
+    def encode(%JsonString{body: body}, opts) when is_binary(body) do
+      case body do
+        "" -> body
+        _ -> Jason.Encode.string(body, opts)
+      end
+    end
+  end
+
   defimpl Jason.Encoder, for: Tuple do
     def encode(tuple, opts) when is_tuple(tuple) do
       [tuple]
@@ -98,7 +115,7 @@ defmodule IncidentIo do
 
   @spec json_request(atom, binary, any, keyword, keyword) :: response
   def json_request(method, url, body \\ "", headers \\ [], options \\ []) do
-    raw_request(method, url, Jason.encode!(body), headers, options)
+    raw_request(method, url, Jason.encode!(%JsonString{body: body}), headers, options)
   end
 
   defp extra_options do
@@ -127,7 +144,7 @@ defmodule IncidentIo do
   @spec request_stream(atom, binary, Client.auth(), any, :one_page | nil | :stream) ::
           Enumerable.t() | response
   def request_stream(method, url, auth, body \\ "", override \\ nil) do
-    request_with_pagination(method, url, auth, Jason.encode!(body))
+    request_with_pagination(method, url, auth, Jason.encode!(%JsonString{body: body}))
     |> stream_if_needed(override)
   end
 
@@ -167,7 +184,7 @@ defmodule IncidentIo do
       request!(
         method,
         url,
-        Jason.encode!(body),
+        Jason.encode!(%JsonString{body: body}),
         authorization_header(auth, extra_headers() ++ @user_agent),
         extra_options()
       )

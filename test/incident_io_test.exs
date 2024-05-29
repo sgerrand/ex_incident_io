@@ -63,3 +63,20 @@ defmodule IncidentIoTest do
              process_response(%HTTPoison.Response{status_code: 404, headers: %{}, body: nil})
   end
 end
+
+defmodule IncidentIo.JasonStringEncodingTest do
+  use ExUnit.Case
+  alias IncidentIo.JsonString
+
+  test "nil encoded to empty string" do
+    assert "" = Jason.encode!(%JsonString{body: nil})
+  end
+
+  test "empty string encoded to empty string" do
+    assert "" = Jason.encode!(%JsonString{body: ""})
+  end
+
+  test "string encoded to JSON formatted string" do
+    assert "\"some-string-of-text\"" = Jason.encode!(%JsonString{body: "some-string-of-text"})
+  end
+end
