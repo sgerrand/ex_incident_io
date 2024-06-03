@@ -14,10 +14,10 @@ defmodule IncidentIo.Client do
   end
 
   @spec new(map()) :: t
-  def new(auth = %{api_token: _}), do: %__MODULE__{auth: auth}
+  def new(auth = %{api_key: _}), do: %__MODULE__{auth: auth}
 
   @spec new(map(), binary) :: t
-  def new(auth = %{api_token: _}, endpoint) do
+  def new(auth = %{api_key: _}, endpoint) do
     pnew(auth, endpoint)
   end
 

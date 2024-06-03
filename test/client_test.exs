@@ -12,7 +12,7 @@ defmodule IncidentIo.ClientTest do
   test "custom endpoint" do
     expected = "https://inc.foo.com/api/v3/"
 
-    creds = %{api_token: "some-JWT-token"}
+    creds = %{api_key: "some-JWT-token"}
 
     client = new(creds, "https://inc.foo.com/api/v3/")
     assert client.endpoint == expected
