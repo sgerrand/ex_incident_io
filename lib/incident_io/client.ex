@@ -1,7 +1,8 @@
 defmodule IncidentIo.Client do
   defstruct auth: nil, endpoint: "https://api.incident.io/"
 
-  @type auth :: %{api_token: binary}
+  @type auth :: %{api_key: binary}
+  @type incident_modes :: [:real | :test | :tutorial]
   @type t :: %__MODULE__{auth: auth | nil, endpoint: binary}
 
   @spec new() :: t
