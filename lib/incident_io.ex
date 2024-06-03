@@ -1,4 +1,8 @@
 defmodule IncidentIo do
+  @moduledoc """
+  `IncidentIo` is an Elixir client for the Incident.io API.
+  """
+
   use HTTPoison.Base
   alias IncidentIo.Client
   alias Jason
@@ -13,6 +17,7 @@ defmodule IncidentIo do
   @type pagination_response :: {response, binary | nil, Client.auth()}
 
   defmodule JsonString do
+    @moduledoc false
     defstruct [:body]
   end
 
@@ -44,7 +49,7 @@ defmodule IncidentIo do
 
   @spec process_response(HTTPoison.Response.t() | {integer, any, HTTPoison.Response.t()}) ::
           response
-  def process_response(%HTTPoison.Response{status_code: status_code, body: body} = resp),
+  def process_response(resp = %HTTPoison.Response{status_code: status_code, body: body}),
     do: {status_code, body, resp}
 
   def process_response({_status_code, _, %HTTPoison.Response{} = resp}),
@@ -205,7 +210,7 @@ defmodule IncidentIo do
           HTTPoison.Response.t() | {integer, any, HTTPoison.Response.t()},
           Client.auth()
         ) :: pagination_response
-  defp build_pagination_response(%HTTPoison.Response{:headers => headers} = resp, auth) do
+  defp build_pagination_response(resp = %HTTPoison.Response{:headers => headers}, auth) do
     {process_response(resp), next_link(headers), auth}
   end
 

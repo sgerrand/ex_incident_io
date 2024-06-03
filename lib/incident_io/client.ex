@@ -1,4 +1,8 @@
 defmodule IncidentIo.Client do
+  @moduledoc """
+  Creates a HTTP client for interacting with the Incident.io API.
+  """
+
   defstruct auth: nil, endpoint: "https://api.incident.io/"
 
   @type auth :: %{api_key: binary}
