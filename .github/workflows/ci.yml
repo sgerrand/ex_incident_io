@@ -10,6 +10,49 @@ permissions:
   contents: read
 
 jobs:
+  credo:
+    name: Static analysis ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        otp: ['26.2']
+        elixir: ['1.16']
+
+    env:
+      MIX_ENV: test
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: ${{matrix.elixir}}
+        otp-version: ${{matrix.otp}}
+    - name: Restore dependencies cache
+      id: restore-deps
+      uses: actions/cache@v4
+      with:
+        path: deps
+        key: deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
+    - name: Install dependencies
+      run: mix deps.get --only test
+    - name: Restore build cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          _build
+          deps
+          ~/.hex
+          ~/.mix
+        key: build-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: build-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
+    - name: Compile code
+      run: mix deps.compile
+    - name: Run static analysis
+      run: mix credo
+
   test:
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     runs-on: ubuntu-latest
