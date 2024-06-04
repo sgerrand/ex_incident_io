@@ -1,4 +1,8 @@
 defmodule IncidentIo do
+  @moduledoc """
+  `IncidentIo` is an Elixir client for the Incident.io API.
+  """
+
   use HTTPoison.Base
   alias IncidentIo.Client
   alias Jason
@@ -12,6 +16,24 @@ defmodule IncidentIo do
 
   @type pagination_response :: {response, binary | nil, Client.auth()}
 
+  defmodule JsonString do
+    @moduledoc false
+    defstruct [:body]
+  end
+
+  defimpl Jason.Encoder, for: JsonString do
+    def encode(%JsonString{body: body}, _opts) when is_nil(body) do
+      ""
+    end
+
+    def encode(%JsonString{body: body}, opts) when is_binary(body) do
+      case body do
+        "" -> body
+        _ -> Jason.Encode.string(body, opts)
+      end
+    end
+  end
+
   defimpl Jason.Encoder, for: Tuple do
     def encode(tuple, opts) when is_tuple(tuple) do
       [tuple]
@@ -22,11 +44,12 @@ defmodule IncidentIo do
 
   @spec process_response_body(binary) :: term
   def process_response_body(""), do: nil
+
   def process_response_body(body), do: Jason.decode!(body, deserialization_options())
 
   @spec process_response(HTTPoison.Response.t() | {integer, any, HTTPoison.Response.t()}) ::
           response
-  def process_response(%HTTPoison.Response{status_code: status_code, body: body} = resp),
+  def process_response(resp = %HTTPoison.Response{status_code: status_code, body: body}),
     do: {status_code, body, resp}
 
   def process_response({_status_code, _, %HTTPoison.Response{} = resp}),
@@ -52,53 +75,24 @@ defmodule IncidentIo do
     _request(:put, url(client, path), client.auth, body)
   end
 
-  @doc """
-  Underlying utility retrieval function. The options passed affect both the
-  return value and the number of requests made to Incident.io.
-
-  ## Options
-
-    * `:pagination` - Can be `:none`, `:manual`, `:stream`, or `:auto`. Defaults to :auto.
-
-        - `:none` will only return the first page. You won't have access to the
-          headers to manually paginate.
-
-        - `:auto` will block until all the pages have been retrieved and
-          concatenated together. Most of the time, this is what you want.
-
-        - `:stream` will return a `Stream`, prepopulated with the first page.
-
-        - `:manual` will return a 3 element tuple of `{page_body,
-          url_for_next_page, auth_credentials}`, which will allow you to control
-          the paging yourself.
-  """
   @spec get(binary, Client.t()) :: response
   @spec get(binary, Client.t(), keyword) :: response
-  @spec get(binary, Client.t(), keyword, keyword) ::
-          response | Enumerable.t() | pagination_response
-  def get(path, client, params \\ [], options \\ []) do
+  def get(path, client, params \\ []) do
     url =
       client
       |> url(path)
       |> add_params_to_url(params)
 
-    case pagination(options) do
-      nil -> request_stream(:get, url, client.auth)
-      :none -> request_stream(:get, url, client.auth, "", :one_page)
-      :auto -> request_stream(:get, url, client.auth)
-      :stream -> request_stream(:get, url, client.auth, "", :stream)
-      :manual -> request_with_pagination(:get, url, client.auth)
-    end
+    _request(:get, url, client.auth, "")
   end
 
   @spec _request(atom, binary, Client.auth(), any) :: response
-  def _request(method, url, auth, body \\ "") do
-    json_request(method, url, body, authorization_header(auth, @user_agent))
-  end
+  def _request(method, url, auth, body \\ ""),
+    do: json_request(method, url, body, authorization_header(auth, @user_agent))
 
   @spec json_request(atom, binary, any, keyword, keyword) :: response
   def json_request(method, url, body \\ "", headers \\ [], options \\ []) do
-    raw_request(method, url, Jason.encode!(body), headers, options)
+    raw_request(method, url, Jason.encode!(%JsonString{body: body}), headers, options)
   end
 
   defp extra_options do
@@ -106,113 +100,20 @@ defmodule IncidentIo do
   end
 
   defp extra_headers do
-    Application.get_env(:incident_io, :extra_headers, [])
+    Application.get_env(:incident_io, :extra_headers, [
+      {"Accept", "application/json"},
+      {"Content-Type", "application/json"}
+    ])
   end
 
   defp deserialization_options do
     Application.get_env(:incident_io, :deserialization_options, labels: :binary)
   end
 
-  @spec pagination(keyword) :: atom | nil
-  defp pagination(options) do
-    Keyword.get(options, :pagination, Application.get_env(:incident_io, :pagination, nil))
-  end
-
   def raw_request(method, url, body \\ "", headers \\ [], options \\ []) do
     method
     |> request!(url, body, extra_headers() ++ headers, extra_options() ++ options)
     |> process_response
-  end
-
-  @spec request_stream(atom, binary, Client.auth(), any, :one_page | nil | :stream) ::
-          Enumerable.t() | response
-  def request_stream(method, url, auth, body \\ "", override \\ nil) do
-    request_with_pagination(method, url, auth, Jason.encode!(body))
-    |> stream_if_needed(override)
-  end
-
-  @spec stream_if_needed(pagination_response, :one_page | nil) :: response
-  @spec stream_if_needed({response, binary | nil, Client.auth()}, :stream) :: Enumerable.t()
-  defp stream_if_needed({response, _, _}, :one_page), do: response
-  defp stream_if_needed({response, nil, _}, _), do: response
-
-  defp stream_if_needed(initial_results = {response, _, _}, nil) do
-    {elem(response, 0),
-     Enum.to_list(Stream.resource(fn -> initial_results end, &process_stream/1, fn _ -> nil end)),
-     elem(response, 2)}
-  end
-
-  defp stream_if_needed(initial_results, :stream) do
-    Stream.resource(fn -> initial_results end, &process_stream/1, fn _ -> nil end)
-  end
-
-  defp process_stream({[], nil, _}), do: {:halt, nil}
-
-  defp process_stream({[], next, auth}) do
-    request_with_pagination(:get, next, auth, "")
-    |> process_stream
-  end
-
-  defp process_stream({{_, items, _}, next, auth}) when is_list(items) do
-    {items, {[], next, auth}}
-  end
-
-  defp process_stream({item, next, auth}) do
-    {[item], {[], next, auth}}
-  end
-
-  @spec request_with_pagination(atom, binary, Client.auth(), any) :: pagination_response
-  def request_with_pagination(method, url, auth, body \\ "") do
-    resp =
-      request!(
-        method,
-        url,
-        Jason.encode!(body),
-        authorization_header(auth, extra_headers() ++ @user_agent),
-        extra_options()
-      )
-
-    case process_response(resp) do
-      {status, _, _} when status in [301, 302, 307] ->
-        request_with_pagination(method, location_header(resp), auth)
-
-      _ ->
-        build_pagination_response(resp, auth)
-    end
-  end
-
-  @spec build_pagination_response(
-          HTTPoison.Response.t() | {integer, any, HTTPoison.Response.t()},
-          Client.auth()
-        ) :: pagination_response
-  defp build_pagination_response(%HTTPoison.Response{:headers => headers} = resp, auth) do
-    {process_response(resp), next_link(headers), auth}
-  end
-
-  defp build_pagination_response({_, _, %HTTPoison.Response{} = resp}, auth) do
-    build_pagination_response(resp, auth)
-  end
-
-  defp location_header({_, _, resp}),
-    do: location_header(resp)
-
-  defp location_header(resp) do
-    [{"Location", url}] = Enum.filter(resp.headers, &match?({"Location", _}, &1))
-    url
-  end
-
-  @spec next_link(list) :: binary | nil
-  defp next_link(headers) do
-    for {"Link", link_header} <- headers,
-        links <- String.split(link_header, ",") do
-      Regex.named_captures(~r/<(?<link>.*)>;\s*rel=\"(?<rel>.*)\"/, links)
-      |> case do
-        %{"link" => link, "rel" => "next"} -> link
-        _ -> nil
-      end
-    end
-    |> Enum.filter(&(not is_nil(&1)))
-    |> List.first()
   end
 
   @spec url(client :: Client.t(), path :: binary) :: binary

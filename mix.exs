@@ -24,14 +24,15 @@ defmodule IncidentIo.Mixfile do
 
   defp deps do
     [
-            {:httpoison, "~> 2.0"},
-            {:jason, "~> 1.2"},
-            {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
-            {:inch_ex, "~> 2.0", only: :dev},
-            {:excoveralls, "~> 0.5", only: :test},
-            {:exvcr, "~> 0.10", only: :test},
-            {:meck, "~> 0.9.2", only: :test}
-          ]
+      {:httpoison, "~> 2.0"},
+      {:jason, "~> 1.2"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:inch_ex, "~> 2.0", only: :dev},
+      {:excoveralls, "~> 0.5", only: :test},
+      {:exvcr, "~> 0.10", only: :test},
+      {:meck, "~> 0.9.2", only: :test}
+    ]
   end
 
   defp package do
@@ -46,7 +47,7 @@ defmodule IncidentIo.Mixfile do
   defp docs do
     [
       extras: [
-        "LICENSE": [title: "License"],
+        LICENSE: [title: "License"],
         "README.md": [title: "Overview"]
       ],
       main: "readme",
