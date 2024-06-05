@@ -10,20 +10,20 @@ defmodule IncidentIo.ActionsV1Test do
   describe "list/3" do
     test "returns expected HTTP status code" do
       use_cassette "actions_v1#list" do
-        assert {200, _, _} = list(@client, "some-incident-id")
+        assert {200, _, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0", true)
       end
     end
 
     test "returns expected number of actions" do
       use_cassette "actions_v1#list" do
-        {200, %{actions: actions}, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+        {200, %{actions: actions}, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0", true)
         assert Enum.count(actions) == 1
       end
     end
 
     test "returns expected attributes for action" do
       use_cassette "actions_v1#list" do
-        {200, %{actions: [action]}, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+        {200, %{actions: [action]}, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0", true)
 
         %{
           assignee: _assignee,
