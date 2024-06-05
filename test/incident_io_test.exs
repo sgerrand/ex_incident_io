@@ -114,6 +114,13 @@ defmodule IncidentIo.JasonStringEncodingTest do
     assert "" = Jason.encode!(%JsonString{body: ""})
   end
 
+  test "map encoded to JSON formatted string" do
+    assert "{\"some-key\":\"some value\",\"some-other-key\":\"some other value\"}" =
+             Jason.encode!(%JsonString{
+               body: %{"some-key": "some value", "some-other-key": "some other value"}
+             })
+  end
+
   test "string encoded to JSON formatted string" do
     assert "\"some-string-of-text\"" = Jason.encode!(%JsonString{body: "some-string-of-text"})
   end

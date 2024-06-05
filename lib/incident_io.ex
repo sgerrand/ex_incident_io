@@ -32,6 +32,10 @@ defmodule IncidentIo do
         _ -> Jason.Encode.string(body, opts)
       end
     end
+
+    def encode(%JsonString{body: body}, opts) when is_map(body) do
+      Jason.Encode.map(body, opts)
+    end
   end
 
   defimpl Jason.Encoder, for: Tuple do
