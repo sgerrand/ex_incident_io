@@ -15,7 +15,8 @@ defmodule IncidentIo.ActionsV1 do
   """
   @spec list(Client.t(), binary) :: IncidentIo.response()
   @spec list(Client.t(), binary, bool) :: IncidentIo.response()
-  @spec list(Client.t(), binary, bool, Client.incident_modes()) :: IncidentIo.response()
+  @spec list(Client.t(), binary, bool, Client.deprecated_incident_modes()) ::
+          IncidentIo.response()
   def list(client \\ %Client{}, incident_id, is_follow_up \\ false, incident_mode \\ :test) do
     get(
       "v1/actions",
