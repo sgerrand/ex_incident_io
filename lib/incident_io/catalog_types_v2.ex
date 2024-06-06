@@ -52,4 +52,21 @@ defmodule IncidentIo.CatalogTypesV2 do
       body
     )
   end
+
+  @doc """
+  Archives a catalog type and associated entries.
+
+  ## Example
+
+      IncidentIo.CatalogTypesV2.destroy(client, "some-catalog-type-id")
+
+  More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_DestroyType
+  """
+  @spec destroy(Client.t(), binary) :: IncidentIo.response()
+  def destroy(client \\ %Client{}, id) do
+    delete(
+      "v2/catalog_types/#{id}",
+      client
+    )
+  end
 end
