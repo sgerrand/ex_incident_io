@@ -117,4 +117,103 @@ defmodule IncidentIo.CatalogV2Test do
       end
     end
   end
+
+  describe "create_entry/3" do
+    @body %{
+      aliases: [
+        "lawrence@incident.io",
+        "lawrence"
+      ],
+      attribute_values: %{
+        abc123: %{
+          array_value: [
+            %{
+              literal: "SEV123",
+              reference: "incident.severity"
+            }
+          ],
+          value: %{
+            literal: "SEV123",
+            reference: "incident.severity"
+          }
+        }
+      },
+      catalog_type_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+      external_id: "761722cd-d1d7-477b-ac7e-90f9e079dc33",
+      name: "Primary On-call",
+      rank: 3
+    }
+
+    test "returns expected HTTP status code" do
+      use_cassette "catalog_v2#create_entry" do
+        assert {201, _, _} = create_entry(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+      end
+    end
+
+    test "returns expected attributes for catalog entry" do
+      use_cassette "catalog_v2#create_entry" do
+        {201, %{catalog_entry: catalog_entry}, _} =
+          create_entry(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+
+        assert %{
+                 aliases: [
+                   "lawrence@incident.io",
+                   "lawrence"
+                 ],
+                 archived_at: "2021-08-17T14:28:57.801578Z",
+                 attribute_values: %{
+                   abc123: %{
+                     array_value: [
+                       %{
+                         catalog_entry: %{
+                           archived_at: "2021-08-17T14:28:57.801578Z",
+                           catalog_entry_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                           catalog_entry_name: "Primary escalation",
+                           catalog_type_id: "01FCNDV6P870EA6S7TK1DSYDG0"
+                         },
+                         helptext:
+                           "Collection of standalone automations like auto-closing incidents.",
+                         image_url:
+                           "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                         is_image_slack_icon: false,
+                         label: "Lawrence Jones",
+                         literal: "SEV123",
+                         reference: "incident.severity",
+                         sort_key: "000020",
+                         unavailable: false,
+                         value: "abc123"
+                       }
+                     ],
+                     value: %{
+                       catalog_entry: %{
+                         archived_at: "2021-08-17T14:28:57.801578Z",
+                         catalog_entry_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                         catalog_entry_name: "Primary escalation",
+                         catalog_type_id: "01FCNDV6P870EA6S7TK1DSYDG0"
+                       },
+                       helptext:
+                         "Collection of standalone automations like auto-closing incidents.",
+                       image_url:
+                         "https://avatars.slack-edge.com/2021-08-09/2372763167857_6f65d94928b0a0ac590b_192.jpg",
+                       is_image_slack_icon: false,
+                       label: "Lawrence Jones",
+                       literal: "SEV123",
+                       reference: "incident.severity",
+                       sort_key: "000020",
+                       unavailable: false,
+                       value: "abc123"
+                     }
+                   }
+                 },
+                 catalog_type_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                 created_at: "2021-08-17T13:28:57.801578Z",
+                 external_id: "761722cd-d1d7-477b-ac7e-90f9e079dc33",
+                 id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                 name: "Primary On-call",
+                 rank: 3,
+                 updated_at: "2021-08-17T13:28:57.801578Z"
+               } == catalog_entry
+      end
+    end
+  end
 end
