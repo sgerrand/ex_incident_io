@@ -109,5 +109,22 @@ defmodule IncidentIo.CatalogV2 do
     )
   end
 
+  @doc """
+  Show a single catalog entry.
+
+  ## Example
+
+      IncidentIo.CatalogV2.show_entry(client, "some-catalog-entry-id")
+
+  More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_ShowEntry
+  """
+  @spec show_entry(Client.t(), binary) :: IncidentIo.response()
+  def show_entry(client \\ %Client{}, id) do
+    get(
+      "v2/catalog_entries/#{id}",
+      client
+    )
+  end
+
   defp valid_entry?(body, catalog_type_id), do: body.catalog_type_id == catalog_type_id
 end
