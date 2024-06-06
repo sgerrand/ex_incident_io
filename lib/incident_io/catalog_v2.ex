@@ -92,5 +92,22 @@ defmodule IncidentIo.CatalogV2 do
     end
   end
 
+  @doc """
+  Archives a catalog entry.
+
+  ## Example
+
+      IncidentIo.CatalogV2.destroy_entry(client, "some-catalog-entry-id")
+
+  More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_DestroyEntry
+  """
+  @spec destroy_entry(Client.t(), binary) :: IncidentIo.response()
+  def destroy_entry(client \\ %Client{}, id) do
+    delete(
+      "v2/catalog_entries/#{id}",
+      client
+    )
+  end
+
   defp valid_entry?(body, catalog_type_id), do: body.catalog_type_id == catalog_type_id
 end
