@@ -1,4 +1,6 @@
 defmodule IncidentIo.Icon do
+  @moduledoc false
+
   @type t :: [
           :bolt
           | :box

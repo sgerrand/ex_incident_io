@@ -6,17 +6,17 @@ defmodule IncidentIo.CatalogTypesV2 do
   alias IncidentIo.Icon
 
   @type request_body :: %{
-    optional(:annotations) => %{
-      binary => binary
-    },
-    optional(:color) => binary,
-    optional(:icon) => Icon.t(),
-    optional(:ranked) => binary,
-    optional(:source_repo_url) => binary,
-    optional(:type_name) => binary,
-    description: binary,
-    name: binary,
-  }
+          optional(:annotations) => %{
+            binary => binary
+          },
+          optional(:color) => binary,
+          optional(:icon) => Icon.t(),
+          optional(:ranked) => binary,
+          optional(:source_repo_url) => binary,
+          optional(:type_name) => binary,
+          description: binary,
+          name: binary
+        }
 
   @doc """
   List entries for a catalog type.
