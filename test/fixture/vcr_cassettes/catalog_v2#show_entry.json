@@ -28,7 +28,6 @@
         "X-Accel-Expires": "0",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-options": "DENY",
-        "X-request-id": "JkDzEDnW",
         "X-Xss-Protection": "1; mode=block",
         "Via": "1.1 google"
       },
