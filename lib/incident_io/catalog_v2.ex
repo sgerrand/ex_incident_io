@@ -5,6 +5,7 @@ defmodule IncidentIo.CatalogV2 do
   alias IncidentIo.Client
 
   @type body :: %{
+          optional(:catalog_type_id) => binary,
           aliases: list,
           attribute_values: %{
             binary => %{
@@ -12,7 +13,6 @@ defmodule IncidentIo.CatalogV2 do
               value: engine_param_binding
             }
           },
-          catalog_type_id: binary,
           external_id: binary,
           name: binary,
           rank: integer
@@ -123,6 +123,48 @@ defmodule IncidentIo.CatalogV2 do
     get(
       "v2/catalog_entries/#{id}",
       client
+    )
+  end
+
+  @doc """
+  Updates an existing catalog entry.
+
+  Catalog entry body example:
+  ```elixir
+  %{
+    aliases: [
+      "not lawrence"
+    ],
+    attribute_values: %{
+      abc123: %{
+        array_value: [
+          %{
+            literal: "SEV123",
+            reference: "incident.severity"
+          }
+        ],
+        value: %{
+          literal: "SEV123",
+          reference: "incident.severity"
+        }
+      }
+    },
+    name: "Was Primary On-call",
+    rank: 5
+  }
+  ```
+  ## Example
+
+      IncidentIo.CatalogV2.update_entry(client, "some-catalog-entry-id", body)
+
+  More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_UpdateEntry
+  """
+  @spec update_entry(Client.t(), binary, CatalogV2.body()) :: IncidentIo.response()
+  def update_entry(client \\ %Client{}, id, body) do
+    put(
+      "v2/catalog_entries/#{id}",
+      client,
+      body
     )
   end
 
