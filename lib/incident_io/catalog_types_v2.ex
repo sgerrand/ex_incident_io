@@ -8,31 +8,31 @@ defmodule IncidentIo.CatalogTypesV2 do
            :yellow | :green | :blue | :violet | :pink | :cyan | :orange
          ]
   @typep icon :: [
-          :bolt
-          | :box
-          | :briefcase
-          | :browser
-          | :bulb
-          | :calendar
-          | :clock
-          | :cog
-          | :components
-          | :database
-          | :doc
-          | :email
-          | :files
-          | :flag
-          | :folder
-          | :globe
-          | :money
-          | :server
-          | :severity
-          | :store
-          | :star
-          | :tag
-          | :user
-          | :users
-        ]
+           :bolt
+           | :box
+           | :briefcase
+           | :browser
+           | :bulb
+           | :calendar
+           | :clock
+           | :cog
+           | :components
+           | :database
+           | :doc
+           | :email
+           | :files
+           | :flag
+           | :folder
+           | :globe
+           | :money
+           | :server
+           | :severity
+           | :store
+           | :star
+           | :tag
+           | :user
+           | :users
+         ]
   @type request_body :: %{
           optional(:annotations) => %{
             binary => binary
