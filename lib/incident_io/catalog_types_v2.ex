@@ -66,9 +66,25 @@ defmodule IncidentIo.CatalogTypesV2 do
   @doc """
   Create a catalog type.
 
+  Catalog type body example:
+  ```elixir
+  %{
+      annotations: %{
+        "incident.io/catalog-importer/id": "id-of-config"
+      },
+      color: "yellow",
+      description: "Represents Kubernetes clusters that we run inside of GKE.",
+      icon: "bolt",
+      name: "Kubernetes Cluster",
+      ranked: true,
+      source_repo_url: "https://github.com/my-company/incident-io-catalog",
+      type_name: "Custom[\"BackstageGroup\"]"
+  }
+  ```
+
   ## Example
 
-      IncidentIo.CatalogTypesV2.create(client)
+      IncidentIo.CatalogTypesV2.create(client, body)
 
   More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_CreateType
   """
@@ -117,6 +133,21 @@ defmodule IncidentIo.CatalogTypesV2 do
 
   @doc """
   Updates an existing catalog type.
+
+  Catalog type body example:
+  ```elixir
+  %{
+      annotations: %{
+        "incident.io/catalog-importer/id": "id-of-config"
+      },
+      color: "yellow",
+      description: "Represents Kubernetes clusters that we run inside of GKE.",
+      icon: "bolt",
+      name: "Kubernetes Cluster",
+      ranked: true,
+      source_repo_url: "https://github.com/my-company/incident-io-catalog"
+  }
+  ```
 
   ## Example
 
