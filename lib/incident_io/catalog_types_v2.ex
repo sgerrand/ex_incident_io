@@ -69,4 +69,21 @@ defmodule IncidentIo.CatalogTypesV2 do
       client
     )
   end
+
+  @doc """
+  Show a single catalog type.
+
+  ## Example
+
+      IncidentIo.CatalogTypesV2.show(client, "some-catalog-type-id")
+
+  More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_ShowType
+  """
+  @spec show(Client.t(), binary) :: IncidentIo.response()
+  def show(client \\ %Client{}, id) do
+    get(
+      "v2/catalog_types/#{id}",
+      client
+    )
+  end
 end
