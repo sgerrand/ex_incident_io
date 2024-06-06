@@ -11,7 +11,7 @@
       "method": "post",
       "options": [],
       "request_body": "",
-      "url": "https://api.incident.io/v2/alert_events/http/some-alert-source-config-id?token=some-token"
+      "url": "https://api.incident.io/v2/alert_events/http/01GW2G3V0S59R238FAHPDS1R66?token=some-token"
     },
     "response": {
       "binary": false,

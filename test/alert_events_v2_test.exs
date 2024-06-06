@@ -25,14 +25,14 @@ defmodule IncidentIo.AlertEventsV2Test do
 
     test "returns expected HTTP status code" do
       use_cassette "alert_events_v2#create" do
-        assert {202, _, _} = create(@client, "some-alert-source-config-id", "some-token", @body)
+        assert {202, _, _} = create(@client, "01GW2G3V0S59R238FAHPDS1R66", "some-token", @body)
       end
     end
 
     test "returns expected attributes for action" do
       use_cassette "alert_events_v2#create" do
         {202, %{deduplication_key: deduplication_key, message: message, status: status}, _} =
-          create(@client, "some-alert-source-config-id", "some-token", @body)
+          create(@client, "01GW2G3V0S59R238FAHPDS1R66", "some-token", @body)
 
         assert deduplication_key == "unique-key"
         assert message == "Event accepted for processing"
