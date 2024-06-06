@@ -1,4 +1,4 @@
-defmodule IncidentIo.CatalogV2 do
+defmodule IncidentIo.CatalogEntryV2 do
   @moduledoc false
 
   import IncidentIo
@@ -27,13 +27,13 @@ defmodule IncidentIo.CatalogV2 do
 
   ## Example
 
-      IncidentIo.CatalogV2.list_entries(client, "some-catalog-type-id")
+      IncidentIo.CatalogEntryV2.list(client, "some-catalog-type-id")
 
   More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_ListEntries
   """
-  @spec list_entries(Client.t(), binary) :: IncidentIo.response()
-  @spec list_entries(Client.t(), binary, integer) :: IncidentIo.response()
-  def list_entries(client \\ %Client{}, catalog_type_id, page_size \\ 25) do
+  @spec list(Client.t(), binary) :: IncidentIo.response()
+  @spec list(Client.t(), binary, integer) :: IncidentIo.response()
+  def list(client \\ %Client{}, catalog_type_id, page_size \\ 25) do
     get(
       "v2/catalog_entries",
       client,
@@ -77,12 +77,12 @@ defmodule IncidentIo.CatalogV2 do
 
   ## Example
 
-      IncidentIo.CatalogV2.create_entry(client, "some-catalog-type-id", body)
+      IncidentIo.CatalogEntryV2.create(client, "some-catalog-type-id", body)
 
   More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_CreateEntry
   """
-  @spec create_entry(Client.t(), binary, CatalogV2.body()) :: IncidentIo.response()
-  def create_entry(client \\ %Client{}, catalog_type_id, body) do
+  @spec create(Client.t(), binary, CatalogV2.body()) :: IncidentIo.response()
+  def create(client \\ %Client{}, catalog_type_id, body) do
     if valid_entry?(body, catalog_type_id) do
       post(
         "v2/catalog_entries",
@@ -97,12 +97,12 @@ defmodule IncidentIo.CatalogV2 do
 
   ## Example
 
-      IncidentIo.CatalogV2.destroy_entry(client, "some-catalog-entry-id")
+      IncidentIo.CatalogEntryV2.destroy(client, "some-catalog-entry-id")
 
   More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_DestroyEntry
   """
-  @spec destroy_entry(Client.t(), binary) :: IncidentIo.response()
-  def destroy_entry(client \\ %Client{}, id) do
+  @spec destroy(Client.t(), binary) :: IncidentIo.response()
+  def destroy(client \\ %Client{}, id) do
     delete(
       "v2/catalog_entries/#{id}",
       client
@@ -114,12 +114,12 @@ defmodule IncidentIo.CatalogV2 do
 
   ## Example
 
-      IncidentIo.CatalogV2.show_entry(client, "some-catalog-entry-id")
+      IncidentIo.CatalogEntryV2.show(client, "some-catalog-entry-id")
 
   More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_ShowEntry
   """
-  @spec show_entry(Client.t(), binary) :: IncidentIo.response()
-  def show_entry(client \\ %Client{}, id) do
+  @spec show(Client.t(), binary) :: IncidentIo.response()
+  def show(client \\ %Client{}, id) do
     get(
       "v2/catalog_entries/#{id}",
       client
@@ -155,12 +155,12 @@ defmodule IncidentIo.CatalogV2 do
   ```
   ## Example
 
-      IncidentIo.CatalogV2.update_entry(client, "some-catalog-entry-id", body)
+      IncidentIo.CatalogEntryV2.update(client, "some-catalog-entry-id", body)
 
   More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_UpdateEntry
   """
-  @spec update_entry(Client.t(), binary, CatalogV2.body()) :: IncidentIo.response()
-  def update_entry(client \\ %Client{}, id, body) do
+  @spec update(Client.t(), binary, CatalogV2.body()) :: IncidentIo.response()
+  def update(client \\ %Client{}, id, body) do
     put(
       "v2/catalog_entries/#{id}",
       client,

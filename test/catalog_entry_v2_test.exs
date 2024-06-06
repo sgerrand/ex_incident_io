@@ -1,23 +1,23 @@
-defmodule IncidentIo.CatalogV2Test do
+defmodule IncidentIo.CatalogEntryV2Test do
   use ExUnit.Case, async: true
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
-  import IncidentIo.CatalogV2
+  import IncidentIo.CatalogEntryV2
 
-  doctest IncidentIo.CatalogV2
+  doctest IncidentIo.CatalogEntryV2
 
   @client IncidentIo.Client.new(%{api_key: "yourtokengoeshere"})
 
-  describe "list_entries/3" do
+  describe "list/3" do
     test "returns expected HTTP status code" do
       use_cassette "catalog_v2#list_entries" do
-        assert {200, _, _} = list_entries(@client, "01FCNDV6P870EA6S7TK1DSYDG0", true)
+        assert {200, _, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0", true)
       end
     end
 
     test "returns expected number of catalog_entries" do
       use_cassette "catalog_v2#list_entries" do
         {200, %{catalog_entries: catalog_entries}, _} =
-          list_entries(@client, "01FCNDV6P870EA6S7TK1DSYDG0", true)
+          list(@client, "01FCNDV6P870EA6S7TK1DSYDG0", true)
 
         assert Enum.count(catalog_entries) == 1
       end
@@ -40,7 +40,7 @@ defmodule IncidentIo.CatalogV2Test do
                updated_at: updated_at
              }
            ]
-         }, _} = list_entries(@client, "01FCNDV6P870EA6S7TK1DSYDG0", true)
+         }, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0", true)
 
         assert aliases == ["lawrence@incident.io", "lawrence"]
         assert archived_at == "2021-08-17T14:28:57.801578Z"
@@ -79,7 +79,7 @@ defmodule IncidentIo.CatalogV2Test do
              type_name: type_name,
              updated_at: updated_at
            }
-         }, _} = list_entries(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+         }, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
         assert annotations == %{"incident.io/catalog-importer/id": "id-of-config"}
         assert color == "yellow"
@@ -118,7 +118,7 @@ defmodule IncidentIo.CatalogV2Test do
     end
   end
 
-  describe "create_entry/3" do
+  describe "create/3" do
     @body %{
       aliases: [
         "lawrence@incident.io",
@@ -146,14 +146,14 @@ defmodule IncidentIo.CatalogV2Test do
 
     test "returns expected HTTP status code" do
       use_cassette "catalog_v2#create_entry" do
-        assert {201, _, _} = create_entry(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+        assert {201, _, _} = create(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
       end
     end
 
     test "returns expected attributes for catalog entry" do
       use_cassette "catalog_v2#create_entry" do
         {201, %{catalog_entry: catalog_entry}, _} =
-          create_entry(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+          create(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
 
         assert %{
                  aliases: [
@@ -217,17 +217,17 @@ defmodule IncidentIo.CatalogV2Test do
     end
   end
 
-  describe "destroy_entry/3" do
+  describe "destroy/3" do
     test "returns expected HTTP status code" do
       use_cassette "catalog_v2#destroy_entry" do
-        assert {204, _, _} = destroy_entry(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+        assert {204, _, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
       end
     end
 
     test "returns expected response" do
       use_cassette "catalog_v2#destroy_entry" do
         assert {204, %{catalog_entry: catalog_entry, catalog_type: catalog_type}, _} =
-                 destroy_entry(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+                 destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
         assert %{
                  aliases: [
@@ -329,17 +329,17 @@ defmodule IncidentIo.CatalogV2Test do
     end
   end
 
-  describe "show_entry/2" do
+  describe "show/2" do
     test "returns expected HTTP status code" do
       use_cassette "catalog_v2#show_entry" do
-        assert {200, _, _} = show_entry(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+        assert {200, _, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
       end
     end
 
     test "returns expected response" do
       use_cassette "catalog_v2#show_entry" do
         assert {200, %{catalog_entry: catalog_entry, catalog_type: catalog_type}, _} =
-                 show_entry(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+                 show(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
         assert %{
                  aliases: [
@@ -441,7 +441,7 @@ defmodule IncidentIo.CatalogV2Test do
     end
   end
 
-  describe "update_entry/3" do
+  describe "update/3" do
     @body %{
       aliases: [
         "lawrence@incident.io",
@@ -469,14 +469,14 @@ defmodule IncidentIo.CatalogV2Test do
 
     test "returns expected HTTP status code" do
       use_cassette "catalog_v2#update_entry" do
-        assert {200, _, _} = update_entry(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+        assert {200, _, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
       end
     end
 
     test "returns expected response" do
       use_cassette "catalog_v2#update_entry" do
         assert {200, %{catalog_entry: catalog_entry, catalog_type: catalog_type}, _} =
-                 update_entry(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+                 update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
 
         assert %{
                  aliases: [
