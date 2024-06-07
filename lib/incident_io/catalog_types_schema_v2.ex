@@ -8,16 +8,16 @@ defmodule IncidentIo.CatalogTypesSchemaV2 do
            nil | :manual | :external | :internal | :dynamic | :backlink
          ]
   @typep request_body :: %{
-          attributes: %{
-            optional(:backlink_attribute) => binary,
-            optional(:id) => binary,
-            optional(:mode) => mode,
-            array: bool,
-            name: binary,
-            type: binary
-          },
-          version: integer
-        }
+           attributes: %{
+             optional(:backlink_attribute) => binary,
+             optional(:id) => binary,
+             optional(:mode) => mode,
+             array: bool,
+             name: binary,
+             type: binary
+           },
+           version: integer
+         }
 
   @doc """
   Updates an existing catalog types schema, adding or removing attributes.

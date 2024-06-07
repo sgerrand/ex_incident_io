@@ -118,7 +118,7 @@ defmodule IncidentIo.CatalogEntryV2Test do
     end
   end
 
-  describe "create/3" do
+  describe "create/2" do
     @body %{
       aliases: [
         "lawrence@incident.io",
@@ -146,14 +146,14 @@ defmodule IncidentIo.CatalogEntryV2Test do
 
     test "returns expected HTTP status code" do
       use_cassette "catalog_v2#create_entry" do
-        assert {201, _, _} = create(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+        assert {201, _, _} = create(@client, @body)
       end
     end
 
     test "returns expected attributes for catalog entry" do
       use_cassette "catalog_v2#create_entry" do
         {201, %{catalog_entry: catalog_entry}, _} =
-          create(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+          create(@client, @body)
 
         assert %{
                  aliases: [
