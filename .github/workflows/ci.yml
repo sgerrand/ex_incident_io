@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   credo:
-    name: Static analysis ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Static analysis (Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}})
     runs-on: ubuntu-latest
 
     strategy:
@@ -46,7 +46,7 @@ jobs:
       run: mix credo
 
   test:
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Tests (Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}})
     runs-on: ubuntu-latest
 
     strategy:
@@ -81,7 +81,7 @@ jobs:
       run: mix test
 
   validate:
-    name: Validate code ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Validate code (Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}})
     runs-on: ubuntu-latest
 
     strategy:
