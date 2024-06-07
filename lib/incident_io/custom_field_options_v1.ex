@@ -75,4 +75,21 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
       client
     )
   end
+
+  @doc """
+  Get a single custom field option.
+
+  ## Example
+
+      IncidentIo.CustomFieldOptionsV1.show(client, "some-custom-field-option-id")
+
+  More information at: https://api-docs.incident.io/tag/Custom-Field-Options-V1#operation/Custom%20Field%20Options%20V1_Show
+  """
+  @spec show(Client.t(), binary) :: IncidentIo.response()
+  def show(client \\ %Client{}, id) do
+    get(
+      "v2/custom_field_options/#{id}",
+      client
+    )
+  end
 end

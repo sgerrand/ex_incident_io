@@ -74,4 +74,27 @@ defmodule IncidentIo.CustomFieldOptionsV1Test do
       end
     end
   end
+
+  describe "show/2" do
+    test "returns expected HTTP status code" do
+      use_cassette "custom_field_options_v1#show" do
+        assert {200, _, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+      end
+    end
+
+    test "returns expected response" do
+      use_cassette "custom_field_options_v1#show" do
+        {200, response, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+
+        assert %{
+                 custom_field_option: %{
+                   custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                   id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                   sort_key: 10,
+                   value: "Product"
+                 }
+               } == response
+      end
+    end
+  end
 end
