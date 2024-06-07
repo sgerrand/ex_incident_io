@@ -15,7 +15,7 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
 
   ## Example
 
-      IncidentIo.CustomFieldOptionsV1.list(client, "come-custom-field-id")
+      IncidentIo.CustomFieldOptionsV1.list(client, "some-custom-field-id")
 
   More information at: https://api-docs.incident.io/tag/Custom-Field-Options-V1#operation/Custom%20Field%20Options%20V1_List
   """
