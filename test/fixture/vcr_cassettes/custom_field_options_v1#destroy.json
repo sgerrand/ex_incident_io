@@ -11,7 +11,7 @@
       "method": "delete",
       "options": [],
       "request_body": "",
-      "url": "https://api.incident.io/v2/custom_field_options/01FCNDV6P870EA6S7TK1DSYDG0"
+      "url": "https://api.incident.io/v1/custom_field_options/01FCNDV6P870EA6S7TK1DSYDG0"
     },
     "response": {
       "binary": false,
@@ -29,7 +29,6 @@
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
         "X-Xss-Protection": "1; mode=block",
-        "Content-Length": "0",
         "Via": "1.1 google",
         "Alt-Svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
       },
