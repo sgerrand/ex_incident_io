@@ -4,23 +4,23 @@ defmodule IncidentIo.CatalogEntryV2 do
   import IncidentIo
   alias IncidentIo.Client
 
-  @type body :: %{
-          optional(:catalog_type_id) => binary,
-          aliases: list,
-          attribute_values: %{
-            binary => %{
-              array_value: [engine_param_binding, ...],
-              value: engine_param_binding
-            }
-          },
-          external_id: binary,
-          name: binary,
-          rank: integer
-        }
-  @type engine_param_binding :: %{
-          literal: binary,
-          reference: binary
-        }
+  @typep request_body :: %{
+           optional(:catalog_type_id) => binary,
+           aliases: list,
+           attribute_values: %{
+             binary => %{
+               array_value: [engine_param_binding, ...],
+               value: engine_param_binding
+             }
+           },
+           external_id: binary,
+           name: binary,
+           rank: integer
+         }
+  @typep engine_param_binding :: %{
+           literal: binary,
+           reference: binary
+         }
 
   @doc """
   List entries for a catalog type.
@@ -81,15 +81,13 @@ defmodule IncidentIo.CatalogEntryV2 do
 
   More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_CreateEntry
   """
-  @spec create(Client.t(), binary, CatalogV2.body()) :: IncidentIo.response()
-  def create(client \\ %Client{}, catalog_type_id, body) do
-    if valid_entry?(body, catalog_type_id) do
-      post(
-        "v2/catalog_entries",
-        client,
-        body
-      )
-    end
+  @spec create(Client.t(), request_body()) :: IncidentIo.response()
+  def create(client \\ %Client{}, body) do
+    post(
+      "v2/catalog_entries",
+      client,
+      body
+    )
   end
 
   @doc """
@@ -167,6 +165,4 @@ defmodule IncidentIo.CatalogEntryV2 do
       body
     )
   end
-
-  defp valid_entry?(body, catalog_type_id), do: body.catalog_type_id == catalog_type_id
 end

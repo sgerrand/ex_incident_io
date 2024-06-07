@@ -33,18 +33,18 @@ defmodule IncidentIo.CatalogTypesV2 do
            | :user
            | :users
          ]
-  @type request_body :: %{
-          optional(:annotations) => %{
-            binary => binary
-          },
-          optional(:color) => color(),
-          optional(:icon) => icon(),
-          optional(:ranked) => binary,
-          optional(:source_repo_url) => binary,
-          optional(:type_name) => binary,
-          description: binary,
-          name: binary
-        }
+  @typep request_body :: %{
+           optional(:annotations) => %{
+             binary => binary
+           },
+           optional(:color) => color(),
+           optional(:icon) => icon(),
+           optional(:ranked) => binary,
+           optional(:source_repo_url) => binary,
+           optional(:type_name) => binary,
+           description: binary,
+           name: binary
+         }
 
   @doc """
   List entries for a catalog type.
@@ -88,7 +88,7 @@ defmodule IncidentIo.CatalogTypesV2 do
 
   More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_CreateType
   """
-  @spec create(Client.t(), CatalogTypesV2.request_body()) :: IncidentIo.response()
+  @spec create(Client.t(), request_body()) :: IncidentIo.response()
   def create(client \\ %Client{}, body) do
     post(
       "v2/catalog_types",
@@ -155,7 +155,7 @@ defmodule IncidentIo.CatalogTypesV2 do
 
   More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_UpdateType
   """
-  @spec update(Client.t(), binary, CatalogTypesV2.request_body()) :: IncidentIo.response()
+  @spec update(Client.t(), binary, request_body()) :: IncidentIo.response()
   def update(client \\ %Client{}, id, body) do
     put(
       "v2/catalog_types/#{id}",
