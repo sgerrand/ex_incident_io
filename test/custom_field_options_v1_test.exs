@@ -58,4 +58,20 @@ defmodule IncidentIo.CustomFieldOptionsV1Test do
       end
     end
   end
+
+  describe "destroy/2" do
+    test "returns expected HTTP status code" do
+      use_cassette "custom_field_options_v1#destroy_entry" do
+        assert {204, _, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+      end
+    end
+
+    test "returns expected response" do
+      use_cassette "custom_field_options_v1#destroy_entry" do
+        {204, response, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+
+        assert nil == response
+      end
+    end
+  end
 end

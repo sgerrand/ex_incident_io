@@ -58,4 +58,21 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
       body
     )
   end
+
+  @doc """
+  Delete a custom field option.
+
+  ## Example
+
+      IncidentIo.CustomFieldOptionsV1.destroy(client, "some-custom-field-option-id")
+
+  More information at: https://api-docs.incident.io/tag/Custom-Field-Options-V1#operation/Custom%20Field%20Options%20V1_Delete
+  """
+  @spec destroy(Client.t(), binary) :: IncidentIo.response()
+  def destroy(client \\ %Client{}, id) do
+    delete(
+      "v2/custom_field_options/#{id}",
+      client
+    )
+  end
 end
