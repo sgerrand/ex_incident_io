@@ -4,9 +4,13 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
   import IncidentIo
   alias IncidentIo.Client
 
-  @typep request_body :: %{
+  @typep create_request_body :: %{
            optional(:sort_key) => integer,
            custom_field_id: binary,
+           value: binary
+         }
+  @typep update_request_body :: %{
+           sort_key: integer,
            value: binary
          }
 
@@ -50,7 +54,7 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
 
   More information at: https://api-docs.incident.io/tag/Custom-Field-Options-V1#operation/Custom%20Field%20Options%20V1_Create
   """
-  @spec create(Client.t(), request_body()) :: IncidentIo.response()
+  @spec create(Client.t(), create_request_body()) :: IncidentIo.response()
   def create(client \\ %Client{}, body) do
     post(
       "v2/custom_field_options",
@@ -90,6 +94,32 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
     get(
       "v2/custom_field_options/#{id}",
       client
+    )
+  end
+
+  @doc """
+  Update a custom field option.
+
+  Custom field option body example:
+  ```elixir
+  %{
+    sort_key: 10,
+    value: "Product"
+  }
+  ```
+
+  ## Example
+
+      IncidentIo.CustomFieldOptionsV1.update(client, "some-custom-field-option-id", body)
+
+  More information at: https://api-docs.incident.io/tag/Custom-Field-Options-V1#operation/Custom%20Field%20Options%20V1_Update
+  """
+  @spec update(Client.t(), binary, update_request_body()) :: IncidentIo.response()
+  def update(client \\ %Client{}, id, body) do
+    put(
+      "v2/custom_field_options/#{id}",
+      client,
+      body
     )
   end
 end
