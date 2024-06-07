@@ -11,7 +11,7 @@
       "method": "post",
       "options": [],
       "request_body": "",
-      "url": "https://api.incident.io/v2/custom_field_options"
+      "url": "https://api.incident.io/v1/custom_field_options"
     },
     "response": {
       "binary": false,

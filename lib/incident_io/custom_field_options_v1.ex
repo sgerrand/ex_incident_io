@@ -27,7 +27,7 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
   @spec list(Client.t(), binary, integer) :: IncidentIo.response()
   def list(client \\ %Client{}, custom_field_id, page_size \\ 25) do
     get(
-      "v2/custom_field_options",
+      "v1/custom_field_options",
       client,
       %{
         custom_field_id: custom_field_id,
@@ -57,7 +57,7 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
   @spec create(Client.t(), create_request_body()) :: IncidentIo.response()
   def create(client \\ %Client{}, body) do
     post(
-      "v2/custom_field_options",
+      "v1/custom_field_options",
       client,
       body
     )
@@ -75,7 +75,7 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
   @spec destroy(Client.t(), binary) :: IncidentIo.response()
   def destroy(client \\ %Client{}, id) do
     delete(
-      "v2/custom_field_options/#{id}",
+      "v1/custom_field_options/#{id}",
       client
     )
   end
@@ -92,7 +92,7 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
   @spec show(Client.t(), binary) :: IncidentIo.response()
   def show(client \\ %Client{}, id) do
     get(
-      "v2/custom_field_options/#{id}",
+      "v1/custom_field_options/#{id}",
       client
     )
   end
@@ -117,7 +117,7 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
   @spec update(Client.t(), binary, update_request_body()) :: IncidentIo.response()
   def update(client \\ %Client{}, id, body) do
     put(
-      "v2/custom_field_options/#{id}",
+      "v1/custom_field_options/#{id}",
       client,
       body
     )

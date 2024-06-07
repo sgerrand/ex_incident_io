@@ -11,7 +11,7 @@
       "method": "get",
       "options": [],
       "request_body": "",
-      "url": "https://api.incident.io/v2/custom_field_options?custom_field_id=01FCNDV6P870EA6S7TK1DSYDG0&page_size=true"
+      "url": "https://api.incident.io/v1/custom_field_options?custom_field_id=01FCNDV6P870EA6S7TK1DSYDG0&page_size=true"
     },
     "response": {
       "binary": false,
