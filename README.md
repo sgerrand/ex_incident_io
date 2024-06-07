@@ -1,3 +1,3 @@
-# ex_incident_io
+# incident_io
 
 An Elixir client for the incident.io API.
