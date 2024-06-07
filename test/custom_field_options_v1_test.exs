@@ -9,13 +9,13 @@ defmodule IncidentIo.CustomFieldOptionsV1Test do
 
   describe "list/3" do
     test "returns expected HTTP status code" do
-      use_cassette "custom_field_options_v1#list_entries" do
+      use_cassette "custom_field_options_v1#list" do
         assert {200, _, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
       end
     end
 
     test "returns expected response" do
-      use_cassette "custom_field_options_v1#list_entries" do
+      use_cassette "custom_field_options_v1#list" do
         {200, %{custom_field_options: custom_field_options, pagination_meta: _}, _} =
           list(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
@@ -39,13 +39,13 @@ defmodule IncidentIo.CustomFieldOptionsV1Test do
     }
 
     test "returns expected HTTP status code" do
-      use_cassette "custom_field_options_v1#create_entry" do
+      use_cassette "custom_field_options_v1#create" do
         assert {201, _, _} = create(@client, @body)
       end
     end
 
     test "returns expected response" do
-      use_cassette "custom_field_options_v1#create_entry" do
+      use_cassette "custom_field_options_v1#create" do
         {201, %{custom_field_option: custom_field_option}, _} =
           create(@client, @body)
 
@@ -61,13 +61,13 @@ defmodule IncidentIo.CustomFieldOptionsV1Test do
 
   describe "destroy/2" do
     test "returns expected HTTP status code" do
-      use_cassette "custom_field_options_v1#destroy_entry" do
+      use_cassette "custom_field_options_v1#destroy" do
         assert {204, _, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
       end
     end
 
     test "returns expected response" do
-      use_cassette "custom_field_options_v1#destroy_entry" do
+      use_cassette "custom_field_options_v1#destroy" do
         {204, response, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
         assert nil == response
