@@ -11,7 +11,7 @@
       "method": "delete",
       "options": [],
       "request_body": "",
-      "url": "https://api.incident.io/v1/custom_field_options/01FCNDV6P870EA6S7TK1DSYDG0"
+      "url": "https://api.incident.io/v1/custom_fields/01FCNDV6P870EA6S7TK1DSYDG0"
     },
     "response": {
       "binary": false,

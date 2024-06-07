@@ -89,7 +89,7 @@ defmodule IncidentIo.CustomFieldsV1 do
   @spec destroy(Client.t(), binary) :: IncidentIo.response()
   def destroy(client \\ %Client{}, id) do
     delete(
-      "v1/custom_field_options/#{id}",
+      "v1/custom_fields/#{id}",
       client
     )
   end
@@ -106,7 +106,7 @@ defmodule IncidentIo.CustomFieldsV1 do
   @spec show(Client.t(), binary) :: IncidentIo.response()
   def show(client \\ %Client{}, id) do
     get(
-      "v1/custom_field_options/#{id}",
+      "v1/custom_fields/#{id}",
       client
     )
   end
