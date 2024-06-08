@@ -27,4 +27,3 @@ incident-*.tar
 
 # Misc.
 /fixture/
-mix.lock

@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   credo:
-    name: Static analysis ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Static analysis (Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}})
     runs-on: ubuntu-latest
 
     strategy:
@@ -29,32 +29,25 @@ jobs:
       with:
         elixir-version: ${{matrix.elixir}}
         otp-version: ${{matrix.otp}}
-    - name: Restore dependencies cache
-      id: restore-deps
-      uses: actions/cache@v4
-      with:
-        path: deps
-        key: deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
-    - name: Install dependencies
-      run: mix deps.get --only test
-    - name: Restore build cache
+    - name: Cache dependencies
+      id: cache-deps
       uses: actions/cache@v4
       with:
         path: |
           _build
           deps
-          ~/.hex
-          ~/.mix
-        key: build-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: build-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
+        key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
+    - name: Install and compile dependencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: mix do deps.get --only test, deps.compile
     - name: Compile code
-      run: mix deps.compile
+      run: mix compile
     - name: Run static analysis
       run: mix credo
 
   test:
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Tests (Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}})
     runs-on: ubuntu-latest
 
     strategy:
@@ -72,27 +65,25 @@ jobs:
       with:
         elixir-version: ${{matrix.elixir}}
         otp-version: ${{matrix.otp}}
-    - name: Restore dependencies cache
+    - name: Cache dependencies
+      id: cache-deps
       uses: actions/cache@v4
       with:
-        path: deps
-        key: deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
-    - name: Install dependencies
-      run: mix deps.get
-    - name: Restore build cache
-      uses: actions/cache@v4
-      with:
-        path: _build/test
-        key: build-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: build-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
+        path: |
+          _build
+          deps
+        key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
+    - name: Install and compile dependencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: mix do deps.get --only test, deps.compile
     - name: Compile code
-      run: mix deps.compile
+      run: mix compile
     - name: Run tests
       run: mix test
 
   validate:
-    name: Validate code ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Validate code (Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}})
     runs-on: ubuntu-latest
 
     strategy:
@@ -110,26 +101,19 @@ jobs:
       with:
         elixir-version: ${{matrix.elixir}}
         otp-version: ${{matrix.otp}}
-    - name: Restore dependencies cache
-      id: restore-deps
-      uses: actions/cache@v4
-      with:
-        path: deps
-        key: deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
-    - name: Install dependencies
-      run: mix deps.get --only test
-    - name: Restore build cache
+    - name: Cache dependencies
+      id: cache-deps
       uses: actions/cache@v4
       with:
         path: |
           _build
           deps
-          ~/.hex
-          ~/.mix
-        key: build-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: build-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
+        key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
+    - name: Install and compile dependencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: mix do deps.get --only test, deps.compile
     - name: Compile code
-      run: mix deps.compile
+      run: mix compile
     - name: Check code format
       run: mix format --check-formatted
