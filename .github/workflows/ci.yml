@@ -39,6 +39,7 @@ jobs:
         key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
         restore-keys: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
     - name: Install and compile dependencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
       run: mix do deps.get --only test, deps.compile
     - name: Compile code
       run: mix compile
@@ -74,6 +75,7 @@ jobs:
         key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
         restore-keys: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
     - name: Install and compile dependencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
       run: mix do deps.get --only test, deps.compile
     - name: Compile code
       run: mix compile
@@ -109,6 +111,7 @@ jobs:
         key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
         restore-keys: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
     - name: Install and compile dependencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
       run: mix do deps.get --only test, deps.compile
     - name: Compile code
       run: mix compile
