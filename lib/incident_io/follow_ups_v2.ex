@@ -22,11 +22,11 @@ defmodule IncidentIo.FollowUpsV2 do
   @spec list(Client.t(), binary, IncidentIo.incident_modes()) :: IncidentIo.response()
   def list(client \\ %Client{}, incident_id \\ nil, incident_mode \\ nil) do
     params =
-      %{
+      [
         incident_id: incident_id,
         incident_mode: incident_mode
-      }
-      |> Map.reject(fn {_key, val} -> is_nil(val) end)
+      ]
+      |> Enum.drop_while(fn {_key, val} -> is_nil(val) end)
 
     get(
       "v2/follow_ups",
