@@ -31,10 +31,8 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
     get(
       "v1/custom_field_options",
       client,
-      [
-        custom_field_id: custom_field_id,
-        page_size: page_size
-      ]
+      custom_field_id: custom_field_id,
+      page_size: page_size
     )
   end
 
