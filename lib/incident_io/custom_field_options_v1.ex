@@ -21,6 +21,8 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
 
       IncidentIo.CustomFieldOptionsV1.list(client, "some-custom-field-id")
 
+      IncidentIo.CustomFieldOptionsV1.list(client, "some-custom-field-id", 10)
+
   More information at: https://api-docs.incident.io/tag/Custom-Field-Options-V1#operation/Custom%20Field%20Options%20V1_List
   """
   @spec list(Client.t(), binary) :: IncidentIo.response()
@@ -29,10 +31,8 @@ defmodule IncidentIo.CustomFieldOptionsV1 do
     get(
       "v1/custom_field_options",
       client,
-      %{
-        custom_field_id: custom_field_id,
-        page_size: page_size
-      }
+      custom_field_id: custom_field_id,
+      page_size: page_size
     )
   end
 
