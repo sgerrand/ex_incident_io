@@ -9,13 +9,13 @@ defmodule IncidentIo.IncidentAttachmentsV1Test do
 
   describe "list/2" do
     test "returns expected HTTP status code" do
-      use_cassette "incident_attachments_v2#list-2" do
+      use_cassette "incident_attachments_v1#list-2" do
         assert {200, _, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
       end
     end
 
     test "returns expected response" do
-      use_cassette "incident_attachments_v2#list-2" do
+      use_cassette "incident_attachments_v1#list-2" do
         {200, response, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
         assert %{
@@ -38,13 +38,13 @@ defmodule IncidentIo.IncidentAttachmentsV1Test do
 
   describe "list/4" do
     test "returns expected HTTP status code" do
-      use_cassette "incident_attachments_v2#list-4" do
+      use_cassette "incident_attachments_v1#list-4" do
         assert {200, _, _} = list(@client, nil, "123", :pager_duty_incident)
       end
     end
 
     test "returns expected response" do
-      use_cassette "incident_attachments_v2#list-4" do
+      use_cassette "incident_attachments_v1#list-4" do
         {200, response, _} = list(@client, nil, "123", :pager_duty_incident)
 
         assert %{
