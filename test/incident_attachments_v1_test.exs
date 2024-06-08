@@ -64,4 +64,39 @@ defmodule IncidentIo.IncidentAttachmentsV1Test do
       end
     end
   end
+
+  describe "create/2" do
+    @body %{
+      incident_id: "01FDAG4SAP5TYPT98WGR2N7W91",
+      resource: %{
+        external_id: "123",
+        resource_type: "pager_duty_incident"
+      }
+    }
+
+    test "returns expected HTTP status code" do
+      use_cassette "incident_attachments_v1#create" do
+        assert {201, _, _} = create(@client, @body)
+      end
+    end
+
+    test "returns expected response" do
+      use_cassette "incident_attachments_v1#create" do
+        {201, response, _} = create(@client, @body)
+
+        assert %{
+                 incident_attachment: %{
+                   id: "01FCNDV6P870EA6S7TK1DSYD5H",
+                   incident_id: "01FCNDV6P870EA6S7TK1DSYD5H",
+                   resource: %{
+                     external_id: "123",
+                     permalink: "https://my.pagerduty.com/incidents/ABC",
+                     resource_type: "pager_duty_incident",
+                     title: "The database has gone down"
+                   }
+                 }
+               } == response
+      end
+    end
+  end
 end

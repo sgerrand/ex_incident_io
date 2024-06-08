@@ -18,6 +18,13 @@ defmodule IncidentIo.IncidentAttachmentsV1 do
            | :statuspage_incident
            | :zendesk_ticket
          ]
+  @typep request_body :: %{
+           incident_id: binary,
+           resource: %{
+             external_id: binary,
+             resource_type: external_resource_type()
+           }
+         }
 
   @doc """
   List all incident attachments for a given external resource or incident. You
@@ -65,4 +72,33 @@ defmodule IncidentIo.IncidentAttachmentsV1 do
       raise(
         "Error: only provide an incident_id *or* external_id and external_resource_type – not both."
       )
+
+  @doc """
+  Attaches an external resource to an incident.
+
+  Incident attachment body example:
+  ```elixir
+  %{
+    incident_id: "01FDAG4SAP5TYPT98WGR2N7W91",
+    resource: %{
+      external_id: "123",
+      resource_type: "pager_duty_incident"
+    }
+  }
+  ```
+
+  ## Example
+
+      IncidentIo.IncidentAttachmentsV1.create(client, body)
+
+  More information at: https://api-docs.incident.io/tag/Follow-ups-V2#operation/Follow-ups%20V2_Create
+  """
+  @spec create(Client.t(), request_body()) :: IncidentIo.response()
+  def create(client \\ %Client{}, body) do
+    post(
+      "v1/incident_attachments",
+      client,
+      body
+    )
+  end
 end
