@@ -111,7 +111,7 @@ defmodule IncidentIo do
   end
 
   defp deserialization_options do
-    Application.get_env(:incident_io, :deserialization_options, labels: :binary)
+    Application.get_env(:incident_io, :deserialization_options, labels: :binary, keys: :atoms)
   end
 
   def raw_request(method, url, body \\ "", headers \\ [], options \\ []) do
