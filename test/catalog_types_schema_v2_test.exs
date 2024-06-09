@@ -1,6 +1,5 @@
 defmodule IncidentIo.CatalogTypesSchemaV2Test do
-  use ExUnit.Case, async: true
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
+  use IncidentIo.TestCase, async: true
   import IncidentIo.CatalogTypesSchemaV2
 
   doctest IncidentIo.CatalogTypesSchemaV2

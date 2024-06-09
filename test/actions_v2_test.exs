@@ -1,6 +1,5 @@
 defmodule IncidentIo.ActionsV2Test do
-  use ExUnit.Case, async: true
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
+  use IncidentIo.TestCase, async: true
   import IncidentIo.ActionsV2
 
   doctest IncidentIo.ActionsV2

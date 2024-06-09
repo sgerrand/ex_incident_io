@@ -1,6 +1,5 @@
 defmodule IncidentIo.AlertEventsV2Test do
-  use ExUnit.Case, async: true
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
+  use IncidentIo.TestCase, async: true
   import IncidentIo.AlertEventsV2
 
   doctest IncidentIo.AlertEventsV2

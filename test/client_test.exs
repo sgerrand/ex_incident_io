@@ -1,5 +1,5 @@
 defmodule IncidentIo.ClientTest do
-  use ExUnit.Case, async: true
+  use IncidentIo.TestCase, async: true
   import IncidentIo.Client
 
   doctest IncidentIo.Client

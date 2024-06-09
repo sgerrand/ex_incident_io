@@ -1,6 +1,5 @@
 defmodule IncidentIo.CustomFieldsV2Test do
-  use ExUnit.Case, async: true
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
+  use IncidentIo.TestCase, async: true
   import IncidentIo.CustomFieldsV2
 
   doctest IncidentIo.CustomFieldsV2
