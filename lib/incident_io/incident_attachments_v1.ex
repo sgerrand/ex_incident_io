@@ -101,4 +101,21 @@ defmodule IncidentIo.IncidentAttachmentsV1 do
       body
     )
   end
+
+  @doc """
+  Unattaches an external resource from an incident.
+
+  ## Example
+
+      IncidentIo.IncidentAttachmentsV1.destroy(client, body)
+
+  More information at: https://api-docs.incident.io/tag/Incident-Attachments-V1#operation/Incident-Attachments%20V1_Delete
+  """
+  @spec destroy(Client.t(), binary) :: IncidentIo.response()
+  def destroy(client \\ %Client{}, id) do
+    delete(
+      "v1/incident_attachments/#{id}",
+      client
+    )
+  end
 end

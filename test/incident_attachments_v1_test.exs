@@ -99,4 +99,20 @@ defmodule IncidentIo.IncidentAttachmentsV1Test do
       end
     end
   end
+
+  describe "delete/2" do
+    test "returns expected HTTP status code" do
+      use_cassette "incident_attachments_v1#destroy" do
+        assert {204, _, _} = destroy(@client, "01FDAG4SAP5TYPT98WGR2N7W91")
+      end
+    end
+
+    test "returns expected response" do
+      use_cassette "incident_attachments_v1#destroy" do
+        {204, response, _} = destroy(@client, "01FDAG4SAP5TYPT98WGR2N7W91")
+
+        assert nil == response
+      end
+    end
+  end
 end
