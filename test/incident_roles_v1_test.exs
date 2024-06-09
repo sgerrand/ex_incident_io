@@ -118,4 +118,41 @@ defmodule IncidentIo.IncidentRolesV1Test do
       end
     end
   end
+
+  describe "update/3" do
+    @body %{
+      description: "The person currently coordinating the incident",
+      instructions: "Take point on the incident; Make sure people are clear on responsibilities",
+      name: "Incident Lead",
+      required: false,
+      shortform: "lead"
+    }
+
+    test "returns expected HTTP status code" do
+      use_cassette "incident_roles_v1#update" do
+        assert {200, _, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+      end
+    end
+
+    test "returns expected response" do
+      use_cassette "incident_roles_v1#update" do
+        {200, response, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+
+        assert %{
+                 incident_role: %{
+                   created_at: "2021-08-17T13:28:57.801578Z",
+                   description: "The person currently coordinating the incident",
+                   id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                   instructions:
+                     "Take point on the incident; Make sure people are clear on responsibilities",
+                   name: "Incident Lead",
+                   required: false,
+                   role_type: "lead",
+                   shortform: "lead",
+                   updated_at: "2021-08-17T13:28:57.801578Z"
+                 }
+               } == response
+      end
+    end
+  end
 end

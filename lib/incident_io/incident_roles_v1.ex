@@ -91,4 +91,33 @@ defmodule IncidentIo.IncidentRolesV1 do
       client
     )
   end
+
+  @doc """
+  Update an existing incident role.
+
+  Incident role body example:
+  ```elixir
+  %{
+    description: "The person currently coordinating the incident",
+    instructions: "Take point on the incident; Make sure people are clear on responsibilities",
+    name: "Incident Lead",
+    required: false,
+    shortform: "lead"
+  }
+  ```
+
+  ## Example
+
+      IncidentIo.IncidentRolesV1.update(client, "some-incident-id", body)
+
+  More information at: https://api-docs.incident.io/tag/Incident-Roles-V1#operation/Incident-Roles%20V1_Update
+  """
+  @spec update(Client.t(), binary, request_body()) :: IncidentIo.response()
+  def update(client \\ %Client{}, id, body) do
+    put(
+      "v1/incident_roles/#{id}",
+      client,
+      body
+    )
+  end
 end
