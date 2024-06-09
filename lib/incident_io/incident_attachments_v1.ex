@@ -37,7 +37,7 @@ defmodule IncidentIo.IncidentAttachmentsV1 do
 
       IncidentIo.IncidentAttachmentsV1.list(client, nil, "some-external-id", :pager_duty_incident)
 
-  More information at: https://api-docs.incident.io/tag/Follow-ups-V2#operation/Follow-ups%20V2_List
+  More information at: https://api-docs.incident.io/tag/Incident-Attachments-V1#operation/Incident-Attachments%20V1_List
   """
   @spec list(Client.t(), binary) :: IncidentIo.response()
   @spec list(Client.t(), nil, binary, external_resource_type()) :: IncidentIo.response()
@@ -91,7 +91,7 @@ defmodule IncidentIo.IncidentAttachmentsV1 do
 
       IncidentIo.IncidentAttachmentsV1.create(client, body)
 
-  More information at: https://api-docs.incident.io/tag/Follow-ups-V2#operation/Follow-ups%20V2_Create
+  More information at: https://api-docs.incident.io/tag/Incident-Attachments-V1#operation/Incident-Attachments%20V1_Create
   """
   @spec create(Client.t(), request_body()) :: IncidentIo.response()
   def create(client \\ %Client{}, body) do
