@@ -6,7 +6,7 @@ defmodule IncidentIo.IncidentRolesV1Test do
 
   @client IncidentIo.Client.new(%{api_key: "yourtokengoeshere"})
 
-  describe "list/3" do
+  describe "list/1" do
     test "returns expected HTTP status code" do
       use_cassette "incident_roles_v1#list" do
         assert {200, _, _} = list(@client)
@@ -37,7 +37,7 @@ defmodule IncidentIo.IncidentRolesV1Test do
     end
   end
 
-  describe "create/3" do
+  describe "create/2" do
     @body %{
       description: "The person currently coordinating the incident",
       instructions: "Take point on the incident; Make sure people are clear on responsibilities",
