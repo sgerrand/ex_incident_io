@@ -15,7 +15,7 @@ defmodule IncidentIo.CatalogTypesV2Test do
 
     test "returns expected response" do
       use_cassette "catalog_v2#list_types" do
-        {200, catalog_types, _} = list(@client)
+        {200, response, _} = list(@client)
 
         assert %{
                  catalog_types: [
@@ -57,7 +57,7 @@ defmodule IncidentIo.CatalogTypesV2Test do
                      updated_at: "2021-08-17T13:28:57.801578Z"
                    }
                  ]
-               } == catalog_types
+               } == response
       end
     end
   end
@@ -84,7 +84,7 @@ defmodule IncidentIo.CatalogTypesV2Test do
 
     test "returns expected response" do
       use_cassette "catalog_v2#create_type" do
-        assert {201, catalog_type, _} = create(@client, @body)
+        assert {201, response, _} = create(@client, @body)
 
         assert %{
                  catalog_type: %{
@@ -124,7 +124,7 @@ defmodule IncidentIo.CatalogTypesV2Test do
                    type_name: "Custom[\"BackstageGroup\"]",
                    updated_at: "2021-08-17T13:28:57.801578Z"
                  }
-               } == catalog_type
+               } == response
       end
     end
   end
@@ -138,7 +138,7 @@ defmodule IncidentIo.CatalogTypesV2Test do
 
     test "returns expected response" do
       use_cassette "catalog_v2#destroy_type" do
-        assert {204, catalog_type, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+        assert {204, response, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
         assert %{
                  catalog_type: %{
@@ -178,7 +178,7 @@ defmodule IncidentIo.CatalogTypesV2Test do
                    type_name: "Custom[\"BackstageGroup\"]",
                    updated_at: "2021-08-17T13:28:57.801578Z"
                  }
-               } == catalog_type
+               } == response
       end
     end
   end
@@ -192,7 +192,7 @@ defmodule IncidentIo.CatalogTypesV2Test do
 
     test "returns expected response" do
       use_cassette "catalog_v2#show_type" do
-        assert {200, catalog_type, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+        assert {200, response, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
         assert %{
                  catalog_type: %{
@@ -232,7 +232,7 @@ defmodule IncidentIo.CatalogTypesV2Test do
                    type_name: "Custom[\"BackstageGroup\"]",
                    updated_at: "2021-08-17T13:28:57.801578Z"
                  }
-               } == catalog_type
+               } == response
       end
     end
   end
@@ -254,7 +254,7 @@ defmodule IncidentIo.CatalogTypesV2Test do
 
     test "returns expected response" do
       use_cassette "catalog_v2#update_type" do
-        assert {200, catalog_type, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+        assert {200, response, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
 
         assert %{
                  catalog_type: %{
@@ -294,7 +294,7 @@ defmodule IncidentIo.CatalogTypesV2Test do
                    type_name: "Custom[\"BackstageGroup\"]",
                    updated_at: "2021-08-17T13:28:57.801578Z"
                  }
-               } == catalog_type
+               } == response
       end
     end
   end

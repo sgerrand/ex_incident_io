@@ -30,12 +30,14 @@ defmodule IncidentIo.AlertEventsV2Test do
 
     test "returns expected attributes for action" do
       use_cassette "alert_events_v2#create" do
-        {202, %{deduplication_key: deduplication_key, message: message, status: status}, _} =
+        {202, response, _} =
           create(@client, "01GW2G3V0S59R238FAHPDS1R66", "some-token", @body)
 
-        assert deduplication_key == "unique-key"
-        assert message == "Event accepted for processing"
-        assert status == "success"
+        assert %{
+                 deduplication_key: "unique-key",
+                 message: "Event accepted for processing",
+                 status: "success"
+               } == response
       end
     end
   end
