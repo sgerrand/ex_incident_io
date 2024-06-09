@@ -57,4 +57,21 @@ defmodule IncidentIo.IncidentRolesV1 do
       body
     )
   end
+
+  @doc """
+  Removes an existing incident role.
+
+  ## Example
+
+      IncidentIo.IncidentRolesV1.destroy(client, "some-incident-role-id")
+
+  More information at: https://api-docs.incident.io/tag/Incident-Roles-V1#operation/Incident-Roles%20V1_Delete
+  """
+  @spec destroy(Client.t(), binary) :: IncidentIo.response()
+  def destroy(client \\ %Client{}, id) do
+    delete(
+      "v1/incident_roles/#{id}",
+      client
+    )
+  end
 end
