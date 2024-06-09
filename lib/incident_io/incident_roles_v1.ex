@@ -74,4 +74,21 @@ defmodule IncidentIo.IncidentRolesV1 do
       client
     )
   end
+
+  @doc """
+  Get a single incident role.
+
+  ## Example
+
+      IncidentIo.IncidentRolesV1.show(client, "some-incident-role-id")
+
+  More information at: https://api-docs.incident.io/tag/Incident-Roles-V1#operation/Incident-Roles%20V1_Show
+  """
+  @spec show(Client.t(), binary) :: IncidentIo.response()
+  def show(client \\ %Client{}, id) do
+    get(
+      "v1/incident_roles/#{id}",
+      client
+    )
+  end
 end
