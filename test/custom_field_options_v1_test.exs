@@ -1,6 +1,5 @@
 defmodule IncidentIo.CustomFieldOptionsV1Test do
-  use ExUnit.Case, async: true
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
+  use IncidentIo.TestCase, async: true
   import IncidentIo.CustomFieldOptionsV1
 
   doctest IncidentIo.CustomFieldOptionsV1
@@ -16,17 +15,20 @@ defmodule IncidentIo.CustomFieldOptionsV1Test do
 
     test "returns expected response" do
       use_cassette "custom_field_options_v1#list" do
-        {200, %{custom_field_options: custom_field_options, pagination_meta: _}, _} =
+        {200, response, _} =
           list(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
-        assert [
-                 %{
-                   custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                   id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                   sort_key: 10,
-                   value: "Product"
-                 }
-               ] == custom_field_options
+        assert %{
+                 custom_field_options: [
+                   %{
+                     custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                     id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                     sort_key: 10,
+                     value: "Product"
+                   }
+                 ],
+                 pagination_meta: %{after: "01FCNDV6P870EA6S7TK1DSYDG0", page_size: 25}
+               } == response
       end
     end
   end
@@ -46,15 +48,17 @@ defmodule IncidentIo.CustomFieldOptionsV1Test do
 
     test "returns expected response" do
       use_cassette "custom_field_options_v1#create" do
-        {201, %{custom_field_option: custom_field_option}, _} =
+        {201, response, _} =
           create(@client, @body)
 
         assert %{
-                 custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                 id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                 sort_key: 10,
-                 value: "Product"
-               } == custom_field_option
+                 custom_field_option: %{
+                   custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                   id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                   sort_key: 10,
+                   value: "Product"
+                 }
+               } == response
       end
     end
   end
@@ -112,15 +116,17 @@ defmodule IncidentIo.CustomFieldOptionsV1Test do
 
     test "returns expected response" do
       use_cassette "custom_field_options_v1#update" do
-        {200, %{custom_field_option: custom_field_option}, _} =
+        {200, response, _} =
           update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
 
         assert %{
-                 custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                 id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                 sort_key: 10,
-                 value: "Product"
-               } == custom_field_option
+                 custom_field_option: %{
+                   custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                   id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                   sort_key: 10,
+                   value: "Product"
+                 }
+               } == response
       end
     end
   end

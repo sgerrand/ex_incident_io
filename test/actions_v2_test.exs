@@ -1,6 +1,5 @@
 defmodule IncidentIo.ActionsV2Test do
-  use ExUnit.Case, async: true
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
+  use IncidentIo.TestCase, async: true
   import IncidentIo.ActionsV2
 
   doctest IncidentIo.ActionsV2
@@ -21,49 +20,30 @@ defmodule IncidentIo.ActionsV2Test do
       end
     end
 
-    test "returns expected attributes for action" do
+    test "returns expected response" do
       use_cassette "actions_v2#list" do
-        {200, %{actions: [action]}, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0", true)
+        {200, response, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0", true)
 
-        %{
-          assignee: _assignee,
-          completed_at: completed_at,
-          created_at: created_at,
-          description: description,
-          id: id,
-          incident_id: incident_id,
-          status: status,
-          updated_at: updated_at
-        } = action
-
-        assert completed_at == "2021-08-17T13:28:57.801578Z"
-        assert created_at == "2021-08-17T13:28:57.801578Z"
-        assert description == "Call the fire brigade"
-        assert id == "01FCNDV6P870EA6S7TK1DSYDG0"
-        assert incident_id == "01FCNDV6P870EA6S7TK1DSYDG0"
-        assert status == "outstanding"
-        assert updated_at == "2021-08-17T13:28:57.801578Z"
-      end
-    end
-
-    test "returns expected attributes for action assignee" do
-      use_cassette "actions_v2#list" do
-        {200, %{actions: [%{assignee: assignee}]}, _} =
-          list(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
-
-        %{
-          email: email,
-          id: id,
-          name: name,
-          role: role,
-          slack_user_id: slack_user_id
-        } = assignee
-
-        assert email == "lisa@incident.io"
-        assert id == "01FCNDV6P870EA6S7TK1DSYDG0"
-        assert name == "Lisa Karlin Curtis"
-        assert role == "viewer"
-        assert slack_user_id == "U02AYNF2XJM"
+        assert %{
+                 actions: [
+                   %{
+                     assignee: %{
+                       email: "lisa@incident.io",
+                       id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                       name: "Lisa Karlin Curtis",
+                       role: "viewer",
+                       slack_user_id: "U02AYNF2XJM"
+                     },
+                     completed_at: "2021-08-17T13:28:57.801578Z",
+                     created_at: "2021-08-17T13:28:57.801578Z",
+                     description: "Call the fire brigade",
+                     id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                     incident_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                     status: "outstanding",
+                     updated_at: "2021-08-17T13:28:57.801578Z"
+                   }
+                 ]
+               } == response
       end
     end
   end
@@ -77,26 +57,26 @@ defmodule IncidentIo.ActionsV2Test do
 
     test "returns expected attributes for action" do
       use_cassette "actions_v2#show" do
-        {200, %{action: action}, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+        {200, response, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
-        %{
-          assignee: _assignee,
-          completed_at: completed_at,
-          created_at: created_at,
-          description: description,
-          id: id,
-          incident_id: incident_id,
-          status: status,
-          updated_at: updated_at
-        } = action
-
-        assert completed_at == "2021-08-17T13:28:57.801578Z"
-        assert created_at == "2021-08-17T13:28:57.801578Z"
-        assert description == "Call the fire brigade"
-        assert id == "01FCNDV6P870EA6S7TK1DSYDG0"
-        assert incident_id == "01FCNDV6P870EA6S7TK1DSYDG0"
-        assert status == "outstanding"
-        assert updated_at == "2021-08-17T13:28:57.801578Z"
+        assert %{
+                 action: %{
+                   assignee: %{
+                     email: "lisa@incident.io",
+                     id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                     name: "Lisa Karlin Curtis",
+                     role: "viewer",
+                     slack_user_id: "U02AYNF2XJM"
+                   },
+                   completed_at: "2021-08-17T13:28:57.801578Z",
+                   created_at: "2021-08-17T13:28:57.801578Z",
+                   description: "Call the fire brigade",
+                   id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                   incident_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                   status: "outstanding",
+                   updated_at: "2021-08-17T13:28:57.801578Z"
+                 }
+               } == response
       end
     end
   end

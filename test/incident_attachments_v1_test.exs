@@ -1,6 +1,5 @@
 defmodule IncidentIo.IncidentAttachmentsV1Test do
-  use ExUnit.Case, async: true
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
+  use IncidentIo.TestCase, async: true
   import IncidentIo.IncidentAttachmentsV1
 
   doctest IncidentIo.IncidentAttachmentsV1
@@ -62,6 +61,24 @@ defmodule IncidentIo.IncidentAttachmentsV1Test do
                  ]
                } == response
       end
+    end
+  end
+
+  describe "list: error cases" do
+    test "raises when not provided incident_id or external_id" do
+      assert_raise RuntimeError,
+                   "Error: only provide an incident_id *or* external_id and external_resource_type – not both.",
+                   fn ->
+                     list(@client)
+                   end
+    end
+
+    test "raises when provided both incident_id and external_id" do
+      assert_raise RuntimeError,
+                   "Error: only provide an incident_id *or* external_id and external_resource_type – not both.",
+                   fn ->
+                     list(@client, "01FCNDV6P870EA6S7TK1DSYD5H", "123", :pager_duty_incident)
+                   end
     end
   end
 

@@ -10,6 +10,7 @@ defmodule IncidentIo.Mixfile do
       version: @version,
       elixir: "~> 1.9",
       name: "IncidentIo",
+      elixirc_paths: elixirc_paths(Mix.env()),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test],
       package: package(),
@@ -21,6 +22,9 @@ defmodule IncidentIo.Mixfile do
   def application do
     []
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp deps do
     [

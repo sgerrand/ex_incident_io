@@ -69,11 +69,6 @@ defmodule IncidentIo do
     _request(:post, url(client, path), client.auth, body)
   end
 
-  @spec patch(binary, Client.t(), any) :: response
-  def patch(path, client, body \\ "") do
-    _request(:patch, url(client, path), client.auth, body)
-  end
-
   @spec put(binary, Client.t(), any) :: response
   def put(path, client, body \\ "") do
     _request(:put, url(client, path), client.auth, body)

@@ -1,6 +1,5 @@
 defmodule IncidentIo.CatalogResourcesV2Test do
-  use ExUnit.Case, async: true
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
+  use IncidentIo.TestCase, async: true
   import IncidentIo.CatalogResourcesV2
 
   doctest IncidentIo.CatalogResourcesV2
@@ -16,7 +15,7 @@ defmodule IncidentIo.CatalogResourcesV2Test do
 
     test "returns expected response" do
       use_cassette "catalog_v2#list_resources" do
-        {200, resources, _} = list(@client)
+        {200, response, _} = list(@client)
 
         assert %{
                  resources: [
@@ -29,7 +28,7 @@ defmodule IncidentIo.CatalogResourcesV2Test do
                        "Either the GraphQL node ID of the repository or a string of <owner>/<repo>, e.g. incident-io/website"
                    }
                  ]
-               } == resources
+               } == response
       end
     end
   end

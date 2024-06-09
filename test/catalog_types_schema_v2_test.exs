@@ -1,6 +1,5 @@
 defmodule IncidentIo.CatalogTypesSchemaV2Test do
-  use ExUnit.Case, async: true
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
+  use IncidentIo.TestCase, async: true
   import IncidentIo.CatalogTypesSchemaV2
 
   doctest IncidentIo.CatalogTypesSchemaV2
@@ -30,7 +29,7 @@ defmodule IncidentIo.CatalogTypesSchemaV2Test do
 
     test "returns expected response" do
       use_cassette "catalog_v2#update_type_schema" do
-        assert {200, catalog_type, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+        assert {200, response, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
 
         assert %{
                  catalog_type: %{
@@ -70,7 +69,7 @@ defmodule IncidentIo.CatalogTypesSchemaV2Test do
                    type_name: "Custom[\"BackstageGroup\"]",
                    updated_at: "2021-08-17T13:28:57.801578Z"
                  }
-               } == catalog_type
+               } == response
       end
     end
   end
