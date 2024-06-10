@@ -155,7 +155,7 @@ defmodule IncidentIo do
       iex> add_params_to_url("http://example.com/wat?q=1&s=4", [q: 3, t: 2])
       "http://example.com/wat?q=3&s=4&t=2"
 
-      iex> add_params_to_url("http://example.com/wat?q=1&s=4", [q: 3, t: 2, u: %{o: 1, v: 0}])
+      iex> add_params_to_url("http://example.com/wat?q=1&s=4", [q: 3, t: 2, u: [o: 1, v: 0]])
       "http://example.com/wat?q=3&s=4&t=2&u[o]=1&u[v]=0"
 
       iex> add_params_to_url("http://example.com/wat?q=1&s=4", [q: 3, t: 2, u: [1, "two", 3]])
@@ -164,7 +164,7 @@ defmodule IncidentIo do
       iex> add_params_to_url("http://example.com/wat?q=1&s=4", %{q: 3, t: 2})
       "http://example.com/wat?q=3&s=4&t=2"
 
-      iex> add_params_to_url("http://example.com/wat?q=1&s=4", %{q: 3, t: 2, u: %{o: 1, v: 0}})
+      iex> add_params_to_url("http://example.com/wat?q=1&s=4", %{q: 3, t: 2, u: [o: 1, v: 0]})
       "http://example.com/wat?q=3&s=4&t=2&u[o]=1&u[v]=0"
 
       iex> add_params_to_url("http://example.com/wat?q=1&s=4", %{q: 3, t: 2, u: [1, "two", 3]})
