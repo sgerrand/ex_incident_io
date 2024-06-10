@@ -5,6 +5,7 @@ defmodule IncidentIo do
 
   use HTTPoison.Base
   alias IncidentIo.Client
+  alias IncidentIo.Query
   alias Jason
 
   @user_agent [{"User-agent", "IncidentIo/elixir"}]
@@ -154,8 +155,20 @@ defmodule IncidentIo do
       iex> add_params_to_url("http://example.com/wat?q=1&s=4", [q: 3, t: 2])
       "http://example.com/wat?q=3&s=4&t=2"
 
+      iex> add_params_to_url("http://example.com/wat?q=1&s=4", [q: 3, t: 2, u: %{o: 1, v: 0}])
+      "http://example.com/wat?q=3&s=4&t=2&u[o]=1&u[v]=0"
+
+      iex> add_params_to_url("http://example.com/wat?q=1&s=4", [q: 3, t: 2, u: [1, "two", 3]])
+      "http://example.com/wat?q=3&s=4&t=2&u[]=1&u[]=two&u[]=3"
+
       iex> add_params_to_url("http://example.com/wat?q=1&s=4", %{q: 3, t: 2})
       "http://example.com/wat?q=3&s=4&t=2"
+
+      iex> add_params_to_url("http://example.com/wat?q=1&s=4", %{q: 3, t: 2, u: %{o: 1, v: 0}})
+      "http://example.com/wat?q=3&s=4&t=2&u[o]=1&u[v]=0"
+
+      iex> add_params_to_url("http://example.com/wat?q=1&s=4", %{q: 3, t: 2, u: [1, "two", 3]})
+      "http://example.com/wat?q=3&s=4&t=2&u[]=1&u[]=two&u[]=3"
 
   """
   @spec add_params_to_url(binary, list) :: binary
@@ -171,16 +184,16 @@ defmodule IncidentIo do
 
   defp merge_uri_params(%URI{query: nil} = uri, params) when is_list(params) or is_map(params) do
     uri
-    |> Map.put(:query, URI.encode_query(params))
+    |> Map.put(:query, Query.encode(params))
   end
 
   defp merge_uri_params(%URI{} = uri, params) when is_list(params) or is_map(params) do
     uri
     |> Map.update!(:query, fn q ->
       q
-      |> URI.decode_query()
+      |> Query.decode()
       |> Map.merge(param_list_to_map_with_string_keys(params))
-      |> URI.encode_query()
+      |> Query.encode()
     end)
   end
 
