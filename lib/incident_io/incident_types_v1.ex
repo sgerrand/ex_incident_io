@@ -17,7 +17,7 @@ defmodule IncidentIo.IncidentTypesV1 do
 
       IncidentIo.IncidentTypesV1.list(client)
 
-  More information at: https://api-docs.incident.io/tag/Incident-Types-V1#operation/Incident-Types%20V1_List
+  More information at: https://api-docs.incident.io/tag/Incident-Types-V1#operation/Incident%20Types%20V1_List
   """
   @spec list(Client.t()) :: IncidentIo.response()
   def list(client \\ %Client{}) do
@@ -34,7 +34,7 @@ defmodule IncidentIo.IncidentTypesV1 do
 
       IncidentIo.IncidentTypesV1.show(client, "some-incident-type-id")
 
-  More information at: https://api-docs.incident.io/tag/Incident-Types-V1#operation/Incident-Types%20V1_Show
+  More information at: https://api-docs.incident.io/tag/Incident-Types-V1#operation/Incident%20Types%20V1_Show
   """
   @spec show(Client.t(), binary) :: IncidentIo.response()
   def show(client \\ %Client{}, id) do
