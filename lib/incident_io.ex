@@ -16,6 +16,11 @@ defmodule IncidentIo do
 
   @type pagination_response :: {response, binary | nil, Client.auth()}
 
+  @type deprecated_incident_mode :: :real | :test | :tutorial
+  @type deprecated_incident_modes :: [:real | :test | :tutorial]
+  @type incident_mode :: :standard | :retrospective | :test | :tutorial | :stream
+  @type incident_modes :: [:standard | :retrospective | :test | :tutorial | :stream]
+
   defmodule JsonString do
     @moduledoc false
     defstruct [:body]

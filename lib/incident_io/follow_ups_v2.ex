@@ -19,7 +19,7 @@ defmodule IncidentIo.FollowUpsV2 do
   """
   @spec list(Client.t()) :: IncidentIo.response()
   @spec list(Client.t(), binary) :: IncidentIo.response()
-  @spec list(Client.t(), binary, IncidentIo.incident_modes()) :: IncidentIo.response()
+  @spec list(Client.t(), binary, IncidentIo.incident_mode()) :: IncidentIo.response()
   def list(client \\ %Client{}, incident_id \\ nil, incident_mode \\ nil) do
     params =
       [
