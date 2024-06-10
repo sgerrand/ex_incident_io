@@ -147,6 +147,20 @@ defmodule IncidentIo.IncidentsV1Test do
     end
   end
 
+  describe "list/3 with optional query params" do
+    test "with page_size" do
+      use_cassette "incidents_v1#list-2" do
+        assert {200, _, _} = list(@client, page_size: 20)
+      end
+    end
+
+    test "with status" do
+      use_cassette "incidents_v1#list-3" do
+        assert {200, _, _} = list(@client, status: "declined")
+      end
+    end
+  end
+
   describe "create/2" do
     @body %{
       custom_field_entries: [
