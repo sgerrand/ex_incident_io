@@ -10,6 +10,42 @@ permissions:
   contents: read
 
 jobs:
+  coverage:
+    name: Code coverage (Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}})
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        otp: ['26.2']
+        elixir: ['1.16']
+
+    env:
+      MIX_ENV: test
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: ${{matrix.elixir}}
+        otp-version: ${{matrix.otp}}
+    - name: Cache dependencies
+      id: cache-deps
+      uses: actions/cache@v4
+      with:
+        path: |
+          _build
+          deps
+        key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-
+    - name: Install and compile dependencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: mix do deps.get --only test, deps.compile
+    - name: Compile code
+      run: mix compile
+    - name: Report code coverage to Coveralls
+      run: mix coveralls.github
+
   credo:
     name: Static analysis (Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}})
     runs-on: ubuntu-latest
