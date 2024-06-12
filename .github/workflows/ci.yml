@@ -45,6 +45,8 @@ jobs:
       run: mix compile
     - name: Report code coverage to Coveralls
       run: mix coveralls.github
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   credo:
     name: Static analysis (Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}})
