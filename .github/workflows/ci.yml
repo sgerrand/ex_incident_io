@@ -43,10 +43,12 @@ jobs:
       run: mix do deps.get --only test, deps.compile
     - name: Compile code
       run: mix compile
-    - name: Report code coverage to Coveralls
-      run: mix coveralls.github
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Generate code coverage
+      run: mix coveralls.lcov
+    - name: Upload coverage reports to Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
   credo:
     name: Static analysis (Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}})
