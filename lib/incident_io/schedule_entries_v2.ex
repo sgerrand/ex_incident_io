@@ -6,10 +6,10 @@ defmodule IncidentIo.ScheduleEntriesV2 do
   import IncidentIo
   alias IncidentIo.Client
 
-  @typep request_options :: %{
-           optional(:entry_window_start) => nonempty_binary,
-           optional(:entry_window_end) => nonempty_binary
-         }
+  @typep request_options :: [
+           entry_window_start: nonempty_binary,
+           entry_window_end: nonempty_binary
+         ]
   @doc """
   Get a list of schedule entries.
 
