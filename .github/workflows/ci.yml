@@ -94,6 +94,13 @@ jobs:
       matrix:
         otp: ['24.3', '25.3', '26.2', '27']
         elixir: ['1.15', '1.16', '1.17']
+        exclude:
+          - elixir: '1.15'
+            otp: '27'
+          - elixir: '1.16'
+            otp: '27'
+          - elixir: '1.17'
+            otp: '24.3'
 
     env:
       MIX_ENV: test
