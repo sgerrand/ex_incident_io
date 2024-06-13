@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   coverage:
-    name: Code coverage (Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}})
+    name: Coverage (Elixir ${{matrix.elixir}} / OTP ${{matrix.otp}})
     runs-on: ubuntu-latest
 
     strategy:
