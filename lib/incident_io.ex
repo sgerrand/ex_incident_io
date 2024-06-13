@@ -5,6 +5,7 @@ defmodule IncidentIo do
 
   use HTTPoison.Base
   alias IncidentIo.Client
+  alias IncidentIo.Query
   alias Jason
 
   @user_agent [{"User-agent", "IncidentIo/elixir"}]
@@ -15,6 +16,11 @@ defmodule IncidentIo do
           | pagination_response
 
   @type pagination_response :: {response, binary | nil, Client.auth()}
+
+  @type deprecated_incident_mode :: :real | :test | :tutorial
+  @type deprecated_incident_modes :: [:real | :test | :tutorial]
+  @type incident_mode :: :standard | :retrospective | :test | :tutorial | :stream
+  @type incident_modes :: [:standard | :retrospective | :test | :tutorial | :stream]
 
   defmodule JsonString do
     @moduledoc false
@@ -53,7 +59,7 @@ defmodule IncidentIo do
 
   @spec process_response(HTTPoison.Response.t() | {integer, any, HTTPoison.Response.t()}) ::
           response
-  def process_response(resp = %HTTPoison.Response{status_code: status_code, body: body}),
+  def process_response(%HTTPoison.Response{status_code: status_code, body: body} = resp),
     do: {status_code, body, resp}
 
   def process_response({_status_code, _, %HTTPoison.Response{} = resp}),
@@ -116,7 +122,7 @@ defmodule IncidentIo do
   end
 
   @spec url(client :: Client.t(), path :: binary) :: binary
-  defp url(_client = %Client{endpoint: endpoint}, path) do
+  defp url(%Client{endpoint: endpoint} = _client, path) do
     endpoint <> path
   end
 
@@ -149,8 +155,20 @@ defmodule IncidentIo do
       iex> add_params_to_url("http://example.com/wat?q=1&s=4", [q: 3, t: 2])
       "http://example.com/wat?q=3&s=4&t=2"
 
+      iex> add_params_to_url("http://example.com/wat?q=1&s=4", [q: 3, t: 2, u: [o: 1, v: 0]])
+      "http://example.com/wat?q=3&s=4&t=2&u[o]=1&u[v]=0"
+
+      iex> add_params_to_url("http://example.com/wat?q=1&s=4", [q: 3, t: 2, u: [1, "two", 3]])
+      "http://example.com/wat?q=3&s=4&t=2&u[]=1&u[]=two&u[]=3"
+
       iex> add_params_to_url("http://example.com/wat?q=1&s=4", %{q: 3, t: 2})
       "http://example.com/wat?q=3&s=4&t=2"
+
+      iex> add_params_to_url("http://example.com/wat?q=1&s=4", %{q: 3, t: 2, u: [o: 1, v: 0]})
+      "http://example.com/wat?q=3&s=4&t=2&u[o]=1&u[v]=0"
+
+      iex> add_params_to_url("http://example.com/wat?q=1&s=4", %{q: 3, t: 2, u: [1, "two", 3]})
+      "http://example.com/wat?q=3&s=4&t=2&u[]=1&u[]=two&u[]=3"
 
   """
   @spec add_params_to_url(binary, list) :: binary
@@ -166,16 +184,16 @@ defmodule IncidentIo do
 
   defp merge_uri_params(%URI{query: nil} = uri, params) when is_list(params) or is_map(params) do
     uri
-    |> Map.put(:query, URI.encode_query(params))
+    |> Map.put(:query, Query.encode(params))
   end
 
   defp merge_uri_params(%URI{} = uri, params) when is_list(params) or is_map(params) do
     uri
     |> Map.update!(:query, fn q ->
       q
-      |> URI.decode_query()
+      |> Query.decode()
       |> Map.merge(param_list_to_map_with_string_keys(params))
-      |> URI.encode_query()
+      |> Query.encode()
     end)
   end
 

@@ -6,12 +6,10 @@ defmodule IncidentIo.Client do
   defstruct auth: nil, endpoint: "https://api.incident.io/"
 
   @type auth :: %{api_key: binary}
-  @type deprecated_incident_modes :: [:real | :test | :tutorial]
-  @type incident_modes :: [:standard | :retrospective | :test | :tutorial | :stream]
   @type t :: %__MODULE__{auth: auth | nil, endpoint: binary}
 
   @spec new() :: t
-  def new(), do: %__MODULE__{}
+  def new, do: %__MODULE__{}
 
   @spec new(binary) :: t
   def new(endpoint) when is_binary(endpoint) do
@@ -19,10 +17,10 @@ defmodule IncidentIo.Client do
   end
 
   @spec new(map()) :: t
-  def new(auth = %{api_key: _}), do: %__MODULE__{auth: auth}
+  def new(%{api_key: _} = auth), do: %__MODULE__{auth: auth}
 
   @spec new(map(), binary) :: t
-  def new(auth = %{api_key: _}, endpoint) do
+  def new(%{api_key: _} = auth, endpoint) do
     pnew(auth, endpoint)
   end
 

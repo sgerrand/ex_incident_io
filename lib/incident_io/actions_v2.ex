@@ -14,7 +14,7 @@ defmodule IncidentIo.ActionsV2 do
   More information at: https://api-docs.incident.io/tag/Actions-V2#operation/Actions%20V2_List
   """
   @spec list(Client.t(), binary) :: IncidentIo.response()
-  @spec list(Client.t(), binary, Client.incident_modes()) :: IncidentIo.response()
+  @spec list(Client.t(), binary, IncidentIo.incident_mode()) :: IncidentIo.response()
   def list(client \\ %Client{}, incident_id, incident_mode \\ :standard) do
     get(
       "v2/actions",
