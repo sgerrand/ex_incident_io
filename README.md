@@ -3,6 +3,7 @@
 An Elixir client for the [incident.io API](https://api-docs.incident.io/).
 
 [![Build Status](https://github.com/sgerrand/ex_incident_io/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/sgerrand/ex_incident_io/actions/workflows/ci.yml)
+[![Coverage Status](https://codecov.io/gh/sgerrand/ex_incident_io/branch/main/graph/badge.svg?token=W8TTD75E6G)](https://codecov.io/gh/sgerrand/ex_incident_io)
 [![Hex.pm](https://img.shields.io/hexpm/v/incident_io.svg)](https://hex.pm/packages/incident_io)
 [![Documentation](https://img.shields.io/badge/documentation-gray)](https://hexdocs.pm/incident_io/)
 
