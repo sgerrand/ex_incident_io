@@ -145,7 +145,7 @@ defmodule IncidentIo.Query do
   See `decode_each/2` for examples.
   """
   @spec decode_init() :: decoder()
-  def decode_init(), do: %{root: []}
+  def decode_init, do: %{root: []}
 
   @doc """
   Decodes the given `pair` tuple.

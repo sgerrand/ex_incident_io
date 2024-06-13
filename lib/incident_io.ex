@@ -59,7 +59,7 @@ defmodule IncidentIo do
 
   @spec process_response(HTTPoison.Response.t() | {integer, any, HTTPoison.Response.t()}) ::
           response
-  def process_response(resp = %HTTPoison.Response{status_code: status_code, body: body}),
+  def process_response(%HTTPoison.Response{status_code: status_code, body: body} = resp),
     do: {status_code, body, resp}
 
   def process_response({_status_code, _, %HTTPoison.Response{} = resp}),
@@ -122,7 +122,7 @@ defmodule IncidentIo do
   end
 
   @spec url(client :: Client.t(), path :: binary) :: binary
-  defp url(_client = %Client{endpoint: endpoint}, path) do
+  defp url(%Client{endpoint: endpoint} = _client, path) do
     endpoint <> path
   end
 
