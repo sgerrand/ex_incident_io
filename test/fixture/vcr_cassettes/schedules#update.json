@@ -11,7 +11,7 @@
       "method": "put",
       "options": [],
       "request_body": "",
-      "url": "https://api.incident.io/v2/schedules01G0J1EXE7AXZ2C93K61WBPYEH"
+      "url": "https://api.incident.io/v2/schedules/01G0J1EXE7AXZ2C93K61WBPYEH"
     },
     "response": {
       "binary": false,
