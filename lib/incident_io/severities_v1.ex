@@ -3,7 +3,7 @@ defmodule IncidentIo.SeveritiesV1 do
   Manage severities.
 
   Each incident has a severity, picked from one of the severities configured in
-  your organisations settings.
+  your organisation's settings.
 
   Severities help categorise incidents, and communicate urgency/impact. You can
   use severities when filtering incidents in the dashboard, and in workflows and
@@ -64,7 +64,7 @@ defmodule IncidentIo.SeveritiesV1 do
   end
 
   @doc """
-  Delete a severity.
+  Delete an existing severity.
 
   ## Example
 
