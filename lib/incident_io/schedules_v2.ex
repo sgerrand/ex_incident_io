@@ -72,7 +72,7 @@ defmodule IncidentIo.SchedulesV2 do
   end
 
   @doc """
-  Create a schedule entries.
+  Create a new schedule.
 
   ## Example
 
