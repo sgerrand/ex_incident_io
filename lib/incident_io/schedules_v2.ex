@@ -10,8 +10,9 @@ defmodule IncidentIo.SchedulesV2 do
            after: nonempty_binary,
            page_size: pos_integer()
          ]
+
   @doc """
-  Get a list of schedule entries.
+  Get a list of schedules.
 
   ## Example
 
