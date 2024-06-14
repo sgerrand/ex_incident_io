@@ -150,7 +150,7 @@ defmodule IncidentIo.SchedulesV2 do
   @spec destroy(Client.t(), binary) :: IncidentIo.response()
   def destroy(client \\ %Client{}, id) do
     delete(
-      "v2/schedules#{id}",
+      "v2/schedules/#{id}",
       client
     )
   end
@@ -167,7 +167,7 @@ defmodule IncidentIo.SchedulesV2 do
   @spec show(Client.t(), binary) :: IncidentIo.response()
   def show(client \\ %Client{}, id) do
     get(
-      "v2/schedules#{id}",
+      "v2/schedules/#{id}",
       client
     )
   end
@@ -233,7 +233,7 @@ defmodule IncidentIo.SchedulesV2 do
   @spec update(Client.t(), binary, request_body()) :: IncidentIo.response()
   def update(client \\ %Client{}, id, body) do
     put(
-      "v2/schedules#{id}",
+      "v2/schedules/#{id}",
       client,
       body
     )
