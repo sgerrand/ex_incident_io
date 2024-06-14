@@ -154,13 +154,13 @@ defmodule IncidentIo.SchedulesV2Test do
 
     test "returns expected HTTP status code" do
       use_cassette "schedules#create" do
-        assert {200, _, _} = create(@client, @body)
+        assert {201, _, _} = create(@client, @body)
       end
     end
 
     test "returns expected response" do
       use_cassette "schedules#create" do
-        {200, response, _} = create(@client, @body)
+        {201, response, _} = create(@client, @body)
 
         assert %{
                  schedule: %{
