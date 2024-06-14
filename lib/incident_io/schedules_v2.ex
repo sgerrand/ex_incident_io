@@ -171,4 +171,22 @@ defmodule IncidentIo.SchedulesV2 do
       client
     )
   end
+
+  @doc """
+  Update a schedule.
+
+  ## Example
+
+      IncidentIo.SchedulesV2.update(client)
+
+  More information at: https://api-docs.incident.io/tag/Schedules-V2#operation/Schedules%20V2_Update
+  """
+  @spec update(Client.t(), binary, request_body()) :: IncidentIo.response()
+  def update(client \\ %Client{}, id, body) do
+    put(
+      "v2/schedules#{id}",
+      client,
+      body
+    )
+  end
 end
