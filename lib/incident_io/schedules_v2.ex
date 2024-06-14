@@ -105,4 +105,21 @@ defmodule IncidentIo.SchedulesV2 do
       client
     )
   end
+
+  @doc """
+  Get a single schedule.
+
+  ## Example
+
+      IncidentIo.SchedulesV2.show(client)
+
+  More information at: https://api-docs.incident.io/tag/Schedules-V2#operation/Schedules%20V2_Show
+  """
+  @spec show(Client.t(), binary) :: IncidentIo.response()
+  def show(client \\ %Client{}, id) do
+    get(
+      "v2/schedules#{id}",
+      client
+    )
+  end
 end

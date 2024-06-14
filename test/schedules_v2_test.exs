@@ -248,4 +248,86 @@ defmodule IncidentIo.SchedulesV2Test do
       end
     end
   end
+
+  describe "show/2" do
+    test "returns expected HTTP status code" do
+      use_cassette "schedules#show" do
+        assert {200, _, _} = show(@client, "01G0J1EXE7AXZ2C93K61WBPYEH")
+      end
+    end
+
+    test "returns expected response" do
+      use_cassette "schedules#show" do
+        {200, response, _} = show(@client, "01G0J1EXE7AXZ2C93K61WBPYEH")
+
+        assert %{
+                 schedule: %{
+                   annotations: %{
+                     "incident.io/terraform/version": "3.0.0"
+                   },
+                   config: %{
+                     rotations: [
+                       %{
+                         effective_from: "2021-08-17T13:28:57.801578Z",
+                         handover_start_at: "2021-08-17T13:28:57.801578Z",
+                         handovers: [
+                           %{
+                             interval: 1,
+                             interval_type: "daily"
+                           }
+                         ],
+                         id: "01G0J1EXE7AXZ2C93K61WBPYEH",
+                         layers: [
+                           %{
+                             id: "01G0J1EXE7AXZ2C93K61WBPYEH",
+                             name: "Layer 1"
+                           }
+                         ],
+                         name: "Primary On-Call Schedule",
+                         users: [
+                           %{
+                             email: "lisa@incident.io",
+                             id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                             name: "Lisa Karlin Curtis",
+                             role: "viewer",
+                             slack_user_id: "U02AYNF2XJM"
+                           }
+                         ],
+                         working_interval: [
+                           %{
+                             end_time: "17:00",
+                             start_time: "09:00",
+                             weekday: "tuesday"
+                           }
+                         ]
+                       }
+                     ]
+                   },
+                   created_at: "2021-08-17T13:28:57.801578Z",
+                   current_shifts: [
+                     %{
+                       end_at: "2021-08-17T13:28:57.801578Z",
+                       entry_id: "01G0J1EXE7AXZ2C93K61WBPYEH",
+                       fingerprint: "01G0J1EXE7AXZ2C93K61WBPYEH",
+                       layer_id: "01G0J1EXE7AXZ2C93K61WBPYNH",
+                       rotation_id: "01G0J1EXE7AXZ2C93K61WBPYEH",
+                       start_at: "2021-08-17T13:28:57.801578Z",
+                       user: %{
+                         email: "lisa@incident.io",
+                         id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                         name: "Lisa Karlin Curtis",
+                         role: "viewer",
+                         slack_user_id: "U02AYNF2XJM"
+                       }
+                     }
+                   ],
+                   id: "01G0J1EXE7AXZ2C93K61WBPYEH",
+                   name: "Primary On-Call Schedule",
+                   timezone: "Europe/London",
+                   updated_at: "2021-08-17T13:28:57.801578Z"
+                 }
+               } == response
+      end
+    end
+  end
 end
