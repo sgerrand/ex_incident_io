@@ -74,9 +74,58 @@ defmodule IncidentIo.SchedulesV2 do
   @doc """
   Create a new schedule.
 
+  Schedule body example:
+  ```elixir
+  %{
+    schedule: %{
+      annotations: %{
+        "incident.io/terraform/version": "version-of-terraform"
+      },
+      config: %{
+        rotations: [
+          %{
+            effective_from: "2021-08-17T13:28:57.801578Z",
+            handover_start_at: "2021-08-17T13:28:57.801578Z",
+            handovers: [
+              %{
+                interval: 1,
+                interval_type: "daily"
+              }
+            ],
+            id: "01G0J1EXE7AXZ2C93K61WBPYEH",
+            layers: [
+              %{
+                id: "01G0J1EXE7AXZ2C93K61WBPYEH",
+                name: "Layer 1"
+              }
+            ],
+            name: "My Rotation",
+            users: [
+              %{
+                email: "bob@example.com",
+                id: "01G0J1EXE7AXZ2C93K61WBPYEH",
+                slack_user_id: "USER123"
+              }
+            ],
+            working_interval: [
+              %{
+                end_time: "17:00",
+                start_time: "09:00",
+                weekday: "tuesday"
+              }
+            ]
+          }
+        ]
+      },
+      name: "My Schedule",
+      timezone: "America/Los_Angeles"
+    }
+  }
+  ```
+
   ## Example
 
-      IncidentIo.SchedulesV2.create(client)
+      IncidentIo.SchedulesV2.create(client, body)
 
   More information at: https://api-docs.incident.io/tag/Schedules-V2#operation/Schedules%20V2_Create
   """
@@ -94,7 +143,7 @@ defmodule IncidentIo.SchedulesV2 do
 
   ## Example
 
-      IncidentIo.SchedulesV2.destroy(client)
+      IncidentIo.SchedulesV2.destroy(client, "some-schedule-id")
 
   More information at: https://api-docs.incident.io/tag/Schedules-V2#operation/Schedules%20V2_Destroy
   """
@@ -111,7 +160,7 @@ defmodule IncidentIo.SchedulesV2 do
 
   ## Example
 
-      IncidentIo.SchedulesV2.show(client)
+      IncidentIo.SchedulesV2.show(client, "some-schedule-id")
 
   More information at: https://api-docs.incident.io/tag/Schedules-V2#operation/Schedules%20V2_Show
   """
