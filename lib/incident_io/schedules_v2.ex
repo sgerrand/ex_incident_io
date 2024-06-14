@@ -88,4 +88,21 @@ defmodule IncidentIo.SchedulesV2 do
       body
     )
   end
+
+  @doc """
+  Archives a single schedule.
+
+  ## Example
+
+      IncidentIo.SchedulesV2.destroy(client)
+
+  More information at: https://api-docs.incident.io/tag/Schedules-V2#operation/Schedules%20V2_Destroy
+  """
+  @spec destroy(Client.t(), binary) :: IncidentIo.response()
+  def destroy(client \\ %Client{}, id) do
+    delete(
+      "v2/schedules#{id}",
+      client
+    )
+  end
 end

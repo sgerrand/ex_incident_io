@@ -232,4 +232,20 @@ defmodule IncidentIo.SchedulesV2Test do
       end
     end
   end
+
+  describe "destroy/2" do
+    test "returns expected HTTP status code" do
+      use_cassette "schedules#destroy" do
+        assert {202, _, _} = destroy(@client, "01G0J1EXE7AXZ2C93K61WBPYEH")
+      end
+    end
+
+    test "returns expected response" do
+      use_cassette "schedules#destroy" do
+        {202, response, _} = destroy(@client, "01G0J1EXE7AXZ2C93K61WBPYEH")
+
+        assert nil == response
+      end
+    end
+  end
 end
