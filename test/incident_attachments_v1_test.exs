@@ -4,7 +4,7 @@ defmodule IncidentIo.IncidentAttachmentsV1Test do
 
   doctest IncidentIo.IncidentAttachmentsV1
 
-  @client IncidentIo.Client.new(%{api_key: "yourtokengoeshere"})
+  @client IncidentIo.Client.new(%{api_key: "yourApiKeyGoesHere"})
 
   describe "list/2" do
     test "returns expected HTTP status code" do

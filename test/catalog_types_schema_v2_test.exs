@@ -4,7 +4,7 @@ defmodule IncidentIo.CatalogTypesSchemaV2Test do
 
   doctest IncidentIo.CatalogTypesSchemaV2
 
-  @client IncidentIo.Client.new(%{api_key: "yourtokengoeshere"})
+  @client IncidentIo.Client.new(%{api_key: "yourApiKeyGoesHere"})
 
   describe "update/3" do
     @body %{
