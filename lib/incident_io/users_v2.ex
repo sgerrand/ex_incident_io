@@ -28,7 +28,7 @@ defmodule IncidentIo.UsersV2 do
 
       IncidentIo.UsersV2.list(client, email: "some-user@your-company.tld")
 
-  More information at: https://api-docs.incident.io/tag/Users-V2#operation/Schedules%20V2_ListUsers
+  More information at: https://api-docs.incident.io/tag/Users-V2#operation/Users%20V2_List
   """
   @spec list(Client.t(), request_options()) :: IncidentIo.response()
   def list(client \\ %Client{}, opts \\ []) do
