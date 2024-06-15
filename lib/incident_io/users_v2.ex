@@ -38,4 +38,21 @@ defmodule IncidentIo.UsersV2 do
       opts
     )
   end
+
+  @doc """
+  Get a single user.
+
+  ## Example
+
+      IncidentIo.UsersV2.show(client, "some-user-id")
+
+  More information at: https://api-docs.incident.io/tag/Users-V2#operation/Users%20V2_Show
+  """
+  @spec show(Client.t(), nonempty_binary()) :: IncidentIo.response()
+  def show(client \\ %Client{}, id) do
+    get(
+      "v2/users/#{id}",
+      client
+    )
+  end
 end
