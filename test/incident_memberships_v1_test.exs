@@ -4,7 +4,7 @@ defmodule IncidentIo.IncidentMembershipsV1Test do
 
   doctest IncidentIo.IncidentMembershipsV1
 
-  @client IncidentIo.Client.new(%{api_key: "yourtokengoeshere"})
+  @client IncidentIo.Client.new(%{api_key: "yourApiKeyGoesHere"})
 
   describe "create/2" do
     @body %{

@@ -6,7 +6,7 @@
         "Accept": "application/json",
         "Content-Type": "application/json",
         "User-agent": "IncidentIo/elixir",
-        "Authorization": "token yourtokengoeshere"
+        "Authorization": "Bearer yourApiKeyGoesHere"
       },
       "method": "get",
       "options": [],

@@ -4,7 +4,7 @@ defmodule IncidentIo.CustomFieldOptionsV1Test do
 
   doctest IncidentIo.CustomFieldOptionsV1
 
-  @client IncidentIo.Client.new(%{api_key: "yourtokengoeshere"})
+  @client IncidentIo.Client.new(%{api_key: "yourApiKeyGoesHere"})
 
   describe "list/3" do
     test "returns expected HTTP status code" do

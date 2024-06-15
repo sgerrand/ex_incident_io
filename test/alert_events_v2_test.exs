@@ -4,7 +4,7 @@ defmodule IncidentIo.AlertEventsV2Test do
 
   doctest IncidentIo.AlertEventsV2
 
-  @client IncidentIo.Client.new(%{api_key: "yourtokengoeshere"})
+  @client IncidentIo.Client.new(%{api_key: "yourApiKeyGoesHere"})
 
   describe "create/4" do
     @body %{
