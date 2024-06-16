@@ -4,7 +4,7 @@ defmodule IncidentIo.IncidentAttachmentsV1 do
   import IncidentIo
   alias IncidentIo.Client
 
-  @typep external_resource_type :: [
+  @typep resource_type :: [
            :atlassian_statuspage_incident
            | :datadog_monitor_alert
            | :github_pull_request
@@ -22,7 +22,7 @@ defmodule IncidentIo.IncidentAttachmentsV1 do
            incident_id: binary,
            resource: %{
              external_id: binary,
-             resource_type: external_resource_type()
+             resource_type: resource_type()
            }
          }
 
@@ -40,16 +40,16 @@ defmodule IncidentIo.IncidentAttachmentsV1 do
   More information at: https://api-docs.incident.io/tag/Incident-Attachments-V1#operation/Incident-Attachments%20V1_List
   """
   @spec list(Client.t(), binary) :: IncidentIo.response()
-  @spec list(Client.t(), nil, binary, external_resource_type()) :: IncidentIo.response()
+  @spec list(Client.t(), nil, binary, resource_type()) :: IncidentIo.response()
   def list(
         client \\ %Client{},
         incident_id \\ nil,
         external_id \\ nil,
-        external_resource_type \\ nil
+        resource_type \\ nil
       )
 
-  def list(client, incident_id, external_id, external_resource_type)
-      when not is_nil(incident_id) and is_nil(external_id) and is_nil(external_resource_type) do
+  def list(client, incident_id, external_id, resource_type)
+      when not is_nil(incident_id) and is_nil(external_id) and is_nil(resource_type) do
     get(
       "v1/incident_attachments",
       client,
@@ -57,21 +57,18 @@ defmodule IncidentIo.IncidentAttachmentsV1 do
     )
   end
 
-  def list(client, incident_id, external_id, external_resource_type)
+  def list(client, incident_id, external_id, resource_type)
       when is_nil(incident_id) and not is_nil(external_id) do
     get(
       "v1/incident_attachments",
       client,
       external_id: external_id,
-      external_resource_type: external_resource_type
+      resource_type: resource_type
     )
   end
 
-  def list(_client, _incident_id, _external_id, _external_resource_type),
-    do:
-      raise(
-        "Error: only provide an incident_id *or* external_id and external_resource_type – not both."
-      )
+  def list(_client, _incident_id, _external_id, _resource_type),
+    do: raise("Error: only provide an incident_id *or* external_id and resource_type – not both.")
 
   @doc """
   Attaches an external resource to an incident.
