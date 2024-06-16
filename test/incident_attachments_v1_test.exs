@@ -67,7 +67,7 @@ defmodule IncidentIo.IncidentAttachmentsV1Test do
   describe "list: error cases" do
     test "raises when not provided incident_id or external_id" do
       assert_raise RuntimeError,
-                   "Error: only provide an incident_id *or* external_id and external_resource_type – not both.",
+                   "Error: only provide an incident_id *or* external_id and resource_type – not both.",
                    fn ->
                      list(@client)
                    end
@@ -75,9 +75,25 @@ defmodule IncidentIo.IncidentAttachmentsV1Test do
 
     test "raises when provided both incident_id and external_id" do
       assert_raise RuntimeError,
-                   "Error: only provide an incident_id *or* external_id and external_resource_type – not both.",
+                   "Error: only provide an incident_id *or* external_id and resource_type – not both.",
+                   fn ->
+                     list(@client, "01FCNDV6P870EA6S7TK1DSYD5H", "123")
+                   end
+    end
+
+    test "raises when provided both incident_id and external_id and resource_type" do
+      assert_raise RuntimeError,
+                   "Error: only provide an incident_id *or* external_id and resource_type – not both.",
                    fn ->
                      list(@client, "01FCNDV6P870EA6S7TK1DSYD5H", "123", :pager_duty_incident)
+                   end
+    end
+
+    test "raises when provided external_id without resource_type" do
+      assert_raise RuntimeError,
+                   "Error: only provide an incident_id *or* external_id and resource_type – not both.",
+                   fn ->
+                     list(@client, nil, "123")
                    end
     end
   end
