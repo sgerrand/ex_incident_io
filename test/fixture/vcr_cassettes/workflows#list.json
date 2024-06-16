@@ -1,0 +1,40 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "User-agent": "IncidentIo/elixir",
+        "Authorization": "Bearer yourApiKeyGoesHere"
+      },
+      "method": "get",
+      "options": [],
+      "request_body": "",
+      "url": "https://api.incident.io/v2/workflows"
+    },
+    "response": {
+      "binary": false,
+      "body": "{\"workflows\": [{\"condition_groups\": [{\"conditions\": [{\"operation\": {\"label\": \"Lawrence Jones\", \"value\": \"01FCQSP07Z74QMMYPDDGQB9FTG\"}, \"param_bindings\": [{\"array_value\": [{\"label\": \"Lawrence Jones\", \"literal\": \"SEV123\", \"reference\": \"incident.severity\"}], \"value\": {\"label\": \"Lawrence Jones\", \"literal\": \"SEV123\", \"reference\": \"incident.severity\"}}], \"subject\": {\"label\": \"Incident Severity\", \"reference\": \"incident.severity\"}}]}], \"continue_on_step_error\": true, \"delay\": {\"conditions_apply_over_delay\": false, \"for_seconds\": 60}, \"expressions\": [{\"else_branch\": {\"result\": {\"array_value\": [{\"label\": \"Lawrence Jones\", \"literal\": \"SEV123\", \"reference\": \"incident.severity\"}], \"value\": {\"label\": \"Lawrence Jones\", \"literal\": \"SEV123\", \"reference\": \"incident.severity\"}}}, \"label\": \"Team Slack channel\", \"operations\": [{\"branches\": {\"branches\": [{\"condition_groups\": [{\"conditions\": [{\"operation\": {\"label\": \"Lawrence Jones\", \"value\": \"01FCQSP07Z74QMMYPDDGQB9FTG\"}, \"param_bindings\": [{\"array_value\": [{\"label\": \"Lawrence Jones\", \"literal\": \"SEV123\", \"reference\": \"incident.severity\"}], \"value\": {\"label\": \"Lawrence Jones\", \"literal\": \"SEV123\", \"reference\": \"incident.severity\"}}], \"subject\": {\"label\": \"Incident Severity\", \"reference\": \"incident.severity\"}}]}], \"result\": {\"array_value\": [{\"label\": \"Lawrence Jones\", \"literal\": \"SEV123\", \"reference\": \"incident.severity\"}], \"value\": {\"label\": \"Lawrence Jones\", \"literal\": \"SEV123\", \"reference\": \"incident.severity\"}}}], \"returns\": {\"array\": true, \"type\": \"IncidentStatus\"}}, \"filter\": {\"condition_groups\": [{\"conditions\": [{\"operation\": {\"label\": \"Lawrence Jones\", \"value\": \"01FCQSP07Z74QMMYPDDGQB9FTG\"}, \"param_bindings\": [{\"array_value\": [{\"label\": \"Lawrence Jones\", \"literal\": \"SEV123\", \"reference\": \"incident.severity\"}], \"value\": {\"label\": \"Lawrence Jones\", \"literal\": \"SEV123\", \"reference\": \"incident.severity\"}}], \"subject\": {\"label\": \"Incident Severity\", \"reference\": \"incident.severity\"}}]}]}, \"navigate\": {\"reference\": \"1235\", \"reference_label\": \"Teams\"}, \"operation_type\": \"navigate\", \"parse\": {\"returns\": {\"array\": true, \"type\": \"IncidentStatus\"}, \"source\": \"metadata.annotations[\\\"github.com/repo\\\"]\"}, \"returns\": {\"array\": true, \"type\": \"IncidentStatus\"}}], \"reference\": \"abc123\", \"returns\": {\"array\": true, \"type\": \"IncidentStatus\"}, \"root_reference\": \"incident.status\"}], \"folder\": \"My folder 01\", \"id\": \"01FCNDV6P870EA6S7TK1DSYDG0\", \"include_private_incidents\": true, \"name\": \"My workflow\", \"once_for\": [{\"array\": false, \"key\": \"incident.custom_field[\\\"01FCNDV6P870EA6S7TK1DSYDG0\\\"]\", \"label\": \"Incident -> Affected Team\", \"type\": \"IncidentSeverity\"}], \"runs_from\": \"2021-08-17T13:28:57.801578Z\", \"runs_on_incident_modes\": [\"standard\", \"retrospective\"], \"runs_on_incidents\": \"newly_created\", \"state\": \"active\", \"steps\": [{\"label\": \"PagerDuty Escalate\", \"name\": \"pagerduty.escalate\"}], \"trigger\": {\"label\": \"Incident Updated\", \"name\": \"incident.updated\"}, \"version\": 3}]}",
+      "headers": {
+        "Cache-Control": "no-cache, private, max-age=0",
+        "Content-Security-Policy": "img-src 'self' data: avataaars.io platform.slack-edge.com images.unsplash.com avatars.slack-edge.com a.slack-edge.com avatars.githubusercontent.com avatar-management--avatars.us-west-2.prod.public.atl-paas.net site-admin-avatar-cdn.prod.public.atl-paas.net secure.gravatar.com uploads.linear.app public.linear.app wp.com *.wp.com *.atlassian.net storage.googleapis.com incident.io https://*.googleusercontent.com blob: data: https://js.intercomcdn.com https://static.intercomassets.com https://downloads.intercomcdn.com https://uploads.intercomusercontent.com https://gifs.intercomcdn.com https://video-messages.intercomcdn.com https://messenger-apps.intercom.io https://*.intercom-attachments-5.com https://*.intercom-attachments-6.com https://*.intercom-attachments-9.com https://surveys-static.survicate.com https://assets.survicate.com https://res.cloudinary.com https://images.unsplash.com https://secure.aadcdn.microsoftonline-p.com https://aadcdn.msftauthimages.net https://aadcdn.msauthimages.net assets.incident.io; default-src 'self'; base-uri 'none'; frame-ancestors teams.microsoft.com *.teams.microsoft.com teams.cloud.microsoft; script-src 'self' *.sentry.io https://js.stripe.com https://cdn.segment.com/ https://embed.explo.co/ https://app.intercom.io https://widget.intercom.io https://js.intercomcdn.com https://survey.survicate.com https://surveys-static.survicate.com 'sha256-af4YJtVqIa1QNrt4qQ5/2NrCw3UsLXisw8GALyIJ8RI=' assets.incident.io; font-src 'self' fonts.googleapis.com fonts.gstatic.com maxcdn.bootstrapcdn.com https://js.intercomcdn.com https://fonts.intercomcdn.com https://surveys-static.survicate.com assets.incident.io; media-src https://js.intercomcdn.com; report-uri https://o494704.ingest.sentry.io/api/5566257/security/?sentry_key=ed63d41bdbf74c6d92688c7ee410e72f; child-src https://intercom-sheets.com https://www.intercom-reporting.com https://www.youtube.com https://player.vimeo.com https://fast.wistia.net; form-action https://intercom.help https://api-iam.intercom.io; object-src 'none'; frame-src 'self' blob: https://js.stripe.com https://hooks.stripe.com https://loom.com https://www.loom.com https://incident.metabaseapp.com https://calendly.com/ https://app.svix.com/ https://app.explo.co/ https://intercom-sheets.com/; connect-src 'self' *.sentry.io https://api.stripe.com https://app.launchdarkly.com https://*.launchdarkly.com https://cdn.segment.com/ https://api.segment.io/ https://storage.googleapis.com/ https://api.explo.co/ https://api.intercom.io https://api-iam.intercom.io https://api-ping.intercom.io https://nexus-websocket-a.intercom.io https://nexus-websocket-b.intercom.io wss://nexus-websocket-a.intercom.io wss://nexus-websocket-b.intercom.io https://uploads.intercomcdn.com https://uploads.intercomusercontent.com https://respondent.survicate.com; report-to https://o494704.ingest.sentry.io/api/5566257/security/?sentry_key=ed63d41bdbf74c6d92688c7ee410e72f; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com fonts.gstatic.com maxcdn.bootstrapcdn.com surveys-static.survicate.com https://embed.explo.co/ 'unsafe-inline' assets.incident.io;",
+        "Content-Type": "application/json",
+        "Expires": "Thu, 01 Jan 1970 00:00:00 UTC",
+        "Permissions-Policy": "clipboard-write=(self \"https://app.svix.com\")",
+        "Pragma": "no-cache",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Strict-Transport-Security": "max-age=315360000; includeSubDomains",
+        "Vary": "*",
+        "X-Accel-Expires": "0",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "X-Xss-Protection": "1; mode=block",
+        "Via": "1.1 google",
+        "Alt-Svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]
