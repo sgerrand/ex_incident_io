@@ -58,7 +58,7 @@ defmodule IncidentIo.IncidentAttachmentsV1 do
   end
 
   def list(client, incident_id, external_id, resource_type)
-      when is_nil(incident_id) and not is_nil(external_id) do
+      when is_nil(incident_id) and not is_nil(external_id) and not is_nil(resource_type) do
     get(
       "v1/incident_attachments",
       client,
