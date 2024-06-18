@@ -4,7 +4,7 @@ defmodule IncidentIo.OpenApiV1Test do
 
   doctest IncidentIo.OpenApiV1
 
-  @client IncidentIo.Client.new(%{api_key: "yourApiKeyGoesHere"})
+  @client IncidentIo.Client.new()
 
   describe "show/1" do
     test "returns expected HTTP status code" do
