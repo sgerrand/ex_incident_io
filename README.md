@@ -24,6 +24,18 @@ def deps do
 end
 ```
 
+## Getting started
+
+You will need to create an API key via your [incident.io
+dashboard](https://app.incident.io/settings/api-keys) to make requests. Please
+note their warning message about the scope for this API key:
+
+> When you create the key, you'll be able to choose what actions it can take for
+> your account: choose carefully, as those roles can only be set when you first
+> create the key.
+
+Once you've created an API key then you're ready to start making requests.
+
 ## Running tests
 Clone the repository and fetch its dependencies:
 ```shell
