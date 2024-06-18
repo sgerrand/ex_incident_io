@@ -7,6 +7,11 @@ An Elixir client for the [incident.io API](https://api-docs.incident.io/).
 [![Hex.pm](https://img.shields.io/hexpm/v/incident_io.svg)](https://hex.pm/packages/incident_io)
 [![Documentation](https://img.shields.io/badge/documentation-gray)](https://hexdocs.pm/incident_io/)
 
+## Requirements
+
+You'll need an [incident.io](https://incident.io/) account to use this package.
+[Sign up on their website](https://incident.io/) if you don't already have one.
+
 ## Installation
 
 Add `:incident_io` to the dependencies in your project's `mix.exs`:
@@ -18,6 +23,18 @@ def deps do
   ]
 end
 ```
+
+## Getting started
+
+You will need to create an API key via your [incident.io
+dashboard](https://app.incident.io/settings/api-keys) to make requests. Please
+note their warning message about the scope for this API key:
+
+> When you create the key, you'll be able to choose what actions it can take for
+> your account: choose carefully, as those roles can only be set when you first
+> create the key.
+
+Once you've created an API key then you're ready to start making requests.
 
 ## Running tests
 Clone the repository and fetch its dependencies:
