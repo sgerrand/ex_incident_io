@@ -7,6 +7,11 @@ An Elixir client for the [incident.io API](https://api-docs.incident.io/).
 [![Hex.pm](https://img.shields.io/hexpm/v/incident_io.svg)](https://hex.pm/packages/incident_io)
 [![Documentation](https://img.shields.io/badge/documentation-gray)](https://hexdocs.pm/incident_io/)
 
+## Requirements
+
+You'll need an [incident.io](https://incident.io/) account to use this package.
+[Sign up on their website](https://incident.io/) if you don't already have one.
+
 ## Installation
 
 Add `:incident_io` to the dependencies in your project's `mix.exs`:
