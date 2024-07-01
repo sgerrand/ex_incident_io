@@ -36,7 +36,35 @@ note their warning message about the scope for this API key:
 
 Once you've created an API key then you're ready to start making requests.
 
+## Example
+
+Assuming that you've created and configured your incident.io API key as an
+environment variable named `INCIDENT_API_KEY`, you can
+create and read incidents as simply as the following example:
+
+```elixir
+defmodule MyIncidentIo do
+  use IncidentIo
+
+  alias IncidentIo.Client
+  alias IncidentIo.IncidentsV2
+
+  def create(idempotency_key)
+    IncidentsV2.create(client, idempotency_key: idempotency_key, visibility: :public)
+  end
+
+  def read(incident_id)
+    IncidentsV2.show(client, incident_id)
+  end
+
+  defp client
+    Client.new(%{api_key: System.fetch_env!("INCIDENT_API_KEY")
+  end
+end
+```
+
 ## Running tests
+
 Clone the repository and fetch its dependencies:
 ```shell
 $ git clone https://github.com/sgerrand/ex_incident_io.git
