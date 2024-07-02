@@ -146,7 +146,5 @@ jobs:
     - name: Install and compile dependencies
       if: steps.cache-deps.outputs.cache-hit != 'true'
       run: mix do deps.get --only test, deps.compile
-    - name: Compile code
-      run: mix compile
     - name: Check code format
       run: mix format --check-formatted
