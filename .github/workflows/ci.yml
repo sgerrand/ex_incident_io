@@ -76,6 +76,36 @@ jobs:
     - name: Run static analysis
       run: mix credo
 
+  formatting:
+    name: Formatting
+    runs-on: ubuntu-latest
+
+    env:
+      MIX_ENV: test
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Elixir
+      id: setup-beam
+      uses: erlef/setup-beam@v1
+      with:
+        version-file: '.tool-versions'
+        version-type: 'strict'
+    - name: Cache dependencies
+      id: cache-deps
+      uses: actions/cache@v4
+      with:
+        path: |
+          _build
+          deps
+        key: ${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
+    - name: Install and compile dependencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: mix do deps.get --only test, deps.compile
+    - name: Check code format
+      run: mix format --check-formatted
+
   test:
     name: Tests (Elixir ${{ matrix.elixir }} / OTP ${{ matrix.otp }})
     runs-on: ubuntu-latest
@@ -118,33 +148,3 @@ jobs:
       run: mix compile
     - name: Run tests
       run: mix test
-
-  validate:
-    name: Validate code
-    runs-on: ubuntu-latest
-
-    env:
-      MIX_ENV: test
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Elixir
-      id: setup-beam
-      uses: erlef/setup-beam@v1
-      with:
-        version-file: '.tool-versions'
-        version-type: 'strict'
-    - name: Cache dependencies
-      id: cache-deps
-      uses: actions/cache@v4
-      with:
-        path: |
-          _build
-          deps
-        key: ${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: ${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
-    - name: Install and compile dependencies
-      if: steps.cache-deps.outputs.cache-hit != 'true'
-      run: mix do deps.get --only test, deps.compile
-    - name: Check code format
-      run: mix format --check-formatted
