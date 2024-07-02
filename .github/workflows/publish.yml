@@ -1,0 +1,58 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Create GitHub release
+      uses: softprops/action-gh-release@v2
+      with:
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+        name: ${{ github.ref_name }}
+
+  publish:
+    name: Publish Hex Package
+    runs-on: ubuntu-latest
+
+    needs: ["release"]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Elixir
+      id: setup-beam
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: '1.16'
+        otp-version: '26'
+    - uses: actions/cache@v4
+      id: cache-build
+      with:
+        path: _build
+        key: publish-build-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: publish-build-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
+    - uses: actions/cache@v4
+      id: cache-deps
+      with:
+        path: deps
+        key: publish-deps-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: publish-deps-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
+    - name: Fetch and install dependencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: mix do deps.get, deps.compile
+    - name: Publish Hex package
+      run: mix hex.publish --yes
+      env:
+        HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
