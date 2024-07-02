@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   coverage:
-    name: Coverage (Elixir ${{ steps.setup-beam.elixir-version }} / OTP ${{ steps.setup-beam.otp-version }})
+    name: Coverage
     runs-on: ubuntu-latest
 
     env:
@@ -45,7 +45,7 @@ jobs:
       uses: coverallsapp/github-action@v2
 
   credo:
-    name: Static analysis (Elixir ${{ steps.setup-beam.elixir-version }} / OTP ${{ steps.setup-beam.otp-version }})
+    name: Static analysis
     runs-on: ubuntu-latest
 
     env:
@@ -120,7 +120,7 @@ jobs:
       run: mix test
 
   validate:
-    name: Validate code (Elixir ${{ steps.setup-beam.elixir-version }} / OTP ${{ steps.setup-beam.otp-version }})
+    name: Validate code
     runs-on: ubuntu-latest
 
     env:
