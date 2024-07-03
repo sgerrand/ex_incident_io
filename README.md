@@ -88,3 +88,12 @@ Then you can start running the tests.
 ```shell
 mix test
 ```
+
+## Contributing
+
+[Bug reports](https://github.com/sgerrand/ex_incident_io/issues) and [pull requests](https://github.com/sgerrand/ex_incident_io/pulls) are welcomed.
+
+## License
+
+This package is available as open source under the terms of the [MIT
+License](https://opensource.org/licenses/MIT).
