@@ -44,7 +44,10 @@ defmodule IncidentIo.Mixfile do
       description: "An Elixir client for the incident.io API.",
       maintainers: ["Sasha Gerrand"],
       licenses: ["MIT"],
-      links: %{"GitHub" => @source_url}
+      links: %{
+        "GitHub" => @source_url,
+        "Changelog" => "https://hexdocs.pm/incident_io/changelog.html"
+      }
     ]
   end
 
