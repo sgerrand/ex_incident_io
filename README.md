@@ -1,11 +1,22 @@
 # incident_io
 
-An Elixir client for the [incident.io API](https://api-docs.incident.io/).
-
 [![Build Status](https://github.com/sgerrand/ex_incident_io/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/sgerrand/ex_incident_io/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/sgerrand/ex_incident_io/badge.svg?branch=main)](https://coveralls.io/github/sgerrand/ex_incident_io?branch=main)
 [![Hex.pm](https://img.shields.io/hexpm/v/incident_io.svg)](https://hex.pm/packages/incident_io)
 [![Documentation](https://img.shields.io/badge/documentation-gray)](https://hexdocs.pm/incident_io/)
+
+An Elixir client for the [incident.io API](https://api-docs.incident.io/).
+
+With just a few lines of code you can begin interacting:
+
+```elixir
+Mix.install([
+  {:incident_io, "~> 0.1"}
+])
+
+client = IncidentIo.Client.new(%{api_key: System.fetch_env!("INCIDENT_API_KEY")
+IncidentIo.IncidentsV2.create(client, idempotency_key: "you-idempotency-key", visibility: :public)
+```
 
 ## Requirements
 
