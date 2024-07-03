@@ -51,7 +51,7 @@ Once you've created an API key then you're ready to start making requests.
 
 Assuming that you've created and configured your incident.io API key as an
 environment variable named `INCIDENT_API_KEY`, you can
-create and read incidents as simply as the following example:
+create and read incidents as simply as the following example module:
 
 ```elixir
 defmodule MyIncidentIo do
