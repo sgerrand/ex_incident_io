@@ -74,12 +74,17 @@ defmodule MyIncidentIo do
 end
 ```
 
-## Running tests
+## Development
 
-Clone the repository and fetch its dependencies:
+To start working on this application, clone the repository and fetch its
+dependencies:
 ```shell
-$ git clone https://github.com/sgerrand/ex_incident_io.git
-$ cd ex_incident_io
-$ mix deps.get
-$ mix test
+git clone https://github.com/sgerrand/ex_incident_io.git
+cd ex_incident_io
+mix deps.get
+```
+
+Then you can start running the tests.
+```shell
+mix test
 ```
