@@ -51,6 +51,7 @@ defmodule IncidentIo.Mixfile do
   defp docs do
     [
       extras: [
+        "CHANGELOG.md": [title: "Changelog"],
         LICENSE: [title: "License"],
         "README.md": [title: "Overview"]
       ],
