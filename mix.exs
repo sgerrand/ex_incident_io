@@ -53,13 +53,14 @@ defmodule IncidentIo.Mixfile do
 
   defp docs do
     [
+      main: "readme",
+      source_url: @source_url,
+      source_ref: "v#{@version}",
       extras: [
         "CHANGELOG.md": [title: "Changelog"],
         LICENSE: [title: "License"],
         "README.md": [title: "Overview"]
       ],
-      main: "readme",
-      source_url: @source_url,
       formatters: ["html"]
     ]
   end
