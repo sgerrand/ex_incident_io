@@ -2,7 +2,7 @@ defmodule IncidentIo.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/sgerrand/ex_incident_io"
-  @version "0.0.0-dev"
+  @version "0.1.0-dev"
 
   def project do
     [
@@ -44,18 +44,23 @@ defmodule IncidentIo.Mixfile do
       description: "An Elixir client for the incident.io API.",
       maintainers: ["Sasha Gerrand"],
       licenses: ["MIT"],
-      links: %{"GitHub" => @source_url}
+      links: %{
+        "GitHub" => @source_url,
+        "Changelog" => "https://hexdocs.pm/incident_io/changelog.html"
+      }
     ]
   end
 
   defp docs do
     [
+      main: "readme",
+      source_url: @source_url,
+      source_ref: "v#{@version}",
       extras: [
+        "CHANGELOG.md": [title: "Changelog"],
         LICENSE: [title: "License"],
         "README.md": [title: "Overview"]
       ],
-      main: "readme",
-      source_url: @source_url,
       formatters: ["html"]
     ]
   end
