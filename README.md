@@ -15,7 +15,7 @@ Mix.install([
 ])
 
 client = IncidentIo.Client.new(%{api_key: System.fetch_env!("INCIDENT_API_KEY")
-IncidentIo.IncidentsV2.create(client, idempotency_key: "you-idempotency-key", visibility: :public)
+IncidentIo.IncidentsV2.create(client, idempotency_key: "your-idempotency-key", visibility: :public)
 ```
 
 ## Requirements
