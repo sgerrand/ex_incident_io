@@ -14,8 +14,10 @@ Mix.install([
   {:incident_io, "~> 0.1"}
 ])
 
-client = IncidentIo.Client.new(%{api_key: System.fetch_env!("INCIDENT_API_KEY")
-IncidentIo.IncidentsV2.create(client, idempotency_key: "your-idempotency-key", visibility: :public)
+client = IncidentIo.Client.new(%{api_key: System.fetch_env!("INCIDENT_API_KEY")})
+IncidentIo.IncidentsV2.create(client,
+                              idempotency_key: "your-idempotency-key",
+                              visibility: :public)
 ```
 
 ## Requirements
@@ -69,7 +71,7 @@ defmodule MyIncidentIo do
   end
 
   defp client
-    Client.new(%{api_key: System.fetch_env!("INCIDENT_API_KEY")
+    Client.new(%{api_key: System.fetch_env!("INCIDENT_API_KEY")})
   end
 end
 ```
