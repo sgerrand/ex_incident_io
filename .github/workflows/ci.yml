@@ -13,6 +13,7 @@ jobs:
   coverage:
     name: Coverage
     runs-on: ubuntu-latest
+    needs: test
 
     env:
       MIX_ENV: test
@@ -76,6 +77,34 @@ jobs:
     - name: Run static analysis
       run: mix credo
 
+  dependencies:
+    name: Dependencies
+    runs-on: ubuntu-latest
+
+    env:
+      MIX_ENV: test
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Elixir
+      id: setup-beam
+      uses: erlef/setup-beam@v1
+      with:
+        version-file: '.tool-versions'
+        version-type: 'strict'
+    - name: Cache dependencies
+      id: cache-deps
+      uses: actions/cache@v4
+      with:
+        path: deps
+        key: deps-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: deps-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
+    - name: Install and compile dependencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: mix deps.get
+    - name: Check for unused dependencies
+      run: mix deps.unlock --check-unused
+
   formatting:
     name: Formatting
     runs-on: ubuntu-latest
@@ -109,6 +138,7 @@ jobs:
   test:
     name: Tests (Elixir ${{ matrix.elixir }} / OTP ${{ matrix.otp }})
     runs-on: ubuntu-latest
+    needs: [credo, dependencies, formatting]
 
     strategy:
       matrix:
