@@ -1,0 +1,23 @@
+name: OpenAPI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Lint schema
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup problem matchers
+        uses: r7kamura/redocly-problem-matchers@v1
+      - name: Lint OpenAPI schema
+        uses: mhiew/redoc-lint-github-action@v4
+        with:
+          args: docs/swagger.json --format stylish
+        env:
+          NO_COLOR: '1'
