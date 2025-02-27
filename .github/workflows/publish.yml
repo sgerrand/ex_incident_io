@@ -1,58 +1,56 @@
-name: Publish
-
+name: Publish New Release
 on:
-  push:
-    tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:
+    inputs:
+      version:
+        type: choice
+        description: What version to publish?
+        options:
+          - patch
+          - minor
+          - major
+      changes:
+        description: Specify an entry for the changelog
+        required: true
 
 jobs:
-  release:
-    name: Create GitHub Release
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Create GitHub release
-      uses: softprops/action-gh-release@v2
-      with:
-        draft: false
-        prerelease: false
-        generate_release_notes: true
-        name: ${{ github.ref_name }}
-
   publish:
-    name: Publish Hex Package
-    runs-on: ubuntu-latest
-
-    needs: ["release"]
-
+    name: Build and publish Hex package
+    runs-on: ubuntu-22.04
+    env:
+      HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Elixir
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GH_PUBLISH_PAT }}
+        fetch-depth: 0
+        ref: main
+
+    - name: Git Config
+      run: |
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+
+    - name: Setup Elixir
       id: setup-beam
       uses: erlef/setup-beam@v1
       with:
         version-file: '.tool-versions'
         version-type: 'strict'
-    - uses: actions/cache@v4
-      id: cache-build
-      with:
-        path: _build
-        key: publish-build-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: publish-build-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
-    - uses: actions/cache@v4
-      id: cache-deps
+
+    - name: Restore dependencies cache
+      uses: actions/cache@v4
       with:
         path: deps
-        key: publish-deps-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: publish-deps-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
-    - name: Fetch and install dependencies
-      if: steps.cache-deps.outputs.cache-hit != 'true'
-      run: mix do deps.get, deps.compile
-    - name: Publish Hex package
-      run: mix hex.publish --yes
-      env:
-        HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+        key: ${{ runner.os }}-publish-mix-${{ steps.setup-beam.elixir-version }}-${{ steps.setup-beam.otp-version }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-publish-mix-${{ steps.setup-beam.elixir-version }}-${{ steps.setup-beam.otp-version }}-
+
+    - name: Install deps
+      run: mix deps.get
+
+    - name: Add changelog entry
+      run: echo "${{ inputs.changes }}" > RELEASE.md
+
+    - name: Bump version, generate changelog, push to git, publish on hex.pm
+      run: mix expublish.${{ inputs.version }} --branch=main --disable-test
