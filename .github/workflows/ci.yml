@@ -33,8 +33,8 @@ jobs:
         path: |
           _build
           deps
-        key: ${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: ${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
+        key: ${{ runner.os }}-${{ steps.setup-beam.outputs.otp-version }}-${{ steps.setup-beam.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-${{ steps.setup-beam.outputs.otp-version }}-${{ steps.setup-beam.outputs.elixir-version }}-
     - name: Install and compile dependencies
       if: steps.cache-deps.outputs.cache-hit != 'true'
       run: mix do deps.get --only test, deps.compile
@@ -67,8 +67,8 @@ jobs:
         path: |
           _build
           deps
-        key: ${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: ${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
+        key: ${{ runner.os }}-${{ steps.setup-beam.outputs.otp-version }}-${{ steps.setup-beam.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-${{ steps.setup-beam.outputs.otp-version }}-${{ steps.setup-beam.outputs.elixir-version }}-
     - name: Install and compile dependencies
       if: steps.cache-deps.outputs.cache-hit != 'true'
       run: mix do deps.get --only test, deps.compile
@@ -97,8 +97,8 @@ jobs:
       uses: actions/cache@v4
       with:
         path: deps
-        key: deps-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: deps-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
+        key: deps-${{ runner.os }}-${{ steps.setup-beam.outputs.otp-version }}-${{ steps.setup-beam.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: deps-${{ runner.os }}-${{ steps.setup-beam.outputs.otp-version }}-${{ steps.setup-beam.outputs.elixir-version }}-
     - name: Install and compile dependencies
       if: steps.cache-deps.outputs.cache-hit != 'true'
       run: mix deps.get
@@ -127,8 +127,8 @@ jobs:
         path: |
           _build
           deps
-        key: ${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: ${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
+        key: ${{ runner.os }}-${{ steps.setup-beam.outputs.otp-version }}-${{ steps.setup-beam.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-${{ steps.setup-beam.outputs.otp-version }}-${{ steps.setup-beam.outputs.elixir-version }}-
     - name: Install and compile dependencies
       if: steps.cache-deps.outputs.cache-hit != 'true'
       run: mix do deps.get --only test, deps.compile
