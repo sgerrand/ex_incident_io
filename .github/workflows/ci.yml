@@ -160,7 +160,7 @@ jobs:
         restore-keys: ${{ runner.os }}-${{ env.MIX_ENV }}-${{ matrix.otp }}-${{ matrix.elixir }}-
     - name: Install and compile dependencies
       if: steps.cache-deps.outputs.cache-hit != 'true'
-      run: mix do deps.get --only ${{ env.MIX_ENV }}, deps.compile
+      run: mix do deps.get, deps.compile
     - name: Check for unused dependencies
       run: mix deps.unlock --check-unused
       if: ${{ matrix.lint }}
