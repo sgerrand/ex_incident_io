@@ -10,6 +10,15 @@ permissions:
   contents: read
 
 jobs:
+  required:
+    name: Required
+    needs: [credo, dependencies, formatting, test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Status of workflow jobs
+        run: echo 'All jobs in this workflow have successfully run'
+
   coverage:
     name: Coverage
     runs-on: ubuntu-latest
