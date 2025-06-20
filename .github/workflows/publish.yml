@@ -29,6 +29,8 @@ jobs:
 
     needs: ["release"]
 
+    permissions: {}
+
     steps:
     - uses: actions/checkout@v4
     - name: Set up Elixir
