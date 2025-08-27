@@ -29,12 +29,14 @@ jobs:
         path: _build
         key: publish-build-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
         restore-keys: publish-build-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
+        lookup-only: true
     - uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
       id: cache-deps
       with:
         path: deps
         key: publish-deps-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
         restore-keys: publish-deps-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
+        lookup-only: true
     - name: Fetch and install dependencies
       if: steps.cache-deps.outputs.cache-hit != 'true'
       run: mix do deps.get, deps.compile
