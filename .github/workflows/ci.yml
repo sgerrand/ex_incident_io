@@ -12,7 +12,7 @@ permissions:
 jobs:
   required:
     name: Required
-    needs: [test]
+    needs: [coverage, test]
     runs-on: ubuntu-latest
 
     steps:
