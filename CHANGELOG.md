@@ -4,7 +4,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased](https://github.com/sgerrand/ex_incident_io/tree/main)
 
-## [0.2.0-dev](https://github.com/sgerrand/ex_incident_io/compare/v0.1.0-dev...v0.2.0-dev) (2025-08-28)
+## [0.1.1](https://github.com/sgerrand/ex_incident_io/compare/v0.1.0-dev...v0.1.1) (2025-08-28)
 
 
 ### Bug Fixes
