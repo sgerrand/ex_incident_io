@@ -2,6 +2,14 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.1.2](https://github.com/sgerrand/ex_incident_io/compare/v0.1.1...v0.1.2) (2025-09-02)
+
+
+### Bug Fixes
+
+* **deps:** bump zizmorcore/zizmor-action from 0.1.1 to 0.1.2 ([10eb34d](https://github.com/sgerrand/ex_incident_io/commit/10eb34d192f7bb9b015dde1c0e7248a7b6ea4d3e))
+* **deps:** bump zizmorcore/zizmor-action from 0.1.1 to 0.1.2 ([a514eb1](https://github.com/sgerrand/ex_incident_io/commit/a514eb1d30e75376c807aeeb41227228c41c0b4c))
+
 ## [Unreleased](https://github.com/sgerrand/ex_incident_io/tree/main)
 
 ## [0.1.1](https://github.com/sgerrand/ex_incident_io/compare/v0.1.0-dev...v0.1.1) (2025-08-28)
