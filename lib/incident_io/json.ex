@@ -4,9 +4,14 @@ defmodule IncidentIo.Json do
   """
 
   @callback decode!(binary, keyword) :: term
+  @callback encode!(term, keyword) :: binary
 
   def decode!(body, opts \\ []) do
     impl().decode!(body, opts)
+  end
+
+  def encode!(data, opts \\ []) do
+    impl().encode!(data, opts)
   end
 
   defp impl do
