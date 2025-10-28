@@ -9,6 +9,9 @@ defmodule IncidentIo.TestCase do
   using do
     quote do
       use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
+      import Mox, only: [expect: 3, verify_on_exit!: 1]
+
+      setup :verify_on_exit!
     end
   end
 end

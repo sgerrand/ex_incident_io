@@ -35,7 +35,7 @@ defmodule IncidentIo.Mixfile do
       {:inch_ex, "~> 2.0", only: :dev},
       {:excoveralls, "~> 0.5", only: :test},
       {:exvcr, "~> 0.10", only: :test},
-      {:meck, "~> 0.9.2", only: :test}
+      {:mox, "~> 1.0", only: :test}
     ]
   end
 
