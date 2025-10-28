@@ -12,7 +12,6 @@ defmodule IncidentIo.Mixfile do
       name: "IncidentIo",
       elixirc_paths: elixirc_paths(Mix.env()),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test],
       package: package(),
       deps: deps(),
       docs: docs()
@@ -21,6 +20,10 @@ defmodule IncidentIo.Mixfile do
 
   def application do
     []
+  end
+
+  def cli do
+    [preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
