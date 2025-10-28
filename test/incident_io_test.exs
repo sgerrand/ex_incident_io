@@ -5,17 +5,10 @@ defmodule IncidentIoTest do
 
   doctest IncidentIo
 
-  setup_all do
-    :meck.new(Jason, [:no_link])
-
-    on_exit(fn ->
-      :meck.unload(Jason)
-    end)
-  end
-
   setup do
     on_exit(fn ->
-      Application.delete_env(:IncidentIo, :deserialization_options)
+      Application.delete_env(:incident_io, :deserialization_options)
+      Application.delete_env(:incident_io, :json_module)
     end)
   end
 
@@ -67,15 +60,11 @@ defmodule IncidentIoTest do
   test "process response on a 200 response" do
     assert {200, "json", _} =
              process_response(%HTTPoison.Response{status_code: 200, headers: %{}, body: "json"})
-
-    assert :meck.validate(Jason)
   end
 
   test "process response on a non-200 response" do
     assert {404, "json", _} =
              process_response(%HTTPoison.Response{status_code: 404, headers: %{}, body: "json"})
-
-    assert :meck.validate(Jason)
   end
 
   test "process_response_body with an empty body" do
@@ -83,7 +72,10 @@ defmodule IncidentIoTest do
   end
 
   test "process_response_body with content" do
-    :meck.expect(Jason, :decode!, 2, :decoded_json)
+    IncidentIo.Json.Mock
+    |> expect(:decode!, fn _, _ -> :decoded_json end)
+
+    Application.put_env(:incident_io, :json_module, IncidentIo.Json.Mock)
 
     assert process_response_body("json") == :decoded_json
   end
@@ -91,7 +83,10 @@ defmodule IncidentIoTest do
   test "process_response_body with serialization options" do
     Application.put_env(:incident_io, :deserialization_options, keys: :atoms)
 
-    :meck.expect(Jason, :decode!, fn _, [keys: :atoms] -> :decoded_json end)
+    IncidentIo.Json.Mock
+    |> expect(:decode!, fn _, [keys: :atoms] -> :decoded_json end)
+
+    Application.put_env(:incident_io, :json_module, IncidentIo.Json.Mock)
 
     assert process_response_body("json") == :decoded_json
   end

@@ -55,7 +55,7 @@ defmodule IncidentIo do
   @spec process_response_body(binary) :: term
   def process_response_body(""), do: nil
 
-  def process_response_body(body), do: Jason.decode!(body, deserialization_options())
+  def process_response_body(body), do: IncidentIo.Json.decode!(body, deserialization_options())
 
   @spec process_response(HTTPoison.Response.t() | {integer, any, HTTPoison.Response.t()}) ::
           response
