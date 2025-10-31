@@ -23,7 +23,7 @@ defmodule IncidentIo.Mixfile do
   end
 
   def cli do
-    [preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test]]
+    [preferred_envs: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
