@@ -23,14 +23,14 @@ jobs:
       with:
         version-file: '.tool-versions'
         version-type: 'strict'
-    - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+    - uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
       id: cache-build
       with:
         path: _build
         key: publish-build-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
         restore-keys: publish-build-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
         lookup-only: true
-    - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+    - uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
       id: cache-deps
       with:
         path: deps
