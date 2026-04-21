@@ -47,10 +47,12 @@ defmodule IncidentIo.AlertEventsV2 do
 
   More information at: https://api-docs.incident.io/tag/Alert-Events-V2#operation/Alert-Eventss%20V2_Create
   """
-  @spec create(Client.t(), binary, binary, AlertEventsV2.body()) :: IncidentIo.response()
+  @spec create(Client.t(), binary, binary, body()) :: IncidentIo.response()
   def create(client \\ %Client{}, alert_source_config_id, token, body) do
+    path = add_params_to_url("v2/alert_events/http/#{alert_source_config_id}", token: token)
+
     post(
-      "v2/alert_events/http/#{alert_source_config_id}?token=#{token}",
+      path,
       client,
       body
     )
