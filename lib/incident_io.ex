@@ -3,16 +3,15 @@ defmodule IncidentIo do
   `IncidentIo` is an Elixir client for the Incident.io API.
   """
 
-  use HTTPoison.Base
   alias IncidentIo.Client
   alias IncidentIo.Query
+  alias IncidentIo.Response
   alias Jason
 
   @user_agent [{"User-agent", "IncidentIo/elixir"}]
 
   @type response ::
-          {:ok, term, HTTPoison.Response.t()}
-          | {integer, any, HTTPoison.Response.t()}
+          {integer, any, Response.t()}
           | pagination_response
 
   @type pagination_response :: {response, binary | nil, Client.auth()}
@@ -52,18 +51,16 @@ defmodule IncidentIo do
     end
   end
 
-  @spec process_response_body(binary) :: term
-  def process_response_body(""), do: nil
+  @spec process_response_body(binary | nil) :: term
+  def process_response_body(body) when body in [nil, ""], do: nil
 
   def process_response_body(body), do: IncidentIo.Json.decode!(body, deserialization_options())
 
-  @spec process_response(HTTPoison.Response.t() | {integer, any, HTTPoison.Response.t()}) ::
-          response
-  def process_response(%HTTPoison.Response{status_code: status_code, body: body} = resp),
-    do: {status_code, body, resp}
-
-  def process_response({_status_code, _, %HTTPoison.Response{} = resp}),
-    do: process_response(resp)
+  @spec process_response(Req.Response.t()) :: response
+  def process_response(%Req.Response{status: status, body: body, headers: headers}) do
+    resp = %Response{status: status, headers: headers, body: body}
+    {status, process_response_body(body), resp}
+  end
 
   @spec delete(binary, Client.t(), any) :: response
   def delete(path, client, body \\ "") do
@@ -116,9 +113,16 @@ defmodule IncidentIo do
   end
 
   def raw_request(method, url, body \\ "", headers \\ [], options \\ []) do
-    method
-    |> request!(url, body, extra_headers() ++ headers, extra_options() ++ options)
-    |> process_response
+    [
+      method: method,
+      url: url,
+      body: body,
+      headers: extra_headers() ++ headers,
+      decode_body: false
+    ]
+    |> Keyword.merge(extra_options() ++ options)
+    |> Req.request!()
+    |> process_response()
   end
 
   @spec url(client :: Client.t(), path :: binary) :: binary
