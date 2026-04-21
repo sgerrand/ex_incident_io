@@ -1,5 +1,5 @@
 defmodule IncidentIo.JsonTest do
-  use IncidentIo.TestCase, async: true
+  use IncidentIo.TestCase, async: false
 
   alias IncidentIo.Json
 
