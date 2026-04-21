@@ -4,6 +4,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased](https://github.com/sgerrand/ex_incident_io/tree/main)
 
+
+## [0.1.2](https://github.com/sgerrand/ex_incident_io/compare/v0.1.1...v0.1.2) (2026-04-21)
+
+### Dependencies
+
+* replace HTTPoison and ExVCR with Req ([#142](https://github.com/sgerrand/ex_incident_io/issues/142)) ([c255f77](https://github.com/sgerrand/ex_incident_io/commit/c255f77f45b87cfe4d8ffa41ddf398b4137d2493))
+
+
 ## [0.1.1](https://github.com/sgerrand/ex_incident_io/compare/v0.1.0-dev...v0.1.1) (2025-08-28)
 
 
