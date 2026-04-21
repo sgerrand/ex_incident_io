@@ -31,14 +31,14 @@ defmodule IncidentIo.Mixfile do
 
   defp deps do
     [
-      {:httpoison, "~> 2.0"},
+      {:req, "~> 0.5"},
       {:jason, "~> 1.2"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:inch_ex, "~> 2.0", only: :dev},
       {:excoveralls, "~> 0.5", only: :test},
-      {:exvcr, "~> 0.10", only: :test},
-      {:mox, "~> 1.0", only: :test}
+      {:mox, "~> 1.0", only: :test},
+      {:plug, "~> 1.0", only: :test}
     ]
   end
 
