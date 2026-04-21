@@ -5,13 +5,6 @@ defmodule IncidentIoTest do
 
   doctest IncidentIo
 
-  setup do
-    on_exit(fn ->
-      Application.delete_env(:incident_io, :deserialization_options)
-      Application.delete_env(:incident_io, :json_module)
-    end)
-  end
-
   describe "authorization_header/2" do
     test "using JWT API key" do
       api_key =
@@ -59,41 +52,48 @@ defmodule IncidentIoTest do
 
   test "process response on a 200 response" do
     assert {200, "json", _} =
-             process_response(%HTTPoison.Response{status_code: 200, headers: %{}, body: "json"})
+             process_response(%Req.Response{status: 200, headers: %{}, body: "json"})
   end
 
   test "process response on a non-200 response" do
     assert {404, "json", _} =
-             process_response(%HTTPoison.Response{status_code: 404, headers: %{}, body: "json"})
+             process_response(%Req.Response{status: 404, headers: %{}, body: "json"})
   end
 
   test "process_response_body with an empty body" do
     assert process_response_body("") == nil
   end
 
+  test "process_response_body with nil body" do
+    assert process_response_body(nil) == nil
+  end
+
   test "process_response_body with content" do
     IncidentIo.Json.Mock
     |> expect(:decode!, fn _, _ -> :decoded_json end)
 
-    Application.put_env(:incident_io, :json_module, IncidentIo.Json.Mock)
-
     assert process_response_body("json") == :decoded_json
   end
 
-  test "process_response_body with serialization options" do
-    Application.put_env(:incident_io, :deserialization_options, keys: :atoms)
-
+  test "process_response_body passes deserialization options to decoder" do
     IncidentIo.Json.Mock
-    |> expect(:decode!, fn _, [keys: :atoms] -> :decoded_json end)
-
-    Application.put_env(:incident_io, :json_module, IncidentIo.Json.Mock)
+    |> expect(:decode!, fn _, [labels: :binary, keys: :atoms] -> :decoded_json end)
 
     assert process_response_body("json") == :decoded_json
   end
 
   test "process response on a non-200 response and empty body" do
     assert {404, nil, _} =
-             process_response(%HTTPoison.Response{status_code: 404, headers: %{}, body: nil})
+             process_response(%Req.Response{status: 404, headers: %{}, body: nil})
+  end
+
+  test "_request/3 uses empty body by default" do
+    Req.Test.stub(:incident_io, fn conn ->
+      Plug.Conn.send_resp(conn, 200, ~s({}))
+    end)
+
+    assert {200, %{}, _} =
+             IncidentIo._request(:get, "https://api.incident.io/v2/test", %{api_key: "test"})
   end
 end
 
@@ -118,5 +118,9 @@ defmodule IncidentIo.JasonStringEncodingTest do
 
   test "string encoded to JSON formatted string" do
     assert "\"some-string-of-text\"" = Jason.encode!(%JsonString{body: "some-string-of-text"})
+  end
+
+  test "tuple encoded to JSON object" do
+    assert ~s({"key":"value"}) = Jason.encode!({:key, "value"})
   end
 end

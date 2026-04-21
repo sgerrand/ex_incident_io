@@ -2,7 +2,7 @@ defmodule IncidentIo.QueryTest do
   # taken from https://github.com/elixir-plug/plug/blob/v1.16.0/test/plug/conn/query_test.exs
   use IncidentIo.TestCase, async: true
 
-  import IncidentIo.Query, only: [decode: 1, encode: 1, encode: 2]
+  import IncidentIo.Query, only: [decode: 1, decode: 2, encode: 1, encode: 2]
   doctest IncidentIo.Query
 
   describe "decode" do
@@ -46,6 +46,14 @@ defmodule IncidentIo.QueryTest do
       assert decode("x[][][]=1") == %{"x" => [[["1"]]]}
     end
 
+    test "empty query string" do
+      assert decode("") == %{}
+    end
+
+    test "empty query string with initial params" do
+      assert decode("", [{"pre", "loaded"}]) == %{"pre" => "loaded"}
+    end
+
     test "empty pairs" do
       assert decode("&x=1&&y=2&") == %{"x" => "1", "y" => "2"}
     end
@@ -55,6 +63,9 @@ defmodule IncidentIo.QueryTest do
       assert decode("x[y][][w]=2&x[y]=1")["x"]["y"] == "1"
       assert decode("x=1&x[y]=1")["x"]["y"] == "1"
       assert decode("x[y][0][w]=2&x[y]=1")["x"]["y"] == "1"
+
+      # map-style key followed by array-style key: array wins, map entry skipped
+      assert decode("x[y]=1&x[]=1")["x"] == ["1"]
     end
   end
 

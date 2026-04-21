@@ -7,31 +7,52 @@ defmodule IncidentIo.IncidentStatusesV1Test do
   @client IncidentIo.Client.new(%{api_key: "yourApiKeyGoesHere"})
 
   describe "list/1" do
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          200,
+          Jason.encode!(%{
+            incident_statuses: [
+              %{
+                category: "triage",
+                created_at: "2021-08-17T13:28:57.801578Z",
+                description:
+                  "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
+                id: "01FCNDV6P870EA6S7TK1DSYD5H",
+                name: "Closed",
+                rank: 4,
+                updated_at: "2021-08-17T13:28:57.801578Z"
+              }
+            ]
+          })
+        )
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "incident_statuses_v1#list" do
-        assert {200, _, _} = list(@client)
-      end
+      assert {200, _, _} = list(@client)
     end
 
     test "returns expected response" do
-      use_cassette "incident_statuses_v1#list" do
-        {200, response, _} = list(@client)
+      {200, response, _} = list(@client)
 
-        assert %{
-                 incident_statuses: [
-                   %{
-                     category: "triage",
-                     created_at: "2021-08-17T13:28:57.801578Z",
-                     description:
-                       "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
-                     id: "01FCNDV6P870EA6S7TK1DSYD5H",
-                     name: "Closed",
-                     rank: 4,
-                     updated_at: "2021-08-17T13:28:57.801578Z"
-                   }
-                 ]
-               } == response
-      end
+      assert %{
+               incident_statuses: [
+                 %{
+                   category: "triage",
+                   created_at: "2021-08-17T13:28:57.801578Z",
+                   description:
+                     "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
+                   id: "01FCNDV6P870EA6S7TK1DSYD5H",
+                   name: "Closed",
+                   rank: 4,
+                   updated_at: "2021-08-17T13:28:57.801578Z"
+                 }
+               ]
+             } == response
     end
   end
 
@@ -43,72 +64,114 @@ defmodule IncidentIo.IncidentStatusesV1Test do
       name: "Closed"
     }
 
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          201,
+          Jason.encode!(%{
+            incident_status: %{
+              category: "triage",
+              created_at: "2021-08-17T13:28:57.801578Z",
+              description:
+                "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
+              id: "01FCNDV6P870EA6S7TK1DSYD5H",
+              name: "Closed",
+              rank: 4,
+              updated_at: "2021-08-17T13:28:57.801578Z"
+            }
+          })
+        )
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "incident_statuses_v1#create" do
-        assert {201, _, _} = create(@client, @body)
-      end
+      assert {201, _, _} = create(@client, @body)
     end
 
     test "returns expected response" do
-      use_cassette "incident_statuses_v1#create" do
-        {201, response, _} = create(@client, @body)
+      {201, response, _} = create(@client, @body)
 
-        assert %{
-                 incident_status: %{
-                   category: "triage",
-                   created_at: "2021-08-17T13:28:57.801578Z",
-                   description:
-                     "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
-                   id: "01FCNDV6P870EA6S7TK1DSYD5H",
-                   name: "Closed",
-                   rank: 4,
-                   updated_at: "2021-08-17T13:28:57.801578Z"
-                 }
-               } == response
-      end
+      assert %{
+               incident_status: %{
+                 category: "triage",
+                 created_at: "2021-08-17T13:28:57.801578Z",
+                 description:
+                   "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
+                 id: "01FCNDV6P870EA6S7TK1DSYD5H",
+                 name: "Closed",
+                 rank: 4,
+                 updated_at: "2021-08-17T13:28:57.801578Z"
+               }
+             } == response
     end
   end
 
   describe "destroy/2" do
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(conn, 204, "")
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "incident_statuses_v1#delete" do
-        assert {204, _, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
-      end
+      assert {204, _, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
     end
 
     test "returns expected response" do
-      use_cassette "incident_statuses_v1#delete" do
-        {204, response, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+      {204, response, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
-        assert nil == response
-      end
+      assert nil == response
     end
   end
 
   describe "show/2" do
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          200,
+          Jason.encode!(%{
+            incident_status: %{
+              category: "triage",
+              created_at: "2021-08-17T13:28:57.801578Z",
+              description:
+                "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
+              id: "01FCNDV6P870EA6S7TK1DSYD5H",
+              name: "Closed",
+              rank: 4,
+              updated_at: "2021-08-17T13:28:57.801578Z"
+            }
+          })
+        )
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "incident_statuses_v1#show" do
-        assert {200, _, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYD5H")
-      end
+      assert {200, _, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYD5H")
     end
 
     test "returns expected response" do
-      use_cassette "incident_statuses_v1#show" do
-        {200, response, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYD5H")
+      {200, response, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYD5H")
 
-        assert %{
-                 incident_status: %{
-                   category: "triage",
-                   created_at: "2021-08-17T13:28:57.801578Z",
-                   description:
-                     "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
-                   id: "01FCNDV6P870EA6S7TK1DSYD5H",
-                   name: "Closed",
-                   rank: 4,
-                   updated_at: "2021-08-17T13:28:57.801578Z"
-                 }
-               } == response
-      end
+      assert %{
+               incident_status: %{
+                 category: "triage",
+                 created_at: "2021-08-17T13:28:57.801578Z",
+                 description:
+                   "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
+                 id: "01FCNDV6P870EA6S7TK1DSYD5H",
+                 name: "Closed",
+                 rank: 4,
+                 updated_at: "2021-08-17T13:28:57.801578Z"
+               }
+             } == response
     end
   end
 
@@ -121,29 +184,48 @@ defmodule IncidentIo.IncidentStatusesV1Test do
       shortform: "lead"
     }
 
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          200,
+          Jason.encode!(%{
+            incident_status: %{
+              category: "triage",
+              created_at: "2021-08-17T13:28:57.801578Z",
+              description:
+                "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
+              id: "01FCNDV6P870EA6S7TK1DSYD5H",
+              name: "Closed",
+              rank: 4,
+              updated_at: "2021-08-17T13:28:57.801578Z"
+            }
+          })
+        )
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "incident_statuses_v1#update" do
-        assert {200, _, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYD5H", @body)
-      end
+      assert {200, _, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYD5H", @body)
     end
 
     test "returns expected response" do
-      use_cassette "incident_statuses_v1#update" do
-        {200, response, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYD5H", @body)
+      {200, response, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYD5H", @body)
 
-        assert %{
-                 incident_status: %{
-                   category: "triage",
-                   created_at: "2021-08-17T13:28:57.801578Z",
-                   description:
-                     "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
-                   id: "01FCNDV6P870EA6S7TK1DSYD5H",
-                   name: "Closed",
-                   rank: 4,
-                   updated_at: "2021-08-17T13:28:57.801578Z"
-                 }
-               } == response
-      end
+      assert %{
+               incident_status: %{
+                 category: "triage",
+                 created_at: "2021-08-17T13:28:57.801578Z",
+                 description:
+                   "Impact has been **fully mitigated**, and we're ready to learn from this incident.",
+                 id: "01FCNDV6P870EA6S7TK1DSYD5H",
+                 name: "Closed",
+                 rank: 4,
+                 updated_at: "2021-08-17T13:28:57.801578Z"
+               }
+             } == response
     end
   end
 end

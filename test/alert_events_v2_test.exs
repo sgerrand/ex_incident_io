@@ -22,23 +22,35 @@ defmodule IncidentIo.AlertEventsV2Test do
       title: "*errors.withMessage: PG::Error failed to connect"
     }
 
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          202,
+          Jason.encode!(%{
+            deduplication_key: "unique-key",
+            message: "Event accepted for processing",
+            status: "success"
+          })
+        )
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "alert_events_v2#create" do
-        assert {202, _, _} = create(@client, "01GW2G3V0S59R238FAHPDS1R66", "some-token", @body)
-      end
+      assert {202, _, _} = create(@client, "01GW2G3V0S59R238FAHPDS1R66", "some-token", @body)
     end
 
     test "returns expected attributes for action" do
-      use_cassette "alert_events_v2#create" do
-        {202, response, _} =
-          create(@client, "01GW2G3V0S59R238FAHPDS1R66", "some-token", @body)
+      {202, response, _} =
+        create(@client, "01GW2G3V0S59R238FAHPDS1R66", "some-token", @body)
 
-        assert %{
-                 deduplication_key: "unique-key",
-                 message: "Event accepted for processing",
-                 status: "success"
-               } == response
-      end
+      assert %{
+               deduplication_key: "unique-key",
+               message: "Event accepted for processing",
+               status: "success"
+             } == response
     end
   end
 end
