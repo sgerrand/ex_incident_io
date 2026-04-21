@@ -59,12 +59,12 @@ defmodule IncidentIoTest do
 
   test "process response on a 200 response" do
     assert {200, "json", _} =
-             process_response(%HTTPoison.Response{status_code: 200, headers: %{}, body: "json"})
+             process_response(%Req.Response{status: 200, headers: [], body: ~s("json")})
   end
 
   test "process response on a non-200 response" do
     assert {404, "json", _} =
-             process_response(%HTTPoison.Response{status_code: 404, headers: %{}, body: "json"})
+             process_response(%Req.Response{status: 404, headers: [], body: ~s("json")})
   end
 
   test "process_response_body with an empty body" do
@@ -93,7 +93,7 @@ defmodule IncidentIoTest do
 
   test "process response on a non-200 response and empty body" do
     assert {404, nil, _} =
-             process_response(%HTTPoison.Response{status_code: 404, headers: %{}, body: nil})
+             process_response(%Req.Response{status: 404, headers: [], body: nil})
   end
 end
 
