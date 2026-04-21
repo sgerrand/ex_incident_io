@@ -1,5 +1,10 @@
 defmodule IncidentIo.FollowUpsV2 do
-  @moduledoc false
+  @moduledoc """
+  List and inspect follow-up actions from incidents.
+
+  Follow-ups are actions identified during an incident that should be completed
+  after the incident is resolved. They can be filtered by incident and mode.
+  """
 
   import IncidentIo
   alias IncidentIo.Client

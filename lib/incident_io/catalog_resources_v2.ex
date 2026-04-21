@@ -1,5 +1,11 @@
 defmodule IncidentIo.CatalogResourcesV2 do
-  @moduledoc false
+  @moduledoc """
+  List available catalog resources.
+
+  Catalog resources are the external resource types (e.g. PagerDuty services,
+  GitHub repositories) that can be referenced as attribute values in catalog
+  entries.
+  """
 
   import IncidentIo
   alias IncidentIo.Client

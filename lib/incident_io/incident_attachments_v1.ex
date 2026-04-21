@@ -1,5 +1,11 @@
 defmodule IncidentIo.IncidentAttachmentsV1 do
-  @moduledoc false
+  @moduledoc """
+  Manage attachments on incidents.
+
+  Incident attachments link external resources (e.g. Jira issues, GitHub PRs,
+  PagerDuty alerts) to an incident. Each attachment has a resource type and a
+  permalink to the external resource.
+  """
 
   import IncidentIo
   alias IncidentIo.Client

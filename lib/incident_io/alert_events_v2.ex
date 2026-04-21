@@ -1,5 +1,10 @@
 defmodule IncidentIo.AlertEventsV2 do
-  @moduledoc false
+  @moduledoc """
+  Send alert events to incident.io via HTTP alert sources.
+
+  Alert events allow external systems to push alerts into incident.io, which
+  can then trigger incidents automatically based on your alert routing rules.
+  """
 
   import IncidentIo
   alias IncidentIo.Client

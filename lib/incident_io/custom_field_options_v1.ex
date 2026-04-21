@@ -1,5 +1,10 @@
 defmodule IncidentIo.CustomFieldOptionsV1 do
-  @moduledoc false
+  @moduledoc """
+  Manage options for single- and multi-select custom fields.
+
+  When a custom field is of type `single_select` or `multi_select`, its
+  allowed values are defined as custom field options.
+  """
 
   import IncidentIo
   alias IncidentIo.Client

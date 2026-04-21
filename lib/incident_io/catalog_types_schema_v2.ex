@@ -1,5 +1,10 @@
 defmodule IncidentIo.CatalogTypesSchemaV2 do
-  @moduledoc false
+  @moduledoc """
+  Manage the schema for catalog types.
+
+  The schema defines the attributes that entries of a catalog type can have,
+  including their types, whether they are required, and how they are displayed.
+  """
 
   import IncidentIo
   alias IncidentIo.Client
