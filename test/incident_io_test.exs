@@ -1,5 +1,5 @@
 defmodule IncidentIoTest do
-  use IncidentIo.TestCase, async: true
+  use IncidentIo.TestCase, async: false
   import IncidentIo
   alias Jason
 
