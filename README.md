@@ -78,17 +78,38 @@ end
 
 ## Development
 
+### Requirements
+
+- Elixir (see `.tool-versions` or `mix.exs` for version)
+- [Homebrew](https://brew.sh) (for installing pre-commit hook dependencies)
+
+### Setup
+
 To start working on this application, clone the repository and fetch its
 dependencies:
+
 ```shell
 git clone https://github.com/sgerrand/ex_incident_io.git
 cd ex_incident_io
 mix deps.get
+bin/setup
 ```
 
 Then you can start running the tests.
+
 ```shell
 mix test
+```
+
+`bin/setup` installs the pre-commit hook tools (`actionlint`, `check-jsonschema`, `lefthook`, `markdownlint-cli2`) and activates the hooks. `mix setup` fetches Elixir dependencies.
+
+### Common commands
+
+```shell
+mix test          # Run tests
+mix credo         # Lint
+mix format        # Format code
+mix coveralls     # Test coverage
 ```
 
 ## Contributing
