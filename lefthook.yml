@@ -1,6 +1,9 @@
 pre-commit:
   parallel: true
   commands:
+    mix-credo:
+      glob: "*.{ex,exs}"
+      run: mix credo --strict
     mix-format:
       glob: "*.{ex,exs}"
       run: mix format --check-formatted
