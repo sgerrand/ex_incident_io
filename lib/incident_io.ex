@@ -3,7 +3,6 @@ defmodule IncidentIo do
   `IncidentIo` is an Elixir client for the Incident.io API.
   """
 
-  use HTTPoison.Base
   alias IncidentIo.Client
   alias IncidentIo.Query
   alias Jason
@@ -11,8 +10,8 @@ defmodule IncidentIo do
   @user_agent [{"User-agent", "IncidentIo/elixir"}]
 
   @type response ::
-          {:ok, term, HTTPoison.Response.t()}
-          | {integer, any, HTTPoison.Response.t()}
+          {:ok, term, Req.Response.t()}
+          | {integer, any, Req.Response.t()}
           | pagination_response
 
   @type pagination_response :: {response, binary | nil, Client.auth()}
@@ -52,18 +51,15 @@ defmodule IncidentIo do
     end
   end
 
-  @spec process_response_body(binary) :: term
+  @spec process_response_body(binary | nil) :: term
   def process_response_body(""), do: nil
+  def process_response_body(nil), do: nil
 
   def process_response_body(body), do: IncidentIo.Json.decode!(body, deserialization_options())
 
-  @spec process_response(HTTPoison.Response.t() | {integer, any, HTTPoison.Response.t()}) ::
-          response
-  def process_response(%HTTPoison.Response{status_code: status_code, body: body} = resp),
-    do: {status_code, body, resp}
-
-  def process_response({_status_code, _, %HTTPoison.Response{} = resp}),
-    do: process_response(resp)
+  @spec process_response(Req.Response.t()) :: response
+  def process_response(%Req.Response{status: status, body: body} = resp),
+    do: {status, body, resp}
 
   @spec delete(binary, Client.t(), any) :: response
   def delete(path, client, body \\ "") do
@@ -116,9 +112,19 @@ defmodule IncidentIo do
   end
 
   def raw_request(method, url, body \\ "", headers \\ [], options \\ []) do
-    method
-    |> request!(url, body, extra_headers() ++ headers, extra_options() ++ options)
-    |> process_response
+    resp =
+      [
+        method: method,
+        url: url,
+        body: body,
+        headers: extra_headers() ++ headers,
+        decode_body: false
+      ]
+      |> Keyword.merge(extra_options() ++ options)
+      |> Req.request!()
+
+    {status, raw_body, req_resp} = process_response(resp)
+    {status, process_response_body(raw_body), req_resp}
   end
 
   @spec url(client :: Client.t(), path :: binary) :: binary
