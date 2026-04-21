@@ -107,6 +107,14 @@ defmodule IncidentIo.IncidentAttachmentsV1Test do
   end
 
   describe "list: error cases" do
+    test "raises when called with no arguments" do
+      assert_raise RuntimeError,
+                   "Error: only provide an incident_id *or* external_id and resource_type – not both.",
+                   fn ->
+                     list()
+                   end
+    end
+
     test "raises when not provided incident_id or external_id" do
       assert_raise RuntimeError,
                    "Error: only provide an incident_id *or* external_id and resource_type – not both.",

@@ -64,6 +64,10 @@ defmodule IncidentIoTest do
     assert process_response_body("") == nil
   end
 
+  test "process_response_body with nil body" do
+    assert process_response_body(nil) == nil
+  end
+
   test "process_response_body with content" do
     IncidentIo.Json.Mock
     |> expect(:decode!, fn _, _ -> :decoded_json end)
@@ -81,6 +85,15 @@ defmodule IncidentIoTest do
   test "process response on a non-200 response and empty body" do
     assert {404, nil, _} =
              process_response(%Req.Response{status: 404, headers: %{}, body: nil})
+  end
+
+  test "_request/3 uses empty body by default" do
+    Req.Test.stub(:incident_io, fn conn ->
+      Plug.Conn.send_resp(conn, 200, ~s({}))
+    end)
+
+    assert {200, %{}, _} =
+             IncidentIo._request(:get, "https://api.incident.io/v2/test", %{api_key: "test"})
   end
 end
 
@@ -105,5 +118,9 @@ defmodule IncidentIo.JasonStringEncodingTest do
 
   test "string encoded to JSON formatted string" do
     assert "\"some-string-of-text\"" = Jason.encode!(%JsonString{body: "some-string-of-text"})
+  end
+
+  test "tuple encoded to JSON object" do
+    assert ~s({"key":"value"}) = Jason.encode!({:key, "value"})
   end
 end
