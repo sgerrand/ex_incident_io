@@ -4,8 +4,8 @@ defmodule IncidentIo do
   """
 
   alias IncidentIo.Client
-  alias IncidentIo.Query
   alias Jason
+  alias Plug.Conn.Query
 
   @user_agent [{"User-agent", "IncidentIo/elixir"}]
 

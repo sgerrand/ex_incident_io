@@ -36,8 +36,8 @@ defmodule IncidentIo.Mixfile do
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.5", only: :test},
-      {:mox, "~> 1.0", only: :test},
-      {:plug, "~> 1.0", only: :test}
+      {:plug, "~> 1.0"},
+      {:mox, "~> 1.0", only: :test}
     ]
   end
 
