@@ -10,8 +10,7 @@ defmodule IncidentIo do
   @user_agent [{"User-agent", "IncidentIo/elixir"}]
 
   @type response ::
-          {:ok, term, Req.Response.t()}
-          | {integer, any, Req.Response.t()}
+          {integer, any, Req.Response.t()}
           | pagination_response
 
   @type pagination_response :: {response, binary | nil, Client.auth()}
