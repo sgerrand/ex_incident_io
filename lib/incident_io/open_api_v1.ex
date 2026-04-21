@@ -18,7 +18,7 @@ defmodule IncidentIo.OpenApiV1 do
   More information at: https://api-docs.incident.io/tag/Utilities-V1#operation/Utilities%20V1_OpenAPIV3
   """
   @spec show(Client.t(), pos_integer) :: IncidentIo.response()
-  def show(_client \\ %Client{}, open_api_version \\ 3) do
+  def show(client \\ %Client{}, open_api_version \\ 3) do
     filename =
       case open_api_version do
         3 -> "openapiV3.json"
@@ -27,7 +27,7 @@ defmodule IncidentIo.OpenApiV1 do
 
     get(
       "v1/#{filename}",
-      %Client{}
+      client
     )
   end
 end
