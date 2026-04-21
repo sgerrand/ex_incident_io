@@ -1,5 +1,5 @@
 defmodule IncidentIoTest do
-  use IncidentIo.TestCase, async: false
+  use IncidentIo.TestCase, async: true
   import IncidentIo
   alias Jason
 
@@ -8,7 +8,6 @@ defmodule IncidentIoTest do
   setup do
     on_exit(fn ->
       Application.delete_env(:incident_io, :deserialization_options)
-      Application.delete_env(:incident_io, :json_module)
     end)
   end
 
@@ -75,8 +74,6 @@ defmodule IncidentIoTest do
     IncidentIo.Json.Mock
     |> expect(:decode!, fn _, _ -> :decoded_json end)
 
-    Application.put_env(:incident_io, :json_module, IncidentIo.Json.Mock)
-
     assert process_response_body("json") == :decoded_json
   end
 
@@ -85,8 +82,6 @@ defmodule IncidentIoTest do
 
     IncidentIo.Json.Mock
     |> expect(:decode!, fn _, [keys: :atoms] -> :decoded_json end)
-
-    Application.put_env(:incident_io, :json_module, IncidentIo.Json.Mock)
 
     assert process_response_body("json") == :decoded_json
   end

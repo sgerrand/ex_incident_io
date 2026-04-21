@@ -11,6 +11,12 @@ defmodule IncidentIo.TestCase do
       import Mox, only: [expect: 3, verify_on_exit!: 1]
 
       setup :verify_on_exit!
+
+      setup do
+        Mox.stub(IncidentIo.Json.Mock, :decode!, fn body, opts -> Jason.decode!(body, opts) end)
+        Mox.stub(IncidentIo.Json.Mock, :encode!, fn data, opts -> Jason.encode!(data, opts) end)
+        :ok
+      end
     end
   end
 end
