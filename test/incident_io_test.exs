@@ -5,12 +5,6 @@ defmodule IncidentIoTest do
 
   doctest IncidentIo
 
-  setup do
-    on_exit(fn ->
-      Application.delete_env(:incident_io, :deserialization_options)
-    end)
-  end
-
   describe "authorization_header/2" do
     test "using JWT API key" do
       api_key =
@@ -77,11 +71,9 @@ defmodule IncidentIoTest do
     assert process_response_body("json") == :decoded_json
   end
 
-  test "process_response_body with serialization options" do
-    Application.put_env(:incident_io, :deserialization_options, keys: :atoms)
-
+  test "process_response_body passes deserialization options to decoder" do
     IncidentIo.Json.Mock
-    |> expect(:decode!, fn _, [keys: :atoms] -> :decoded_json end)
+    |> expect(:decode!, fn _, [labels: :binary, keys: :atoms] -> :decoded_json end)
 
     assert process_response_body("json") == :decoded_json
   end
