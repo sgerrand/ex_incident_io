@@ -21,56 +21,102 @@ defmodule IncidentIo.CatalogTypesSchemaV2Test do
       version: 1
     }
 
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          200,
+          Jason.encode!(%{
+            catalog_type: %{
+              annotations: %{
+                "incident.io/catalog-importer/id": "id-of-config"
+              },
+              color: "yellow",
+              created_at: "2021-08-17T13:28:57.801578Z",
+              description: "Represents Kubernetes clusters that we run inside of GKE.",
+              dynamic_resource_parameter: "abc123",
+              estimated_count: 7,
+              icon: "bolt",
+              id: "01FCNDV6P870EA6S7TK1DSYDG0",
+              is_editable: false,
+              last_synced_at: "2021-08-17T13:28:57.801578Z",
+              name: "Kubernetes Cluster",
+              ranked: true,
+              registry_type: "PagerDutyService",
+              required_integrations: [
+                "pager_duty"
+              ],
+              schema: %{
+                attributes: [
+                  %{
+                    array: false,
+                    backlink_attribute: "abc123",
+                    id: "01GW2G3V0S59R238FAHPDS1R66",
+                    mode: "manual",
+                    name: "tier",
+                    type: "Custom[\"Service\"]"
+                  }
+                ],
+                version: 1
+              },
+              semantic_type: "custom",
+              source_repo_url: "https://github.com/my-company/incident-io-catalog",
+              type_name: "Custom[\"BackstageGroup\"]",
+              updated_at: "2021-08-17T13:28:57.801578Z"
+            }
+          })
+        )
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "catalog_v2#update_type_schema" do
-        assert {200, _, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
-      end
+      assert {200, _, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
     end
 
     test "returns expected response" do
-      use_cassette "catalog_v2#update_type_schema" do
-        assert {200, response, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+      assert {200, response, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
 
-        assert %{
-                 catalog_type: %{
-                   annotations: %{
-                     "incident.io/catalog-importer/id": "id-of-config"
-                   },
-                   color: "yellow",
-                   created_at: "2021-08-17T13:28:57.801578Z",
-                   description: "Represents Kubernetes clusters that we run inside of GKE.",
-                   dynamic_resource_parameter: "abc123",
-                   estimated_count: 7,
-                   icon: "bolt",
-                   id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                   is_editable: false,
-                   last_synced_at: "2021-08-17T13:28:57.801578Z",
-                   name: "Kubernetes Cluster",
-                   ranked: true,
-                   registry_type: "PagerDutyService",
-                   required_integrations: [
-                     "pager_duty"
+      assert %{
+               catalog_type: %{
+                 annotations: %{
+                   "incident.io/catalog-importer/id": "id-of-config"
+                 },
+                 color: "yellow",
+                 created_at: "2021-08-17T13:28:57.801578Z",
+                 description: "Represents Kubernetes clusters that we run inside of GKE.",
+                 dynamic_resource_parameter: "abc123",
+                 estimated_count: 7,
+                 icon: "bolt",
+                 id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                 is_editable: false,
+                 last_synced_at: "2021-08-17T13:28:57.801578Z",
+                 name: "Kubernetes Cluster",
+                 ranked: true,
+                 registry_type: "PagerDutyService",
+                 required_integrations: [
+                   "pager_duty"
+                 ],
+                 schema: %{
+                   attributes: [
+                     %{
+                       array: false,
+                       backlink_attribute: "abc123",
+                       id: "01GW2G3V0S59R238FAHPDS1R66",
+                       mode: "manual",
+                       name: "tier",
+                       type: "Custom[\"Service\"]"
+                     }
                    ],
-                   schema: %{
-                     attributes: [
-                       %{
-                         array: false,
-                         backlink_attribute: "abc123",
-                         id: "01GW2G3V0S59R238FAHPDS1R66",
-                         mode: "manual",
-                         name: "tier",
-                         type: "Custom[\"Service\"]"
-                       }
-                     ],
-                     version: 1
-                   },
-                   semantic_type: "custom",
-                   source_repo_url: "https://github.com/my-company/incident-io-catalog",
-                   type_name: "Custom[\"BackstageGroup\"]",
-                   updated_at: "2021-08-17T13:28:57.801578Z"
-                 }
-               } == response
-      end
+                   version: 1
+                 },
+                 semantic_type: "custom",
+                 source_repo_url: "https://github.com/my-company/incident-io-catalog",
+                 type_name: "Custom[\"BackstageGroup\"]",
+                 updated_at: "2021-08-17T13:28:57.801578Z"
+               }
+             } == response
     end
   end
 end

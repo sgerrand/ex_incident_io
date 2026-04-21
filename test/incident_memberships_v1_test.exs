@@ -12,21 +12,32 @@ defmodule IncidentIo.IncidentMembershipsV1Test do
       user_id: "01FCQSP07Z74QMMYPDDGQB9FTG"
     }
 
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          201,
+          Jason.encode!(%{
+            incident_id: "01ET65M7ZADYFCKD4K1AE2QNMC",
+            user_id: "01FCQSP07Z74QMMYPDDGQB9FTG"
+          })
+        )
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "incident_memberships_v1#create" do
-        assert {201, _, _} = create(@client, @body)
-      end
+      assert {201, _, _} = create(@client, @body)
     end
 
     test "returns expected response" do
-      use_cassette "incident_memberships_v1#create" do
-        {201, response, _} = create(@client, @body)
+      {201, response, _} = create(@client, @body)
 
-        assert %{
-                 incident_id: "01ET65M7ZADYFCKD4K1AE2QNMC",
-                 user_id: "01FCQSP07Z74QMMYPDDGQB9FTG"
-               } == response
-      end
+      assert %{
+               incident_id: "01ET65M7ZADYFCKD4K1AE2QNMC",
+               user_id: "01FCQSP07Z74QMMYPDDGQB9FTG"
+             } == response
     end
   end
 
@@ -36,18 +47,22 @@ defmodule IncidentIo.IncidentMembershipsV1Test do
       user_id: "01FCQSP07Z74QMMYPDDGQB9FTG"
     }
 
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(conn, 204, "")
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "incident_memberships_v1#revoke" do
-        assert {204, _, _} = revoke(@client, @body)
-      end
+      assert {204, _, _} = revoke(@client, @body)
     end
 
     test "returns expected response" do
-      use_cassette "incident_memberships_v1#revoke" do
-        {204, response, _} = revoke(@client, @body)
+      {204, response, _} = revoke(@client, @body)
 
-        assert nil == response
-      end
+      assert nil == response
     end
   end
 end

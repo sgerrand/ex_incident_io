@@ -7,29 +7,47 @@ defmodule IncidentIo.CustomFieldOptionsV1Test do
   @client IncidentIo.Client.new(%{api_key: "yourApiKeyGoesHere"})
 
   describe "list/3" do
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          200,
+          Jason.encode!(%{
+            custom_field_options: [
+              %{
+                custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                sort_key: 10,
+                value: "Product"
+              }
+            ],
+            pagination_meta: %{after: "01FCNDV6P870EA6S7TK1DSYDG0", page_size: 25}
+          })
+        )
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "custom_field_options_v1#list" do
-        assert {200, _, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
-      end
+      assert {200, _, _} = list(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
     end
 
     test "returns expected response" do
-      use_cassette "custom_field_options_v1#list" do
-        {200, response, _} =
-          list(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+      {200, response, _} =
+        list(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
-        assert %{
-                 custom_field_options: [
-                   %{
-                     custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                     id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                     sort_key: 10,
-                     value: "Product"
-                   }
-                 ],
-                 pagination_meta: %{after: "01FCNDV6P870EA6S7TK1DSYDG0", page_size: 25}
-               } == response
-      end
+      assert %{
+               custom_field_options: [
+                 %{
+                   custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                   id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                   sort_key: 10,
+                   value: "Product"
+                 }
+               ],
+               pagination_meta: %{after: "01FCNDV6P870EA6S7TK1DSYDG0", page_size: 25}
+             } == response
     end
   end
 
@@ -40,65 +58,99 @@ defmodule IncidentIo.CustomFieldOptionsV1Test do
       value: "Product"
     }
 
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          201,
+          Jason.encode!(%{
+            custom_field_option: %{
+              custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+              id: "01FCNDV6P870EA6S7TK1DSYDG0",
+              sort_key: 10,
+              value: "Product"
+            }
+          })
+        )
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "custom_field_options_v1#create" do
-        assert {201, _, _} = create(@client, @body)
-      end
+      assert {201, _, _} = create(@client, @body)
     end
 
     test "returns expected response" do
-      use_cassette "custom_field_options_v1#create" do
-        {201, response, _} =
-          create(@client, @body)
+      {201, response, _} =
+        create(@client, @body)
 
-        assert %{
-                 custom_field_option: %{
-                   custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                   id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                   sort_key: 10,
-                   value: "Product"
-                 }
-               } == response
-      end
+      assert %{
+               custom_field_option: %{
+                 custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                 id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                 sort_key: 10,
+                 value: "Product"
+               }
+             } == response
     end
   end
 
   describe "destroy/2" do
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(conn, 204, "")
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "custom_field_options_v1#destroy" do
-        assert {204, _, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
-      end
+      assert {204, _, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
     end
 
     test "returns expected response" do
-      use_cassette "custom_field_options_v1#destroy" do
-        {204, response, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+      {204, response, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
-        assert nil == response
-      end
+      assert nil == response
     end
   end
 
   describe "show/2" do
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          200,
+          Jason.encode!(%{
+            custom_field_option: %{
+              custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+              id: "01FCNDV6P870EA6S7TK1DSYDG0",
+              sort_key: 10,
+              value: "Product"
+            }
+          })
+        )
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "custom_field_options_v1#show" do
-        assert {200, _, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
-      end
+      assert {200, _, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
     end
 
     test "returns expected response" do
-      use_cassette "custom_field_options_v1#show" do
-        {200, response, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+      {200, response, _} = show(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
 
-        assert %{
-                 custom_field_option: %{
-                   custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                   id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                   sort_key: 10,
-                   value: "Product"
-                 }
-               } == response
-      end
+      assert %{
+               custom_field_option: %{
+                 custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                 id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                 sort_key: 10,
+                 value: "Product"
+               }
+             } == response
     end
   end
 
@@ -108,26 +160,41 @@ defmodule IncidentIo.CustomFieldOptionsV1Test do
       value: "Product"
     }
 
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          200,
+          Jason.encode!(%{
+            custom_field_option: %{
+              custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+              id: "01FCNDV6P870EA6S7TK1DSYDG0",
+              sort_key: 10,
+              value: "Product"
+            }
+          })
+        )
+      end)
+
+      :ok
+    end
+
     test "returns expected HTTP status code" do
-      use_cassette "custom_field_options_v1#update" do
-        assert {200, _, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
-      end
+      assert {200, _, _} = update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
     end
 
     test "returns expected response" do
-      use_cassette "custom_field_options_v1#update" do
-        {200, response, _} =
-          update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
+      {200, response, _} =
+        update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", @body)
 
-        assert %{
-                 custom_field_option: %{
-                   custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                   id: "01FCNDV6P870EA6S7TK1DSYDG0",
-                   sort_key: 10,
-                   value: "Product"
-                 }
-               } == response
-      end
+      assert %{
+               custom_field_option: %{
+                 custom_field_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                 id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                 sort_key: 10,
+                 value: "Product"
+               }
+             } == response
     end
   end
 end
