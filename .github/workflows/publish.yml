@@ -1,46 +1,38 @@
-name: Publish
+name: Publish to Hex.pm
+
+permissions:
+  contents: read
 
 on:
-  push:
-    tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
+  release:
+    types: [released]
 
 jobs:
   publish:
-    name: Publish Hex Package
+    name: Build and publish to hex.pm
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - name: Checkout
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         persist-credentials: false
-    - name: Set up Elixir
-      id: setup-beam
+    - name: Setup Elixir
       uses: erlef/setup-beam@fc68ffb90438ef2936bbb3251622353b3dcb2f93 # v1.24.0
       with:
         version-file: '.tool-versions'
         version-type: 'strict'
-    - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
-      id: cache-build
-      with:
-        path: _build
-        key: publish-build-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: publish-build-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
-        lookup-only: true
-    - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
-      id: cache-deps
+
+    - name: Restore dependencies cache
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       with:
         path: deps
-        key: publish-deps-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: publish-deps-${{ runner.os }}-${{ steps.setup-beam.otp-version }}-${{ steps.setup-beam.elixir-version }}-
-        lookup-only: true
-    - name: Fetch and install dependencies
-      if: steps.cache-deps.outputs.cache-hit != 'true'
-      run: mix do deps.get + deps.compile
-    - name: Publish Hex package
+        key: ${{ runner.os }}-publish-mix-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-publish-mix-
+
+    - name: Install deps
+      run: mix deps.get
+
+    - name: Publish to Hex.pm
       run: mix hex.publish --yes
       env:
         HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
