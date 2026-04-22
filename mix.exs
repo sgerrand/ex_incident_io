@@ -8,7 +8,7 @@ defmodule IncidentIo.Mixfile do
     [
       app: :incident_io,
       version: @version,
-      elixir: "~> 1.9",
+      elixir: "~> 1.15",
       name: "IncidentIo",
       elixirc_paths: elixirc_paths(Mix.env()),
       test_coverage: [tool: ExCoveralls],
