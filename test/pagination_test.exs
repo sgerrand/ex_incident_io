@@ -78,5 +78,48 @@ defmodule IncidentIo.PaginationTest do
       [{:opts, opts}] = :ets.lookup(received_opts, :opts)
       assert Keyword.get(opts, :page_size) == 10
     end
+
+    test "emits one empty page when first page has no items and nil cursor" do
+      fun = fn _client, _opts ->
+        {200, page([], nil), nil}
+      end
+
+      result = Pagination.stream(fun, @client) |> Enum.to_list()
+
+      assert [%{items: []}] = result
+    end
+
+    test "stops stream mid-pagination on non-200 response and omits error page" do
+      fun = fn _client, opts ->
+        case Keyword.get(opts, :after) do
+          nil -> {200, page(["a"], "cursor1"), nil}
+          _ -> {500, %{message: "internal error"}, nil}
+        end
+      end
+
+      result = Pagination.stream(fun, @client) |> Enum.to_list()
+
+      assert [%{items: ["a"]}] = result
+    end
+
+    test "forwards the after cursor from pagination_meta into subsequent requests" do
+      received_cursors = :ets.new(:cursors, [:bag, :public])
+
+      fun = fn _client, opts ->
+        cursor = Keyword.get(opts, :after)
+        :ets.insert(received_cursors, {:cursor, cursor})
+
+        case cursor do
+          nil -> {200, page(["a"], "page2"), nil}
+          "page2" -> {200, page(["b"], nil), nil}
+        end
+      end
+
+      Pagination.stream(fun, @client) |> Enum.to_list()
+
+      cursors = :ets.lookup(received_cursors, :cursor) |> Enum.map(fn {_, v} -> v end)
+      assert nil in cursors
+      assert "page2" in cursors
+    end
   end
 end
