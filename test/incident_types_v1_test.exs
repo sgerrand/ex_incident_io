@@ -102,6 +102,115 @@ defmodule IncidentIo.IncidentTypesV1Test do
     end
   end
 
+  describe "create/2" do
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          201,
+          Jason.encode!(%{
+            incident_type: %{
+              create_in_triage: "always",
+              created_at: "2021-08-17T13:28:57.801578Z",
+              description: "Customer facing production outages",
+              id: "01FCNDV6P870EA6S7TK1DSYDG0",
+              is_default: false,
+              name: "Production Outage",
+              private_incidents_only: false,
+              updated_at: "2021-08-17T13:28:57.801578Z"
+            }
+          })
+        )
+      end)
+
+      :ok
+    end
+
+    test "returns expected HTTP status code" do
+      assert {201, _, _} =
+               create(@client, %{
+                 description: "Customer facing production outages",
+                 name: "Production Outage"
+               })
+    end
+
+    test "returns expected response" do
+      {201, response, _} =
+        create(@client, %{
+          description: "Customer facing production outages",
+          name: "Production Outage"
+        })
+
+      assert %{
+               incident_type: %{
+                 id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                 name: "Production Outage"
+               }
+             } = response
+    end
+  end
+
+  describe "update/3" do
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          200,
+          Jason.encode!(%{
+            incident_type: %{
+              create_in_triage: "always",
+              created_at: "2021-08-17T13:28:57.801578Z",
+              description: "Customer facing production outages",
+              id: "01FCNDV6P870EA6S7TK1DSYDG0",
+              is_default: false,
+              name: "Updated Production Outage",
+              private_incidents_only: false,
+              updated_at: "2021-08-17T13:28:57.801578Z"
+            }
+          })
+        )
+      end)
+
+      :ok
+    end
+
+    test "returns expected HTTP status code" do
+      assert {200, _, _} =
+               update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", %{name: "Updated Production Outage"})
+    end
+
+    test "returns expected response" do
+      {200, response, _} =
+        update(@client, "01FCNDV6P870EA6S7TK1DSYDG0", %{name: "Updated Production Outage"})
+
+      assert %{
+               incident_type: %{
+                 id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                 name: "Updated Production Outage"
+               }
+             } = response
+    end
+  end
+
+  describe "destroy/2" do
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(conn, 204, "")
+      end)
+
+      :ok
+    end
+
+    test "returns expected HTTP status code" do
+      assert {204, _, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+    end
+
+    test "returns nil body" do
+      {204, response, _} = destroy(@client, "01FCNDV6P870EA6S7TK1DSYDG0")
+      assert is_nil(response)
+    end
+  end
+
   describe "error responses" do
     setup do
       Req.Test.stub(:incident_io, fn conn ->

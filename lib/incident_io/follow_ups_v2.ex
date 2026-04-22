@@ -1,6 +1,6 @@
 defmodule IncidentIo.FollowUpsV2 do
   @moduledoc """
-  List and inspect follow-up actions from incidents.
+  Manage follow-up actions from incidents.
 
   Follow-ups are actions identified during an incident that should be completed
   after the incident is resolved. They can be filtered by incident and mode.
@@ -55,5 +55,38 @@ defmodule IncidentIo.FollowUpsV2 do
       "v2/follow_ups/#{id}",
       client
     )
+  end
+
+  @doc """
+  Create a follow-up for an incident.
+
+  ## Example
+
+      IncidentIo.FollowUpsV2.create(client, %{
+        description: "Call the fire brigade",
+        incident_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+        status: "outstanding",
+        title: "Cat is stuck in the tree"
+      })
+
+  More information at: https://api-docs.incident.io/tag/Follow-ups-V2#operation/Follow-ups%20V2_Create
+  """
+  @spec create(Client.t(), map()) :: IncidentIo.response()
+  def create(client \\ %Client{}, body) do
+    post("v2/follow_ups", client, body)
+  end
+
+  @doc """
+  Update an existing follow-up.
+
+  ## Example
+
+      IncidentIo.FollowUpsV2.update(client, "some-follow-up-id", %{status: "completed"})
+
+  More information at: https://api-docs.incident.io/tag/Follow-ups-V2#operation/Follow-ups%20V2_Update
+  """
+  @spec update(Client.t(), binary, map()) :: IncidentIo.response()
+  def update(client \\ %Client{}, id, body) do
+    put("v2/follow_ups/#{id}", client, body)
   end
 end
