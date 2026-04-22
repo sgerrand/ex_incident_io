@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rtk ls:*)",
+      "Bash(rtk grep:*)",
+      "Bash(rtk find:*)",
+      "Bash(rtk read:*)",
+      "Bash(mix:*)",
+      "Bash(rtk wc:*)",
+      "Bash(sort -t: -k2 -rn)",
+      "Bash(git checkout:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": false
+}
