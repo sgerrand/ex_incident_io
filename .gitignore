@@ -27,3 +27,7 @@ incident-*.tar
 
 # Misc.
 /fixture/
+
+# Ignore local configuration for coding agents.
+/.claude/
+/.codex/
