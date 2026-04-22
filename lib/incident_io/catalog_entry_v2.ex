@@ -1,5 +1,11 @@
 defmodule IncidentIo.CatalogEntryV2 do
-  @moduledoc false
+  @moduledoc """
+  Manage entries within catalog types.
+
+  Catalog entries are the individual items that belong to a catalog type.
+  Each entry can have attribute values, aliases, and an external ID for
+  syncing with external systems.
+  """
 
   import IncidentIo
   alias IncidentIo.Client

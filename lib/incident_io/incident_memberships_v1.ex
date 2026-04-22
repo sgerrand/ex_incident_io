@@ -1,5 +1,10 @@
 defmodule IncidentIo.IncidentMembershipsV1 do
-  @moduledoc false
+  @moduledoc """
+  Manage memberships on incidents.
+
+  Incident memberships control which users are members of a given incident.
+  Members receive notifications and appear on the incident timeline.
+  """
 
   import IncidentIo
   alias IncidentIo.Client

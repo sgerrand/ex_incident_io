@@ -1,5 +1,10 @@
 defmodule IncidentIo.ActionsV2 do
-  @moduledoc false
+  @moduledoc """
+  Manage actions attached to incidents.
+
+  Actions are tasks that responders create during an incident to track work
+  that needs to be done. This module covers the v2 Actions API.
+  """
 
   import IncidentIo
   alias IncidentIo.Client

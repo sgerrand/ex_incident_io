@@ -1,5 +1,10 @@
 defmodule IncidentIo.CustomFieldsV2 do
-  @moduledoc false
+  @moduledoc """
+  Manage custom fields for incidents.
+
+  Custom fields allow you to capture structured information on incidents beyond
+  the built-in fields. This module covers the v2 Custom Fields API.
+  """
 
   import IncidentIo
   alias IncidentIo.Client

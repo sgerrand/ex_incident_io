@@ -1,5 +1,11 @@
 defmodule IncidentIo.IncidentRolesV1 do
-  @moduledoc false
+  @moduledoc """
+  Manage incident roles.
+
+  During an incident, you can assign responders to one of the incident roles
+  that are configured in your organisation settings. This module covers the
+  v1 Incident Roles API.
+  """
 
   import IncidentIo
   alias IncidentIo.Client

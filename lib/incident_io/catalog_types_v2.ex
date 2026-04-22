@@ -1,5 +1,11 @@
 defmodule IncidentIo.CatalogTypesV2 do
-  @moduledoc false
+  @moduledoc """
+  Manage catalog types.
+
+  Catalog types represent categories of things in your organisation (e.g.
+  services, teams, customers). Each type has a schema defining the attributes
+  its entries can hold.
+  """
 
   import IncidentIo
   alias IncidentIo.Client
