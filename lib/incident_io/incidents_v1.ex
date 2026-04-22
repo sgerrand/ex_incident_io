@@ -70,11 +70,11 @@ defmodule IncidentIo.IncidentsV1 do
   More information at: https://api-docs.incident.io/tag/Incidents-V1#operation/Incidents%20V1_List
   """
   @spec list(Client.t(), request_options()) :: IncidentIo.response()
-  def list(client \\ %Client{}, opts \\ %{page_size: nil, after: nil, status: nil}) do
+  def list(client \\ %Client{}, opts \\ []) do
     get(
       "v1/incidents",
       client,
-      opts
+      Enum.reject(opts, fn {_, v} -> is_nil(v) end)
     )
   end
 
