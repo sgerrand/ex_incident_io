@@ -163,7 +163,7 @@ defmodule IncidentIo.CatalogEntryV2 do
 
   More information at: https://api-docs.incident.io/tag/Catalog-V2#operation/Catalog%20V2_UpdateEntry
   """
-  @spec update(Client.t(), binary, CatalogV2.body()) :: IncidentIo.response()
+  @spec update(Client.t(), binary, request_body()) :: IncidentIo.response()
   def update(client \\ %Client{}, id, body) do
     put(
       "v2/catalog_entries/#{id}",
