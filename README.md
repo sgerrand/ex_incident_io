@@ -78,6 +78,38 @@ defmodule MyIncidentIo do
 end
 ```
 
+## Pagination
+
+Many list endpoints return results in pages. The response includes a
+`pagination_meta.after` cursor that you pass as the `:after` option to fetch
+the next page.
+
+`IncidentIo.Pagination.stream/3` handles this for you. It wraps any 2-arity
+list function and returns a lazy `Stream` of page bodies, advancing through
+pages automatically until the cursor is `nil`:
+
+```elixir
+client = IncidentIo.Client.new(%{api_key: System.fetch_env!("INCIDENT_API_KEY")})
+
+# Collect every incident across all pages
+all_incidents =
+  IncidentIo.Pagination.stream(&IncidentIo.IncidentsV2.list/2, client)
+  |> Enum.flat_map(fn %{incidents: incidents} -> incidents end)
+
+# Process pages lazily without loading them all into memory
+IncidentIo.Pagination.stream(&IncidentIo.SchedulesV2.list/2, client)
+|> Stream.each(fn %{schedules: page} -> process(page) end)
+|> Stream.run()
+
+# Pass extra options (e.g. page_size) — :after is managed automatically
+IncidentIo.Pagination.stream(&IncidentIo.IncidentsV2.list/2, client, page_size: 50)
+|> Enum.flat_map(fn %{incidents: incidents} -> incidents end)
+```
+
+If a page returns a non-200 status code the stream stops and that page is not
+emitted. Call the underlying function directly if you need to inspect the error
+body.
+
 ## Development
 
 ### Requirements
