@@ -63,7 +63,22 @@ defmodule IncidentIo.Mixfile do
         LICENSE: [title: "License"],
         "README.md": [title: "Overview"]
       ],
-      formatters: ["html"]
+      formatters: ["html"],
+      groups_for_modules: [
+        Core: [
+          IncidentIo,
+          IncidentIo.Client,
+          IncidentIo.Json,
+          IncidentIo.Pagination,
+          IncidentIo.Query
+        ],
+        Alerts: [~r/IncidentIo\.Alert/],
+        Catalog: [~r/IncidentIo\.Catalog/],
+        "Custom Fields": [~r/IncidentIo\.CustomField/],
+        Incidents: [~r/IncidentIo\.Incident/],
+        "On-Call": [~r/IncidentIo\.(EscalationPath|MaintenanceWindow|Schedule)/],
+        Other: [~r/IncidentIo\./]
+      ]
     ]
   end
 end
