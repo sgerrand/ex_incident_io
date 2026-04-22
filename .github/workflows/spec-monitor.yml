@@ -29,22 +29,26 @@ jobs:
         id: compare
         run: |
           stored=$(cat priv/openapi_spec_hash.txt 2>/dev/null | tr -d '[:space:]' || echo "")
-          live="${{ steps.fetch.outputs.hash }}"
+          live="${STEPS_FETCH_OUTPUTS_HASH}"
           if [[ "$live" != "$stored" ]]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
+        env:
+          STEPS_FETCH_OUTPUTS_HASH: ${{ steps.fetch.outputs.hash }}
 
       - name: Update stored hash
         if: steps.compare.outputs.changed == 'true'
         run: |
-          echo '${{ steps.fetch.outputs.hash }}' > priv/openapi_spec_hash.txt
+          echo "${STEPS_FETCH_OUTPUTS_HASH}" > priv/openapi_spec_hash.txt
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add priv/openapi_spec_hash.txt
           git commit -m "chore: update OpenAPI spec hash"
           git push
+        env:
+          STEPS_FETCH_OUTPUTS_HASH: ${{ steps.fetch.outputs.hash }}
 
       - name: Open issue for spec change
         if: steps.compare.outputs.changed == 'true'
