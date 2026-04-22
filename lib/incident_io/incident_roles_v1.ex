@@ -23,7 +23,7 @@ defmodule IncidentIo.IncidentRolesV1 do
 
   ## Example
 
-      IncidentIo.IncidentRolesV1.list(client, "some-incident-id")
+      IncidentIo.IncidentRolesV1.list(client)
 
   More information at: https://api-docs.incident.io/tag/Incident-Roles-V1#operation/Incident-Roles%20V1_List
   """
