@@ -1,0 +1,56 @@
+name: Monitor OpenAPI spec
+
+on:
+  schedule:
+    - cron: '0 9 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  check-spec:
+    name: Check for spec changes
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: true
+
+      - name: Fetch spec and compute hash
+        id: fetch
+        run: |
+          curl -sf https://api.incident.io/v1/openapiV3.json -o /tmp/spec.json
+          echo "hash=$(sha256sum /tmp/spec.json | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+
+      - name: Compare to stored hash
+        id: compare
+        run: |
+          stored=$(cat priv/openapi_spec_hash.txt 2>/dev/null | tr -d '[:space:]' || echo "")
+          live="${{ steps.fetch.outputs.hash }}"
+          if [[ "$live" != "$stored" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Update stored hash
+        if: steps.compare.outputs.changed == 'true'
+        run: |
+          echo '${{ steps.fetch.outputs.hash }}' > priv/openapi_spec_hash.txt
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add priv/openapi_spec_hash.txt
+          git commit -m "chore: update OpenAPI spec hash"
+          git push
+
+      - name: Open issue for spec change
+        if: steps.compare.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --title "OpenAPI spec has changed" \
+            --body "The spec at https://api.incident.io/v1/openapiV3.json changed on $(date -u +%Y-%m-%d). Review for new or modified endpoints and update the library accordingly."
