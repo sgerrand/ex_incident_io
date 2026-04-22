@@ -221,4 +221,52 @@ defmodule IncidentIo.IncidentAttachmentsV1Test do
       assert nil == response
     end
   end
+
+  describe "error responses" do
+    setup do
+      Req.Test.stub(:incident_io, fn conn ->
+        Plug.Conn.send_resp(
+          conn,
+          401,
+          Jason.encode!(%{
+            errors: [
+              %{
+                code: "missing_authorization_material",
+                message: "No authorization material provided in request"
+              }
+            ],
+            request_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+            status: 401,
+            type: "authentication_error"
+          })
+        )
+      end)
+
+      :ok
+    end
+
+    test "returns 401 on authentication failure" do
+      assert {401, _, _} =
+               create(@client, %{
+                 incident_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+                 resource: %{
+                   external_id: "ext-01FCNDV6P870EA6S7TK1DSYDG0",
+                   resource_type: "pager_duty_incident"
+                 }
+               })
+    end
+
+    test "returns error body on authentication failure" do
+      {401, response, _} =
+        create(@client, %{
+          incident_id: "01FCNDV6P870EA6S7TK1DSYDG0",
+          resource: %{
+            external_id: "ext-01FCNDV6P870EA6S7TK1DSYDG0",
+            resource_type: "pager_duty_incident"
+          }
+        })
+
+      assert %{type: "authentication_error", status: 401} = response
+    end
+  end
 end
