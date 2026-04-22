@@ -100,7 +100,7 @@ defmodule IncidentIo.SeveritiesV1 do
   @doc """
   Update an existing severity.
 
-  Schedule body example:
+  Severity body example:
   ```elixir
   %{
     description: "Issues with **low impact**.",
@@ -111,7 +111,7 @@ defmodule IncidentIo.SeveritiesV1 do
 
   ## Example
 
-      IncidentIo.SeveritiesV1.update(client, body)
+      IncidentIo.SeveritiesV1.update(client, "some-severity-id", body)
 
   More information at: https://api-docs.incident.io/tag/Severities-V1#operation/Severities%20V1_Update
   """
