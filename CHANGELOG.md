@@ -17,8 +17,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 * **incidents_v1:** prevent nil values being sent as query params ([#150](https://github.com/sgerrand/ex_incident_io/issues/150)) ([dab264b](https://github.com/sgerrand/ex_incident_io/commit/dab264b751ca41034dd4eb8a02eccb7be31fc361))
 * **open_api_v1:** use caller-provided client instead of blank default ([#148](https://github.com/sgerrand/ex_incident_io/issues/148)) ([139292b](https://github.com/sgerrand/ex_incident_io/commit/139292bb0f967bef191537f216bd4003bf6e6a14))
 
-## [Unreleased](https://github.com/sgerrand/ex_incident_io/tree/main)
-
 
 ## [0.1.2](https://github.com/sgerrand/ex_incident_io/compare/v0.1.1...v0.1.2) (2026-04-21)
 
