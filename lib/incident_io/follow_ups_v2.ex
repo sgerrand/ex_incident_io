@@ -31,7 +31,7 @@ defmodule IncidentIo.FollowUpsV2 do
         incident_id: incident_id,
         incident_mode: incident_mode
       ]
-      |> Enum.drop_while(fn {_key, val} -> is_nil(val) end)
+      |> Enum.reject(fn {_, v} -> is_nil(v) end)
 
     get(
       "v2/follow_ups",
