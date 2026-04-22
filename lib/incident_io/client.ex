@@ -19,27 +19,23 @@ defmodule IncidentIo.Client do
   def new, do: %__MODULE__{}
 
   @doc """
-  Creates a client with a custom endpoint and no authentication.
+  Creates a client with a custom endpoint and no authentication, or with API
+  key authentication and the default endpoint.
 
   The endpoint must be a binary URL. A trailing `/` is appended automatically
   if not present.
 
-  ## Example
+  ## Examples
 
       IncidentIo.Client.new("https://api.example.com/")
+
+      IncidentIo.Client.new(%{api_key: "your-api-key"})
   """
   @spec new(binary) :: t
   def new(endpoint) when is_binary(endpoint) do
     pnew(nil, endpoint)
   end
 
-  @doc """
-  Creates a client with API key authentication and the default endpoint.
-
-  ## Example
-
-      IncidentIo.Client.new(%{api_key: "your-api-key"})
-  """
   @spec new(map()) :: t
   def new(%{api_key: _} = auth), do: %__MODULE__{auth: auth}
 
