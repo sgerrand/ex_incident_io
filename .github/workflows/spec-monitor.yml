@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   issues: write
+  pull-requests: write
 
 jobs:
   check-spec:
@@ -38,23 +39,21 @@ jobs:
         env:
           STEPS_FETCH_OUTPUTS_HASH: ${{ steps.fetch.outputs.hash }}
 
-      - name: Update stored hash
-        if: steps.compare.outputs.changed == 'true'
-        run: |
-          echo "${STEPS_FETCH_OUTPUTS_HASH}" > priv/openapi_spec_hash.txt
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add priv/openapi_spec_hash.txt
-          git commit -m "chore: update OpenAPI spec hash"
-          git push
-        env:
-          STEPS_FETCH_OUTPUTS_HASH: ${{ steps.fetch.outputs.hash }}
-
-      - name: Open issue for spec change
+      - name: Open PR with updated hash
         if: steps.compare.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STEPS_FETCH_OUTPUTS_HASH: ${{ steps.fetch.outputs.hash }}
         run: |
-          gh issue create \
-            --title "OpenAPI spec has changed" \
-            --body "The spec at https://api.incident.io/v1/openapiV3.json changed on $(date -u +%Y-%m-%d). Review for new or modified endpoints and update the library accordingly."
+          date=$(date -u +%Y%m%d)
+          branch="chore/update-openapi-spec-hash-${date}"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout -b "$branch"
+          echo "${STEPS_FETCH_OUTPUTS_HASH}" > priv/openapi_spec_hash.txt
+          git add priv/openapi_spec_hash.txt
+          git commit -m "chore: update OpenAPI spec hash"
+          git push origin "$branch"
+          gh pr create \
+            --title "chore: update OpenAPI spec hash ($(date -u +%Y-%m-%d))" \
+            --body "These changes update the committed OpenAPI spec hash following a change detected in https://api.incident.io/v1/openapiV3.json. Review the spec diff for new or modified endpoints and update the library accordingly."
