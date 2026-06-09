@@ -20,6 +20,7 @@ IncidentIo.IncidentsV2.create(client,
                               idempotency_key: "your-idempotency-key",
                               visibility: :public)
 ```
+
 <!-- x-release-please-end -->
 
 ## Requirements
@@ -135,7 +136,7 @@ Then you can start running the tests.
 mix test
 ```
 
-`bin/setup` installs the pre-commit hook tools (`actionlint`, `check-jsonschema`, `lefthook`, `markdownlint-cli2`) and activates the hooks. `mix setup` fetches Elixir dependencies.
+`bin/setup` installs the pre-commit hook tools (`actionlint`, `check-jsonschema`, `lefthook`, `mado`) and activates the hooks. `mix setup` fetches Elixir dependencies.
 
 ### Common commands
 

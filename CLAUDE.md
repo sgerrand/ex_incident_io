@@ -10,6 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Run specific test file: `mix test path/to/test_file.exs`
 - Format code: `mix format`
 - Lint: `mix credo`
+- Lint Markdown: `mado check .` (config in `mado.toml`)
 - Coverage: `mix coveralls`
 
 ## Architecture
