@@ -12,7 +12,7 @@ permissions:
 jobs:
   required:
     name: Required
-    needs: [coverage, test]
+    needs: [coverage, markdown, test]
     runs-on: ubuntu-latest
 
     steps:
@@ -89,6 +89,17 @@ jobs:
         mix do deps.get --only ${{ env.MIX_ENV }}, deps.compile
     - name: Generate documentation
       run: mix docs --warnings-as-errors
+
+  markdown:
+    name: Markdown
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
+    - name: Lint Markdown
+      uses: akiomik/mado@9b5cb3a1d234ddbacad4dd811aaa2a1e671d5306 # v0.3.0
 
   test:
     name: Tests (Elixir ${{ matrix.elixir }} / OTP ${{ matrix.otp }})
