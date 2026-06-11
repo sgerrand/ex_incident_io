@@ -2,6 +2,13 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.1](https://github.com/sgerrand/ex_incident_io/compare/v0.3.0...v0.3.1) (2026-06-11)
+
+
+### Bug Fixes
+
+* **deps:** bump req from 0.5.17 to 0.5.18 ([#187](https://github.com/sgerrand/ex_incident_io/issues/187)) ([682b109](https://github.com/sgerrand/ex_incident_io/commit/682b109ca1400e04c753dc92dd9f2fa6a2584b18))
+
 ## [0.3.0](https://github.com/sgerrand/ex_incident_io/compare/v0.2.0...v0.3.0) (2026-04-22)
 
 
