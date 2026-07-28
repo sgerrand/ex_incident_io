@@ -2,6 +2,16 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.1](https://github.com/sgerrand/ex_incident_io/compare/v0.3.0...v0.3.1) (2026-07-28)
+
+
+### Bug Fixes
+
+* **ci:** drop deps cache from publish job to prevent cache poisoning ([#186](https://github.com/sgerrand/ex_incident_io/issues/186)) ([80c0edc](https://github.com/sgerrand/ex_incident_io/commit/80c0edc184a6e951dba5192882ad293d10d0e24c))
+* **deps:** bump req from 0.5.17 to 0.5.18 ([#187](https://github.com/sgerrand/ex_incident_io/issues/187)) ([682b109](https://github.com/sgerrand/ex_incident_io/commit/682b109ca1400e04c753dc92dd9f2fa6a2584b18))
+* **deps:** bump req from 0.5.18 to 0.6.1 ([#191](https://github.com/sgerrand/ex_incident_io/issues/191)) ([cfcaaa9](https://github.com/sgerrand/ex_incident_io/commit/cfcaaa9b7ddac49ceb974f30e33bd356f878aae5))
+* **deps:** bump req from 0.6.1 to 0.6.2 ([#195](https://github.com/sgerrand/ex_incident_io/issues/195)) ([89eca11](https://github.com/sgerrand/ex_incident_io/commit/89eca11bf87a1e4c9149768876b9af2fd028a561))
+
 ## [0.3.0](https://github.com/sgerrand/ex_incident_io/compare/v0.2.0...v0.3.0) (2026-04-22)
 
 
