@@ -10,6 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Run specific test file: `mix test path/to/test_file.exs`
 - Format code: `mix format`
 - Lint: `mix credo`
+- Lint Markdown: `mado check .` (config in `mado.toml`)
 - Coverage: `mix coveralls`
 
 ## Architecture
@@ -33,6 +34,24 @@ Each API resource lives in `lib/incident_io/<resource>_v<n>.ex` (e.g. `IncidentI
 ### Testing
 
 Tests use `IncidentIo.TestCase` (`test/support/test_case.ex`), which wires up `Req.Test` stubs and a `Mox`-backed `IncidentIo.Json.Mock`. Each test file stubs `Req.Test.stub(:incident_io, fn conn -> ... end)` in a `setup` block to return canned JSON responses. Test files mirror the lib structure: `test/<resource>_v<n>_test.exs`.
+
+## Releases
+
+Releases are cut by [release-please](https://github.com/googleapis/release-please)
+via the [release-mate/action](https://github.com/release-mate/action) reusable
+workflow (`.github/workflows/release.yml`). Release-mate mints a short-lived
+GitHub App installation token instead of a PAT, so the workflow needs two repo
+secrets:
+
+- `RELEASE_MATE_CLIENT_ID` — Release Mate GitHub App Client ID
+- `RELEASE_MATE_PRIVATE_KEY` — PEM-encoded private key for the same app
+
+The old `RELEASE_PLEASE_PAT` secret is no longer used. Config and manifest paths
+keep their defaults: `release-please-config.json` and
+`.release-please-manifest.json`.
+
+Merging a release PR tags `vX.Y.Z` and creates a GitHub Release, which fires
+`.github/workflows/publish.yml` to run `mix hex.publish`.
 
 ## Code Style
 
