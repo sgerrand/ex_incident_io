@@ -22,13 +22,6 @@ jobs:
         version-file: '.tool-versions'
         version-type: 'strict'
 
-    - name: Restore dependencies cache
-      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
-      with:
-        path: deps
-        key: ${{ runner.os }}-publish-mix-${{ hashFiles('**/mix.lock') }}
-        restore-keys: ${{ runner.os }}-publish-mix-
-
     - name: Install deps
       run: mix deps.get
 
