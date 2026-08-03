@@ -60,4 +60,8 @@ Merging a release PR tags `vX.Y.Z` and creates a GitHub Release, which fires
 - Validate enum-like params against predefined lists; use atoms for internal values.
 - Branch naming: `feature-description-ticket-id`
 
+## Keeping the library up to date
+
+The upstream API spec lives at `https://api.incident.io/v1/openapiV3.json`. A scheduled GitHub Actions workflow (`.github/workflows/spec-monitor.yml`) runs weekday mornings and opens a GitHub issue whenever the spec hash changes. The current baseline hash is stored in `priv/openapi_spec_hash.txt`.
+
 At the end of every change, update CLAUDE.md with anything useful that would have been helpful at the start.

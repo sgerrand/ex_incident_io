@@ -1,0 +1,59 @@
+name: Monitor OpenAPI spec
+
+on:
+  schedule:
+    - cron: '0 9 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  check-spec:
+    name: Check for spec changes
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: true
+
+      - name: Fetch spec and compute hash
+        id: fetch
+        run: |
+          curl -sf https://api.incident.io/v1/openapiV3.json -o /tmp/spec.json
+          echo "hash=$(sha256sum /tmp/spec.json | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+
+      - name: Compare to stored hash
+        id: compare
+        run: |
+          stored=$(cat priv/openapi_spec_hash.txt 2>/dev/null | tr -d '[:space:]' || echo "")
+          live="${STEPS_FETCH_OUTPUTS_HASH}"
+          if [[ "$live" != "$stored" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          STEPS_FETCH_OUTPUTS_HASH: ${{ steps.fetch.outputs.hash }}
+
+      - name: Open PR with updated hash
+        if: steps.compare.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STEPS_FETCH_OUTPUTS_HASH: ${{ steps.fetch.outputs.hash }}
+        run: |
+          date=$(date -u +%Y%m%d)
+          branch="chore/update-openapi-spec-hash-${date}"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout -b "$branch"
+          echo "${STEPS_FETCH_OUTPUTS_HASH}" > priv/openapi_spec_hash.txt
+          git add priv/openapi_spec_hash.txt
+          git commit -m "chore: update OpenAPI spec hash"
+          git push origin "$branch"
+          gh pr create \
+            --title "chore: update OpenAPI spec hash ($(date -u +%Y-%m-%d))" \
+            --body "These changes update the committed OpenAPI spec hash following a change detected in https://api.incident.io/v1/openapiV3.json. Review the spec diff for new or modified endpoints and update the library accordingly."
