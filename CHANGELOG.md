@@ -2,6 +2,16 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.2](https://github.com/sgerrand/ex_incident_io/compare/v0.3.1...v0.3.2) (2026-09-03)
+
+
+### Bug Fixes
+
+* **deps:** bump req from 0.6.2 to 0.6.3 ([#200](https://github.com/sgerrand/ex_incident_io/issues/200)) ([301c139](https://github.com/sgerrand/ex_incident_io/commit/301c139bb2a49ed3146939ba7473549c0493318f))
+* **deps:** bump req from 0.6.3 to 0.7.2 ([#205](https://github.com/sgerrand/ex_incident_io/issues/205)) ([9d80e65](https://github.com/sgerrand/ex_incident_io/commit/9d80e655492dbd9580942973d56de53b34889e92))
+* **deps:** bump req from 0.7.2 to 0.7.3 ([#206](https://github.com/sgerrand/ex_incident_io/issues/206)) ([85b46f6](https://github.com/sgerrand/ex_incident_io/commit/85b46f621a40fe0acf8ed9255d2c17f08e36d8e6))
+* **deps:** bump req from 0.7.3 to 0.7.4 ([#208](https://github.com/sgerrand/ex_incident_io/issues/208)) ([bf538c0](https://github.com/sgerrand/ex_incident_io/commit/bf538c03d20de697cd9ec2ec47117b573a4ed411))
+
 ## [0.3.1](https://github.com/sgerrand/ex_incident_io/compare/v0.3.0...v0.3.1) (2026-07-28)
 
 
