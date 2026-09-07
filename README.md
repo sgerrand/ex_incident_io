@@ -10,6 +10,7 @@ An Elixir client for the [incident.io API](https://api-docs.incident.io/).
 With just a few lines of code you can begin interacting:
 
 <!-- x-release-please-start-version -->
+
 ```elixir
 Mix.install([
   {:incident_io, "~> 0.3.1"}
