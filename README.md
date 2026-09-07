@@ -13,7 +13,7 @@ With just a few lines of code you can begin interacting:
 
 ```elixir
 Mix.install([
-  {:incident_io, "~> 0.3.1"}
+  {:incident_io, "~> 0.3.2"}
 ])
 
 client = IncidentIo.Client.new(%{api_key: System.fetch_env!("INCIDENT_API_KEY")})
